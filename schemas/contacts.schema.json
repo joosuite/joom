@@ -1,0 +1,1210 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:joom:file:contacts",
+  "title": "Joom contacts command parameters",
+  "description": "Parameters accepted by Joom from --file. Each command definition describes CLI inputs. Explicit command-line values override file values. Select a command under $defs.",
+  "type": "object",
+  "anyOf": [
+    {
+      "$ref": "#/$defs/people.create-contact"
+    },
+    {
+      "$ref": "#/$defs/people.delete-contact"
+    },
+    {
+      "$ref": "#/$defs/people.get"
+    },
+    {
+      "$ref": "#/$defs/people.search-contacts"
+    },
+    {
+      "$ref": "#/$defs/people.update-contact"
+    },
+    {
+      "$ref": "#/$defs/people.connections.list"
+    }
+  ],
+  "$defs": {
+    "people.create-contact": {
+      "type": "object",
+      "title": "joom contacts ACCOUNT people.create-contact",
+      "description": "Create an Outlook contact.",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "body": {
+          "$ref": "#/x-input-types/Person",
+          "x-cli-option": "body",
+          "x-cli-binding": {
+            "source": "raw",
+            "property": "body"
+          }
+        },
+        "biographies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ]
+          },
+          "maxItems": 1,
+          "x-cli-option": "biographies",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "biographies"
+          },
+          "x-cli-repeated": false
+        },
+        "emailAddresses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ]
+          },
+          "x-cli-option": "email-addresses",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "emailAddresses"
+          },
+          "x-cli-repeated": false
+        },
+        "etag": {
+          "type": "string",
+          "x-cli-option": "etag",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "etag"
+          },
+          "x-cli-repeated": false
+        },
+        "names": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "givenName": {
+                "type": "string"
+              },
+              "familyName": {
+                "type": "string"
+              },
+              "displayName": {
+                "type": "string"
+              },
+              "unstructuredName": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "maxItems": 1,
+          "x-cli-option": "names",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "names"
+          },
+          "x-cli-repeated": false
+        },
+        "organizations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "department": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "maxItems": 1,
+          "x-cli-option": "organizations",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "organizations"
+          },
+          "x-cli-repeated": false
+        },
+        "phoneNumbers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ]
+          },
+          "x-cli-option": "phone-numbers",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "phoneNumbers"
+          },
+          "x-cli-repeated": false
+        }
+      },
+      "allOf": [
+        {
+          "anyOf": [
+            {
+              "required": [
+                "biographies"
+              ]
+            },
+            {
+              "required": [
+                "emailAddresses"
+              ]
+            },
+            {
+              "required": [
+                "etag"
+              ]
+            },
+            {
+              "required": [
+                "names"
+              ]
+            },
+            {
+              "required": [
+                "organizations"
+              ]
+            },
+            {
+              "required": [
+                "phoneNumbers"
+              ]
+            },
+            {
+              "required": [
+                "body"
+              ],
+              "properties": {
+                "body": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ],
+          "description": "Provide the content to write using named parameters, a JSON file, or --body.",
+          "x-cli-kind": "content",
+          "x-cli-parameters": [
+            "biographies",
+            "emailAddresses",
+            "etag",
+            "names",
+            "organizations",
+            "phoneNumbers",
+            "body"
+          ]
+        },
+        {
+          "properties": {
+            "body": {
+              "properties": {
+                "emailAddresses": {
+                  "items": {
+                    "properties": {
+                      "value": {
+                        "not": {
+                          "type": "null"
+                        }
+                      }
+                    },
+                    "required": [
+                      "value"
+                    ]
+                  }
+                },
+                "phoneNumbers": {
+                  "items": {
+                    "properties": {
+                      "value": {
+                        "not": {
+                          "type": "null"
+                        }
+                      }
+                    },
+                    "required": [
+                      "value"
+                    ]
+                  }
+                },
+                "biographies": {
+                  "items": {
+                    "properties": {
+                      "value": {
+                        "not": {
+                          "type": "null"
+                        }
+                      }
+                    },
+                    "required": [
+                      "value"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "description": "Records in --body require biographies[].value, emailAddresses[].value, phoneNumbers[].value.",
+          "x-cli-kind": "structured",
+          "x-cli-parameters": [
+            "body"
+          ]
+        },
+        {
+          "properties": {
+            "biographies": {
+              "items": {
+                "properties": {
+                  "value": {
+                    "not": {
+                      "type": "null"
+                    }
+                  }
+                },
+                "required": [
+                  "value"
+                ]
+              }
+            }
+          },
+          "description": "Records in --biographies require [].value.",
+          "x-cli-kind": "structured",
+          "x-cli-parameters": [
+            "biographies"
+          ]
+        },
+        {
+          "properties": {
+            "emailAddresses": {
+              "items": {
+                "properties": {
+                  "value": {
+                    "not": {
+                      "type": "null"
+                    }
+                  }
+                },
+                "required": [
+                  "value"
+                ]
+              }
+            }
+          },
+          "description": "Records in --email-addresses require [].value.",
+          "x-cli-kind": "structured",
+          "x-cli-parameters": [
+            "emailAddresses"
+          ]
+        },
+        {
+          "properties": {
+            "phoneNumbers": {
+              "items": {
+                "properties": {
+                  "value": {
+                    "not": {
+                      "type": "null"
+                    }
+                  }
+                },
+                "required": [
+                  "value"
+                ]
+              }
+            }
+          },
+          "description": "Records in --phone-numbers require [].value.",
+          "x-cli-kind": "structured",
+          "x-cli-parameters": [
+            "phoneNumbers"
+          ]
+        }
+      ]
+    },
+    "people.delete-contact": {
+      "type": "object",
+      "title": "joom contacts ACCOUNT people.delete-contact",
+      "description": "Delete an Outlook contact.",
+      "additionalProperties": false,
+      "properties": {
+        "resourceName": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "Outlook contact resource ID.",
+          "x-cli-option": "resource-name",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "resourceName"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "resourceName"
+          ],
+          "properties": {
+            "resourceName": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --resource-name.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "resourceName"
+          ]
+        }
+      ]
+    },
+    "people.get": {
+      "type": "object",
+      "title": "joom contacts ACCOUNT people.get",
+      "description": "Get an Outlook contact.",
+      "additionalProperties": false,
+      "properties": {
+        "resourceName": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "Outlook contact resource ID.",
+          "x-cli-option": "resource-name",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "resourceName"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "ttl": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Cache freshness in minutes. Zero fetches fresh data.",
+          "x-cli-option": "ttl",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "ttl"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "resourceName"
+          ],
+          "properties": {
+            "resourceName": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --resource-name.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "resourceName"
+          ]
+        }
+      ]
+    },
+    "people.search-contacts": {
+      "type": "object",
+      "title": "joom contacts ACCOUNT people.search-contacts",
+      "description": "Find Outlook contacts by name prefix.",
+      "additionalProperties": false,
+      "properties": {
+        "pageSize": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "string",
+              "pattern": "^[+-]?[0-9]+$"
+            }
+          ],
+          "x-location": "query",
+          "description": "pageSize for the Microsoft operation.",
+          "x-cli-option": "page-size",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "pageSize"
+          },
+          "x-cli-repeated": false
+        },
+        "query": {
+          "type": "string",
+          "x-location": "query",
+          "description": "query for the Microsoft operation.",
+          "x-cli-option": "query",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "query"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "ttl": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Cache freshness in minutes. Zero fetches fresh data.",
+          "x-cli-option": "ttl",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "ttl"
+          }
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4294967295,
+          "description": "Maximum total results.",
+          "x-cli-option": "max",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "max"
+          }
+        }
+      }
+    },
+    "people.update-contact": {
+      "type": "object",
+      "title": "joom contacts ACCOUNT people.update-contact",
+      "description": "Update supported fields of an Outlook contact.",
+      "additionalProperties": false,
+      "properties": {
+        "resourceName": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "Outlook contact resource ID.",
+          "x-cli-option": "resource-name",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "resourceName"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "body": {
+          "$ref": "#/x-input-types/ContactUpdateInput",
+          "x-cli-option": "body",
+          "x-cli-binding": {
+            "source": "raw",
+            "property": "body"
+          }
+        },
+        "biographies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ]
+          },
+          "maxItems": 1,
+          "x-cli-option": "biographies",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "biographies"
+          },
+          "x-cli-repeated": false
+        },
+        "emailAddresses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ]
+          },
+          "x-cli-option": "email-addresses",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "emailAddresses"
+          },
+          "x-cli-repeated": false
+        },
+        "etag": {
+          "type": "string",
+          "x-cli-option": "etag",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "etag"
+          },
+          "x-cli-repeated": false
+        },
+        "names": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "givenName": {
+                "type": "string"
+              },
+              "familyName": {
+                "type": "string"
+              },
+              "displayName": {
+                "type": "string"
+              },
+              "unstructuredName": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "maxItems": 1,
+          "x-cli-option": "names",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "names"
+          },
+          "x-cli-repeated": false
+        },
+        "organizations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "department": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "maxItems": 1,
+          "x-cli-option": "organizations",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "organizations"
+          },
+          "x-cli-repeated": false
+        },
+        "phoneNumbers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ]
+          },
+          "x-cli-option": "phone-numbers",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "phoneNumbers"
+          },
+          "x-cli-repeated": false
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "resourceName"
+          ],
+          "properties": {
+            "resourceName": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --resource-name.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "resourceName"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "biographies"
+              ]
+            },
+            {
+              "required": [
+                "emailAddresses"
+              ]
+            },
+            {
+              "required": [
+                "etag"
+              ]
+            },
+            {
+              "required": [
+                "names"
+              ]
+            },
+            {
+              "required": [
+                "organizations"
+              ]
+            },
+            {
+              "required": [
+                "phoneNumbers"
+              ]
+            },
+            {
+              "required": [
+                "body"
+              ],
+              "properties": {
+                "body": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ],
+          "description": "Provide the content to write using named parameters, a JSON file, or --body.",
+          "x-cli-kind": "content",
+          "x-cli-parameters": [
+            "biographies",
+            "emailAddresses",
+            "etag",
+            "names",
+            "organizations",
+            "phoneNumbers",
+            "body"
+          ]
+        },
+        {
+          "properties": {
+            "body": {
+              "properties": {
+                "emailAddresses": {
+                  "items": {
+                    "properties": {
+                      "value": {
+                        "not": {
+                          "type": "null"
+                        }
+                      }
+                    },
+                    "required": [
+                      "value"
+                    ]
+                  }
+                },
+                "phoneNumbers": {
+                  "items": {
+                    "properties": {
+                      "value": {
+                        "not": {
+                          "type": "null"
+                        }
+                      }
+                    },
+                    "required": [
+                      "value"
+                    ]
+                  }
+                },
+                "biographies": {
+                  "items": {
+                    "properties": {
+                      "value": {
+                        "not": {
+                          "type": "null"
+                        }
+                      }
+                    },
+                    "required": [
+                      "value"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "description": "Records in --body require biographies[].value, emailAddresses[].value, phoneNumbers[].value.",
+          "x-cli-kind": "structured",
+          "x-cli-parameters": [
+            "body"
+          ]
+        },
+        {
+          "properties": {
+            "biographies": {
+              "items": {
+                "properties": {
+                  "value": {
+                    "not": {
+                      "type": "null"
+                    }
+                  }
+                },
+                "required": [
+                  "value"
+                ]
+              }
+            }
+          },
+          "description": "Records in --biographies require [].value.",
+          "x-cli-kind": "structured",
+          "x-cli-parameters": [
+            "biographies"
+          ]
+        },
+        {
+          "properties": {
+            "emailAddresses": {
+              "items": {
+                "properties": {
+                  "value": {
+                    "not": {
+                      "type": "null"
+                    }
+                  }
+                },
+                "required": [
+                  "value"
+                ]
+              }
+            }
+          },
+          "description": "Records in --email-addresses require [].value.",
+          "x-cli-kind": "structured",
+          "x-cli-parameters": [
+            "emailAddresses"
+          ]
+        },
+        {
+          "properties": {
+            "phoneNumbers": {
+              "items": {
+                "properties": {
+                  "value": {
+                    "not": {
+                      "type": "null"
+                    }
+                  }
+                },
+                "required": [
+                  "value"
+                ]
+              }
+            }
+          },
+          "description": "Records in --phone-numbers require [].value.",
+          "x-cli-kind": "structured",
+          "x-cli-parameters": [
+            "phoneNumbers"
+          ]
+        }
+      ]
+    },
+    "people.connections.list": {
+      "type": "object",
+      "title": "joom contacts ACCOUNT people.connections.list",
+      "description": "List the signed-in account Outlook contacts.",
+      "additionalProperties": false,
+      "properties": {
+        "pageSize": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "string",
+              "pattern": "^[+-]?[0-9]+$"
+            }
+          ],
+          "x-location": "query",
+          "description": "pageSize for the Microsoft operation.",
+          "x-cli-option": "page-size",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "pageSize"
+          },
+          "x-cli-repeated": false
+        },
+        "pageToken": {
+          "type": "string",
+          "x-location": "query",
+          "description": "pageToken for the Microsoft operation.",
+          "x-cli-option": "page-token",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "pageToken"
+          },
+          "x-cli-repeated": false
+        },
+        "resourceName": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "Signed-in Outlook contacts; use people/me.",
+          "enum": [
+            "people/me"
+          ],
+          "x-cli-option": "resource-name",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "resourceName"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "ttl": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Cache freshness in minutes. Zero fetches fresh data.",
+          "x-cli-option": "ttl",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "ttl"
+          }
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4294967295,
+          "description": "Maximum total results.",
+          "x-cli-option": "max",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "max"
+          }
+        },
+        "maxPages": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000,
+          "description": "Maximum pages to fetch.",
+          "x-cli-option": "max-pages",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "max-pages"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "resourceName"
+          ],
+          "properties": {
+            "resourceName": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --resource-name.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "resourceName"
+          ]
+        }
+      ]
+    }
+  },
+  "x-input-types": {
+    "ContactUpdateInput": {
+      "type": "object",
+      "properties": {
+        "names": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "givenName": {
+                "type": "string"
+              },
+              "familyName": {
+                "type": "string"
+              },
+              "displayName": {
+                "type": "string"
+              },
+              "unstructuredName": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "maxItems": 1
+        },
+        "emailAddresses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ]
+          }
+        },
+        "phoneNumbers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ]
+          }
+        },
+        "organizations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "department": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "maxItems": 1
+        },
+        "biographies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ]
+          },
+          "maxItems": 1
+        },
+        "etag": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Person": {
+      "type": "object",
+      "properties": {
+        "names": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "givenName": {
+                "type": "string"
+              },
+              "familyName": {
+                "type": "string"
+              },
+              "displayName": {
+                "type": "string"
+              },
+              "unstructuredName": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "maxItems": 1
+        },
+        "emailAddresses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ]
+          }
+        },
+        "phoneNumbers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ]
+          }
+        },
+        "organizations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "department": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "maxItems": 1
+        },
+        "biographies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ]
+          },
+          "maxItems": 1
+        },
+        "etag": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

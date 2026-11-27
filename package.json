@@ -1,0 +1,25 @@
+{
+  "name": "joom-tooling",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "check": "tsc --noEmit",
+    "test": "tsx --test tests/live/runner.test.ts",
+    "schemas": "tsx scripts/generate_cli_schemas.ts",
+    "check:schemas": "tsx scripts/generate_cli_schemas.ts --check",
+    "reference": "tsx scripts/generate_cli_reference.ts && tsx scripts/generate_wrapper_reference.ts",
+    "check:wrappers": "tsx scripts/generate_wrapper_reference.ts --check",
+    "live-test": "tsx tests/live/runner.ts",
+    "live-coverage": "tsx tests/live/coverage.ts",
+    "release:version": "tsx scripts/release.ts check-version",
+    "release:package": "tsx scripts/release.ts package"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.7",
+    "tsx": "4.23.15",
+    "typescript": "5.9.3"
+  }
+}

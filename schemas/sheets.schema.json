@@ -1,0 +1,513 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:joom:file:sheets",
+  "title": "Joom sheets command parameters",
+  "description": "Parameters accepted by Joom from --file. Each command definition describes CLI inputs. Explicit command-line values override file values. Select a command under $defs.",
+  "type": "object",
+  "anyOf": [
+    {
+      "$ref": "#/$defs/get"
+    },
+    {
+      "$ref": "#/$defs/values.clear"
+    },
+    {
+      "$ref": "#/$defs/values.get"
+    },
+    {
+      "$ref": "#/$defs/values.update"
+    }
+  ],
+  "$defs": {
+    "get": {
+      "type": "object",
+      "title": "joom sheets ACCOUNT get",
+      "description": "Get Excel workbook title and worksheet metadata.",
+      "additionalProperties": false,
+      "properties": {
+        "spreadsheetId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "spreadsheetId for the Microsoft operation.",
+          "x-cli-option": "spreadsheet-id",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "spreadsheetId"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "ttl": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Cache freshness in minutes. Zero fetches fresh data.",
+          "x-cli-option": "ttl",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "ttl"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "spreadsheetId"
+          ],
+          "properties": {
+            "spreadsheetId": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --spreadsheet-id.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "spreadsheetId"
+          ]
+        }
+      ]
+    },
+    "values.clear": {
+      "type": "object",
+      "title": "joom sheets ACCOUNT values.clear",
+      "description": "Clear the contents of an Excel worksheet range.",
+      "additionalProperties": false,
+      "properties": {
+        "range": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "range for the Microsoft operation.",
+          "x-cli-option": "range",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "range"
+          },
+          "x-cli-repeated": false
+        },
+        "spreadsheetId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "spreadsheetId for the Microsoft operation.",
+          "x-cli-option": "spreadsheet-id",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "spreadsheetId"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "body": {
+          "$ref": "#/x-input-types/ClearValuesRequest",
+          "x-cli-option": "body",
+          "x-cli-binding": {
+            "source": "raw",
+            "property": "body"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "range"
+          ],
+          "properties": {
+            "range": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --range.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "range"
+          ]
+        },
+        {
+          "required": [
+            "spreadsheetId"
+          ],
+          "properties": {
+            "spreadsheetId": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --spreadsheet-id.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "spreadsheetId"
+          ]
+        }
+      ]
+    },
+    "values.get": {
+      "type": "object",
+      "title": "joom sheets ACCOUNT values.get",
+      "description": "Read values, formatted text, or formulas from an Excel worksheet range.",
+      "additionalProperties": false,
+      "properties": {
+        "range": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "range for the Microsoft operation.",
+          "x-cli-option": "range",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "range"
+          },
+          "x-cli-repeated": false
+        },
+        "spreadsheetId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "spreadsheetId for the Microsoft operation.",
+          "x-cli-option": "spreadsheet-id",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "spreadsheetId"
+          },
+          "x-cli-repeated": false
+        },
+        "valueRenderOption": {
+          "type": "string",
+          "enum": [
+            "FORMATTED_VALUE",
+            "UNFORMATTED_VALUE",
+            "FORMULA"
+          ],
+          "x-location": "query",
+          "description": "valueRenderOption for the Microsoft operation.",
+          "x-cli-option": "value-render-option",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "valueRenderOption"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "ttl": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Cache freshness in minutes. Zero fetches fresh data.",
+          "x-cli-option": "ttl",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "ttl"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "range"
+          ],
+          "properties": {
+            "range": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --range.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "range"
+          ]
+        },
+        {
+          "required": [
+            "spreadsheetId"
+          ],
+          "properties": {
+            "spreadsheetId": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --spreadsheet-id.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "spreadsheetId"
+          ]
+        }
+      ]
+    },
+    "values.update": {
+      "type": "object",
+      "title": "joom sheets ACCOUNT values.update",
+      "description": "Write rows of values to an Excel worksheet range.",
+      "additionalProperties": false,
+      "properties": {
+        "range": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "range for the Microsoft operation.",
+          "x-cli-option": "range",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "range"
+          },
+          "x-cli-repeated": false
+        },
+        "spreadsheetId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "spreadsheetId for the Microsoft operation.",
+          "x-cli-option": "spreadsheet-id",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "spreadsheetId"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "body": {
+          "$ref": "#/x-input-types/ValueRange",
+          "x-cli-option": "body",
+          "x-cli-binding": {
+            "source": "raw",
+            "property": "body"
+          }
+        },
+        "majorDimension": {
+          "type": "string",
+          "enum": [
+            "ROWS"
+          ],
+          "x-cli-option": "major-dimension",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "majorDimension"
+          },
+          "x-cli-repeated": false
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "x-cli-option": "values",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "values"
+          },
+          "x-cli-repeated": false
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "range"
+          ],
+          "properties": {
+            "range": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --range.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "range"
+          ]
+        },
+        {
+          "required": [
+            "spreadsheetId"
+          ],
+          "properties": {
+            "spreadsheetId": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --spreadsheet-id.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "spreadsheetId"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "body"
+              ],
+              "properties": {
+                "body": {
+                  "required": [
+                    "values"
+                  ],
+                  "properties": {
+                    "values": {
+                      "not": {
+                        "type": "null"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "required": [
+                "values"
+              ],
+              "properties": {
+                "values": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ],
+          "description": "Provide --values.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "values"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "majorDimension"
+              ]
+            },
+            {
+              "required": [
+                "values"
+              ]
+            },
+            {
+              "required": [
+                "body"
+              ],
+              "properties": {
+                "body": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ],
+          "description": "Provide the content to write using named parameters, a JSON file, or --body.",
+          "x-cli-kind": "content",
+          "x-cli-parameters": [
+            "majorDimension",
+            "values",
+            "body"
+          ]
+        }
+      ]
+    }
+  },
+  "x-input-types": {
+    "ClearValuesRequest": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false
+    },
+    "ValueRange": {
+      "type": "object",
+      "properties": {
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "majorDimension": {
+          "type": "string",
+          "enum": [
+            "ROWS"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "values"
+      ]
+    }
+  }
+}

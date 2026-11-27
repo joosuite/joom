@@ -1,0 +1,14 @@
+{
+  "spreadsheetId": "SPREADSHEET_ID",
+  "range": "Sheet1!A1:B2",
+  "values": [
+    [
+      "Name",
+      "Count"
+    ],
+    [
+      "Alice",
+      3
+    ]
+  ]
+}

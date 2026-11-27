@@ -1,0 +1,20 @@
+{
+  "calendar": {
+    "method": "events.list"
+  },
+  "contacts": {
+    "method": "people.connections.list"
+  },
+  "drive": {
+    "method": "files.list"
+  },
+  "mail": {
+    "method": "messages.list"
+  },
+  "sheets": {
+    "method": "values.get"
+  },
+  "tasks": {
+    "method": "tasks.list"
+  }
+}

@@ -1,0 +1,1117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:joom:file:mail",
+  "title": "Outlook Mail command contracts",
+  "description": "Joom command contracts for Microsoft Graph. The adapter resolves dynamic routes and CLI parameter names.",
+  "type": "object",
+  "x-api-service": "mail",
+  "x-api-version": "v1.0",
+  "anyOf": [
+    {
+      "$ref": "#/$defs/profile"
+    },
+    {
+      "$ref": "#/$defs/drafts.create"
+    },
+    {
+      "$ref": "#/$defs/drafts.delete"
+    },
+    {
+      "$ref": "#/$defs/drafts.get"
+    },
+    {
+      "$ref": "#/$defs/drafts.list"
+    },
+    {
+      "$ref": "#/$defs/drafts.send"
+    },
+    {
+      "$ref": "#/$defs/labels.create"
+    },
+    {
+      "$ref": "#/$defs/labels.delete"
+    },
+    {
+      "$ref": "#/$defs/labels.get"
+    },
+    {
+      "$ref": "#/$defs/labels.list"
+    },
+    {
+      "$ref": "#/$defs/labels.patch"
+    },
+    {
+      "$ref": "#/$defs/labels.update"
+    },
+    {
+      "$ref": "#/$defs/messages.delete"
+    },
+    {
+      "$ref": "#/$defs/messages.get"
+    },
+    {
+      "$ref": "#/$defs/messages.list"
+    },
+    {
+      "$ref": "#/$defs/messages.modify"
+    },
+    {
+      "$ref": "#/$defs/messages.send"
+    },
+    {
+      "$ref": "#/$defs/messages.trash"
+    },
+    {
+      "$ref": "#/$defs/messages.untrash"
+    },
+    {
+      "$ref": "#/$defs/messages.attachments.get"
+    }
+  ],
+  "$defs": {
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        }
+      },
+      "x-api-method-id": "mail.profile",
+      "x-required-request-parameters": [],
+      "title": "profile",
+      "description": "Get the signed-in Microsoft account email address."
+    },
+    "drafts.create": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "body": {
+          "$ref": "#/x-body-types/DraftCreate"
+        }
+      },
+      "x-api-method-id": "mail.drafts.create",
+      "x-required-request-parameters": [],
+      "title": "drafts.create",
+      "x-cli-compose-path": [
+        "message",
+        "raw"
+      ],
+      "description": "Create an Outlook draft from composed or raw MIME content."
+    },
+    "drafts.delete": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "id for the Microsoft operation."
+        }
+      },
+      "x-api-method-id": "mail.drafts.delete",
+      "x-required-request-parameters": [
+        "id"
+      ],
+      "title": "drafts.delete",
+      "description": "Delete an Outlook draft."
+    },
+    "drafts.get": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "id for the Microsoft operation."
+        }
+      },
+      "x-api-method-id": "mail.drafts.get",
+      "x-required-request-parameters": [
+        "id"
+      ],
+      "title": "drafts.get",
+      "description": "Read an Outlook draft."
+    },
+    "drafts.list": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "maxResults": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "string",
+              "pattern": "^[+-]?[0-9]+$"
+            }
+          ],
+          "x-location": "query",
+          "description": "maxResults for the Microsoft operation."
+        },
+        "pageToken": {
+          "type": "string",
+          "x-location": "query",
+          "description": "pageToken for the Microsoft operation."
+        },
+        "q": {
+          "type": "string",
+          "x-location": "query",
+          "description": "Search expression supported by the Microsoft adapter."
+        }
+      },
+      "x-api-method-id": "mail.drafts.list",
+      "x-required-request-parameters": [],
+      "title": "drafts.list",
+      "description": "List Outlook drafts."
+    },
+    "drafts.send": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "body": {
+          "$ref": "#/x-body-types/DraftSend"
+        }
+      },
+      "x-api-method-id": "mail.drafts.send",
+      "x-required-request-parameters": [],
+      "title": "drafts.send",
+      "description": "Send an existing Outlook draft."
+    },
+    "labels.create": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "body": {
+          "$ref": "#/x-body-types/Label"
+        }
+      },
+      "x-api-method-id": "mail.labels.create",
+      "x-required-request-parameters": [],
+      "title": "labels.create",
+      "description": "Create a top-level Outlook mail folder."
+    },
+    "labels.delete": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "id for the Microsoft operation."
+        }
+      },
+      "x-api-method-id": "mail.labels.delete",
+      "x-required-request-parameters": [
+        "id"
+      ],
+      "title": "labels.delete",
+      "description": "Delete an Outlook mail folder."
+    },
+    "labels.get": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "id for the Microsoft operation."
+        }
+      },
+      "x-api-method-id": "mail.labels.get",
+      "x-required-request-parameters": [
+        "id"
+      ],
+      "title": "labels.get",
+      "description": "Get an Outlook mail folder."
+    },
+    "labels.list": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        }
+      },
+      "x-api-method-id": "mail.labels.list",
+      "x-required-request-parameters": [],
+      "title": "labels.list",
+      "description": "List top-level Outlook mail folders."
+    },
+    "labels.patch": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "id for the Microsoft operation."
+        },
+        "body": {
+          "$ref": "#/x-body-types/Label"
+        }
+      },
+      "x-api-method-id": "mail.labels.patch",
+      "x-required-request-parameters": [
+        "id"
+      ],
+      "title": "labels.patch",
+      "description": "Rename an Outlook mail folder."
+    },
+    "labels.update": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "id for the Microsoft operation."
+        },
+        "body": {
+          "$ref": "#/x-body-types/Label"
+        }
+      },
+      "x-api-method-id": "mail.labels.update",
+      "x-required-request-parameters": [
+        "id"
+      ],
+      "title": "labels.update",
+      "description": "Rename an Outlook mail folder."
+    },
+    "messages.delete": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "id for the Microsoft operation."
+        }
+      },
+      "x-api-method-id": "mail.messages.delete",
+      "x-required-request-parameters": [
+        "id"
+      ],
+      "title": "messages.delete",
+      "description": "Permanently delete an Outlook message."
+    },
+    "messages.get": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "id for the Microsoft operation."
+        }
+      },
+      "x-api-method-id": "mail.messages.get",
+      "x-required-request-parameters": [
+        "id"
+      ],
+      "title": "messages.get",
+      "description": "Read an Outlook message and its attachment metadata."
+    },
+    "messages.list": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "labelIds": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "INBOX",
+                "UNREAD"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "INBOX",
+                  "UNREAD"
+                ]
+              }
+            }
+          ],
+          "x-location": "query",
+          "description": "labelIds for the Microsoft operation."
+        },
+        "maxResults": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "string",
+              "pattern": "^[+-]?[0-9]+$"
+            }
+          ],
+          "x-location": "query",
+          "description": "maxResults for the Microsoft operation."
+        },
+        "pageToken": {
+          "type": "string",
+          "x-location": "query",
+          "description": "pageToken for the Microsoft operation."
+        },
+        "q": {
+          "type": "string",
+          "x-location": "query",
+          "description": "Search expression supported by the Microsoft adapter."
+        }
+      },
+      "x-api-method-id": "mail.messages.list",
+      "x-required-request-parameters": [],
+      "title": "messages.list",
+      "description": "List or search Outlook messages."
+    },
+    "messages.modify": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "id for the Microsoft operation."
+        },
+        "body": {
+          "$ref": "#/x-body-types/ModifyMessageRequest"
+        }
+      },
+      "x-api-method-id": "mail.messages.modify",
+      "x-required-request-parameters": [
+        "id"
+      ],
+      "title": "messages.modify",
+      "description": "Change the read or flagged state of an Outlook message."
+    },
+    "messages.send": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "body": {
+          "$ref": "#/x-body-types/Message"
+        }
+      },
+      "x-api-method-id": "mail.messages.send",
+      "x-required-request-parameters": [],
+      "title": "messages.send",
+      "x-cli-compose-path": [
+        "raw"
+      ],
+      "description": "Send composed or raw MIME content through Outlook."
+    },
+    "messages.trash": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "id for the Microsoft operation."
+        }
+      },
+      "x-api-method-id": "mail.messages.trash",
+      "x-required-request-parameters": [
+        "id"
+      ],
+      "title": "messages.trash",
+      "description": "Move an Outlook message to Deleted Items."
+    },
+    "messages.untrash": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "id for the Microsoft operation."
+        }
+      },
+      "x-api-method-id": "mail.messages.untrash",
+      "x-required-request-parameters": [
+        "id"
+      ],
+      "title": "messages.untrash",
+      "description": "Move an Outlook message to the inbox."
+    },
+    "messages.attachments.get": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "id for the Microsoft operation."
+        },
+        "messageId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "messageId for the Microsoft operation."
+        }
+      },
+      "x-api-method-id": "mail.messages.attachments.get",
+      "x-required-request-parameters": [
+        "id",
+        "messageId"
+      ],
+      "title": "messages.attachments.get",
+      "description": "Get the content of an Outlook file attachment."
+    }
+  },
+  "x-api-root": "https://graph.microsoft.com/",
+  "x-api-service-path": "v1.0/",
+  "x-api-parameters": {
+    "fields": {
+      "location": "query",
+      "description": "Selector specifying which fields to include in a partial response.",
+      "type": "string"
+    },
+    "alt": {
+      "description": "Data format for response.",
+      "enum": [
+        "json"
+      ],
+      "location": "query",
+      "default": "json",
+      "type": "string"
+    }
+  },
+  "x-body-types": {
+    "Message": {
+      "type": "object",
+      "properties": {
+        "raw": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "raw"
+      ]
+    },
+    "DraftCreate": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "$ref": "Message"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "message"
+      ]
+    },
+    "DraftSend": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id"
+      ]
+    },
+    "Label": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name"
+      ]
+    },
+    "ModifyMessageRequest": {
+      "type": "object",
+      "properties": {
+        "addLabelIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "UNREAD",
+              "STARRED"
+            ]
+          }
+        },
+        "removeLabelIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "UNREAD",
+              "STARRED"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-cli-types": {
+    "MailComposition": {
+      "type": "object",
+      "description": "CLI-only mail composition inputs. Named composition flags override these values after loading --file. Addresses are bare ASCII mailboxes. Arrays are replaced by explicit options. File paths resolve from the working directory. Sending requires at least one to, cc, or bcc recipient after merging; drafts may be incomplete. An omitted body becomes empty plain text.",
+      "additionalProperties": false,
+      "properties": {
+        "to": {
+          "type": "array",
+          "description": "Recipient email addresses. Repeat --to for multiple recipients.",
+          "x-cli-value-name": "EMAIL",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "cc": {
+          "type": "array",
+          "description": "Cc email addresses. Repeat --cc for multiple recipients.",
+          "x-cli-value-name": "EMAIL",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "bcc": {
+          "type": "array",
+          "description": "Bcc email addresses. Repeat --bcc for multiple recipients.",
+          "x-cli-value-name": "EMAIL",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "from": {
+          "type": "string",
+          "description": "Sender email address; defaults to ACCOUNT. Microsoft must allow this sender.",
+          "x-cli-value-name": "EMAIL",
+          "minLength": 1
+        },
+        "replyTo": {
+          "type": "string",
+          "description": "Reply-To email address.",
+          "x-cli-value-name": "EMAIL",
+          "minLength": 1
+        },
+        "subject": {
+          "type": "string",
+          "description": "Message subject.",
+          "x-cli-value-name": "TEXT"
+        },
+        "text": {
+          "type": "string",
+          "description": "Plain text message body.",
+          "x-cli-value-name": "TEXT"
+        },
+        "html": {
+          "type": "string",
+          "description": "HTML message body; combines with text as multipart/alternative.",
+          "x-cli-value-name": "HTML"
+        },
+        "textFile": {
+          "type": "string",
+          "description": "Read the plain text body from a UTF-8 file.",
+          "x-cli-value-name": "PATH",
+          "minLength": 1
+        },
+        "htmlFile": {
+          "type": "string",
+          "description": "Read the HTML body from a UTF-8 file.",
+          "x-cli-value-name": "PATH",
+          "minLength": 1
+        },
+        "attachments": {
+          "type": "array",
+          "description": "Attach local files as application/octet-stream. Repeat --attach for multiple files.",
+          "x-cli-value-name": "PATH",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "x-cli-option": "attach"
+        }
+      },
+      "allOf": [
+        {
+          "not": {
+            "required": [
+              "text",
+              "textFile"
+            ]
+          }
+        },
+        {
+          "not": {
+            "required": [
+              "html",
+              "htmlFile"
+            ]
+          }
+        }
+      ],
+      "x-exclusive-fields": [
+        [
+          "text",
+          "textFile"
+        ],
+        [
+          "html",
+          "htmlFile"
+        ]
+      ]
+    }
+  },
+  "x-api-methods": {
+    "mail.drafts.create": {
+      "id": "mail.drafts.create",
+      "path": "me/messages",
+      "httpMethod": "POST",
+      "description": "Create an Outlook draft from composed or raw MIME content.",
+      "parameters": {},
+      "request": {
+        "$ref": "DraftCreate"
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "mail.drafts.delete": {
+      "id": "mail.drafts.delete",
+      "path": "me/messages/{id}",
+      "httpMethod": "DELETE",
+      "description": "Delete an Outlook draft.",
+      "parameters": {
+        "id": {
+          "description": "id for the Microsoft operation.",
+          "type": "string",
+          "location": "path",
+          "required": true
+        }
+      }
+    },
+    "mail.drafts.get": {
+      "id": "mail.drafts.get",
+      "path": "me/messages/{id}",
+      "httpMethod": "GET",
+      "description": "Read an Outlook draft.",
+      "parameters": {
+        "id": {
+          "description": "id for the Microsoft operation.",
+          "type": "string",
+          "location": "path",
+          "required": true
+        }
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "mail.drafts.list": {
+      "id": "mail.drafts.list",
+      "path": "me/mailFolders/drafts/messages",
+      "httpMethod": "GET",
+      "description": "List Outlook drafts.",
+      "parameters": {
+        "pageToken": {
+          "description": "pageToken for the Microsoft operation.",
+          "location": "query",
+          "type": "string"
+        },
+        "q": {
+          "location": "query",
+          "description": "Search expression supported by the Microsoft adapter.",
+          "type": "string"
+        },
+        "maxResults": {
+          "format": "uint32",
+          "default": "100",
+          "location": "query",
+          "description": "maxResults for the Microsoft operation.",
+          "type": "integer"
+        }
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "mail.drafts.send": {
+      "id": "mail.drafts.send",
+      "path": "me/messages/{id}/send",
+      "httpMethod": "POST",
+      "description": "Send an existing Outlook draft.",
+      "parameters": {},
+      "request": {
+        "$ref": "DraftSend"
+      },
+      "response": {
+        "type": "object"
+      },
+      "x-body-path-parameters": [
+        "id"
+      ]
+    },
+    "mail.profile": {
+      "id": "mail.profile",
+      "path": "me",
+      "httpMethod": "GET",
+      "description": "Get the signed-in Microsoft account email address.",
+      "parameters": {},
+      "response": {
+        "type": "object"
+      }
+    },
+    "mail.labels.create": {
+      "id": "mail.labels.create",
+      "path": "me/mailFolders",
+      "httpMethod": "POST",
+      "description": "Create a top-level Outlook mail folder.",
+      "parameters": {},
+      "request": {
+        "$ref": "Label"
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "mail.labels.delete": {
+      "id": "mail.labels.delete",
+      "path": "me/mailFolders/{id}",
+      "httpMethod": "DELETE",
+      "description": "Delete an Outlook mail folder.",
+      "parameters": {
+        "id": {
+          "required": true,
+          "location": "path",
+          "description": "id for the Microsoft operation.",
+          "type": "string"
+        }
+      }
+    },
+    "mail.labels.get": {
+      "id": "mail.labels.get",
+      "path": "me/mailFolders/{id}",
+      "httpMethod": "GET",
+      "description": "Get an Outlook mail folder.",
+      "parameters": {
+        "id": {
+          "required": true,
+          "description": "id for the Microsoft operation.",
+          "type": "string",
+          "location": "path"
+        }
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "mail.labels.list": {
+      "id": "mail.labels.list",
+      "path": "me/mailFolders",
+      "httpMethod": "GET",
+      "description": "List top-level Outlook mail folders.",
+      "parameters": {},
+      "response": {
+        "type": "object"
+      }
+    },
+    "mail.labels.patch": {
+      "id": "mail.labels.patch",
+      "path": "me/mailFolders/{id}",
+      "httpMethod": "PATCH",
+      "description": "Rename an Outlook mail folder.",
+      "parameters": {
+        "id": {
+          "required": true,
+          "type": "string",
+          "location": "path",
+          "description": "id for the Microsoft operation."
+        }
+      },
+      "request": {
+        "$ref": "Label"
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "mail.labels.update": {
+      "id": "mail.labels.update",
+      "path": "me/mailFolders/{id}",
+      "httpMethod": "PATCH",
+      "description": "Rename an Outlook mail folder.",
+      "parameters": {
+        "id": {
+          "type": "string",
+          "description": "id for the Microsoft operation.",
+          "location": "path",
+          "required": true
+        }
+      },
+      "request": {
+        "$ref": "Label"
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "mail.messages.attachments.get": {
+      "id": "mail.messages.attachments.get",
+      "path": "me/messages/{messageId}/attachments/{id}",
+      "httpMethod": "GET",
+      "description": "Get the content of an Outlook file attachment.",
+      "parameters": {
+        "id": {
+          "location": "path",
+          "type": "string",
+          "description": "id for the Microsoft operation.",
+          "required": true
+        },
+        "messageId": {
+          "type": "string",
+          "description": "messageId for the Microsoft operation.",
+          "location": "path",
+          "required": true
+        }
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "mail.messages.delete": {
+      "id": "mail.messages.delete",
+      "path": "me/messages/{id}/permanentDelete",
+      "httpMethod": "POST",
+      "description": "Permanently delete an Outlook message.",
+      "parameters": {
+        "id": {
+          "description": "id for the Microsoft operation.",
+          "required": true,
+          "type": "string",
+          "location": "path"
+        }
+      }
+    },
+    "mail.messages.get": {
+      "id": "mail.messages.get",
+      "path": "me/messages/{id}",
+      "httpMethod": "GET",
+      "description": "Read an Outlook message and its attachment metadata.",
+      "parameters": {
+        "id": {
+          "description": "id for the Microsoft operation.",
+          "type": "string",
+          "location": "path",
+          "required": true
+        }
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "mail.messages.list": {
+      "id": "mail.messages.list",
+      "path": "me/messages",
+      "httpMethod": "GET",
+      "description": "List or search Outlook messages.",
+      "parameters": {
+        "pageToken": {
+          "location": "query",
+          "description": "pageToken for the Microsoft operation.",
+          "type": "string"
+        },
+        "labelIds": {
+          "repeated": true,
+          "location": "query",
+          "description": "labelIds for the Microsoft operation.",
+          "type": "string",
+          "enum": [
+            "INBOX",
+            "UNREAD"
+          ]
+        },
+        "maxResults": {
+          "location": "query",
+          "default": "100",
+          "description": "maxResults for the Microsoft operation.",
+          "type": "integer",
+          "format": "uint32"
+        },
+        "q": {
+          "description": "Search expression supported by the Microsoft adapter.",
+          "location": "query",
+          "type": "string"
+        }
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "mail.messages.modify": {
+      "id": "mail.messages.modify",
+      "path": "me/messages/{id}",
+      "httpMethod": "PATCH",
+      "description": "Change the read or flagged state of an Outlook message.",
+      "parameters": {
+        "id": {
+          "type": "string",
+          "location": "path",
+          "description": "id for the Microsoft operation.",
+          "required": true
+        }
+      },
+      "request": {
+        "$ref": "ModifyMessageRequest"
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "mail.messages.send": {
+      "id": "mail.messages.send",
+      "path": "me/sendMail",
+      "httpMethod": "POST",
+      "description": "Send composed or raw MIME content through Outlook.",
+      "parameters": {},
+      "request": {
+        "$ref": "Message"
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "mail.messages.trash": {
+      "id": "mail.messages.trash",
+      "path": "me/messages/{id}/move",
+      "httpMethod": "POST",
+      "description": "Move an Outlook message to Deleted Items.",
+      "parameters": {
+        "id": {
+          "type": "string",
+          "required": true,
+          "description": "id for the Microsoft operation.",
+          "location": "path"
+        }
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "mail.messages.untrash": {
+      "id": "mail.messages.untrash",
+      "path": "me/messages/{id}/move",
+      "httpMethod": "POST",
+      "description": "Move an Outlook message to the inbox.",
+      "parameters": {
+        "id": {
+          "required": true,
+          "location": "path",
+          "description": "id for the Microsoft operation.",
+          "type": "string"
+        }
+      },
+      "response": {
+        "type": "object"
+      }
+    }
+  },
+  "x-api-reference": "https://learn.microsoft.com/en-us/graph/api/user-list-messages?view=graph-rest-1.0"
+}

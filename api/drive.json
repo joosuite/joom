@@ -1,0 +1,1038 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:joom:file:drive",
+  "title": "OneDrive command contracts",
+  "description": "Joom command contracts for Microsoft Graph. The adapter resolves dynamic routes and CLI parameter names.",
+  "type": "object",
+  "x-api-service": "drive",
+  "x-api-version": "v1.0",
+  "anyOf": [
+    {
+      "$ref": "#/$defs/drives.get"
+    },
+    {
+      "$ref": "#/$defs/drives.list"
+    },
+    {
+      "$ref": "#/$defs/files.copy"
+    },
+    {
+      "$ref": "#/$defs/files.create"
+    },
+    {
+      "$ref": "#/$defs/files.delete"
+    },
+    {
+      "$ref": "#/$defs/files.export"
+    },
+    {
+      "$ref": "#/$defs/files.get"
+    },
+    {
+      "$ref": "#/$defs/files.list"
+    },
+    {
+      "$ref": "#/$defs/files.update"
+    },
+    {
+      "$ref": "#/$defs/permissions.create"
+    },
+    {
+      "$ref": "#/$defs/permissions.delete"
+    },
+    {
+      "$ref": "#/$defs/permissions.get"
+    },
+    {
+      "$ref": "#/$defs/permissions.list"
+    },
+    {
+      "$ref": "#/$defs/revisions.get"
+    },
+    {
+      "$ref": "#/$defs/revisions.list"
+    }
+  ],
+  "$defs": {
+    "drives.get": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "driveId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "driveId for the Microsoft operation."
+        },
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        }
+      },
+      "x-api-method-id": "drive.drives.get",
+      "x-required-request-parameters": [
+        "driveId"
+      ],
+      "title": "drives.get",
+      "description": "Get a Microsoft drive."
+    },
+    "drives.list": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "pageSize": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            {
+              "type": "string",
+              "pattern": "^[+-]?[0-9]+$",
+              "x-minimum": "1",
+              "x-maximum": "100"
+            }
+          ],
+          "x-location": "query",
+          "description": "pageSize for the Microsoft operation."
+        },
+        "pageToken": {
+          "type": "string",
+          "x-location": "query",
+          "description": "pageToken for the Microsoft operation."
+        },
+        "q": {
+          "type": "string",
+          "x-location": "query",
+          "description": "Search expression supported by the Microsoft adapter."
+        }
+      },
+      "x-api-method-id": "drive.drives.list",
+      "x-required-request-parameters": [],
+      "title": "drives.list",
+      "description": "List the signed-in account drives."
+    },
+    "files.copy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "fileId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "fileId for the Microsoft operation."
+        },
+        "body": {
+          "$ref": "#/x-body-types/FileCopy"
+        }
+      },
+      "x-api-method-id": "drive.files.copy",
+      "x-required-request-parameters": [
+        "fileId"
+      ],
+      "title": "files.copy",
+      "description": "Copy a OneDrive file through download and upload; folders are not supported."
+    },
+    "files.create": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "body": {
+          "$ref": "#/x-body-types/FileCreate"
+        }
+      },
+      "x-api-method-id": "drive.files.create",
+      "x-required-request-parameters": [],
+      "title": "files.create",
+      "description": "Create a OneDrive folder or upload a local file."
+    },
+    "files.delete": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "fileId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "fileId for the Microsoft operation."
+        }
+      },
+      "x-api-method-id": "drive.files.delete",
+      "x-required-request-parameters": [
+        "fileId"
+      ],
+      "title": "files.delete",
+      "description": "Move a OneDrive item to the recycle bin."
+    },
+    "files.export": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "fileId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "fileId for the Microsoft operation."
+        },
+        "mimeType": {
+          "type": "string",
+          "x-location": "query",
+          "description": "mimeType for the Microsoft operation.",
+          "enum": [
+            "application/pdf"
+          ]
+        }
+      },
+      "x-api-method-id": "drive.files.export",
+      "x-required-request-parameters": [
+        "fileId",
+        "mimeType"
+      ],
+      "title": "files.export",
+      "description": "Export an existing OneDrive file to PDF."
+    },
+    "files.get": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "fileId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "fileId for the Microsoft operation."
+        }
+      },
+      "x-api-method-id": "drive.files.get",
+      "x-required-request-parameters": [
+        "fileId"
+      ],
+      "title": "files.get",
+      "description": "Get OneDrive item metadata or download its content."
+    },
+    "files.list": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "driveId": {
+          "type": "string",
+          "x-location": "query",
+          "description": "driveId for the Microsoft operation."
+        },
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "orderBy": {
+          "type": "string",
+          "x-location": "query",
+          "description": "orderBy for the Microsoft operation.",
+          "enum": [
+            "name",
+            "name desc",
+            "modifiedTime",
+            "modifiedTime desc",
+            "createdTime",
+            "createdTime desc"
+          ]
+        },
+        "pageSize": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000
+            },
+            {
+              "type": "string",
+              "pattern": "^[+-]?[0-9]+$",
+              "x-minimum": "1",
+              "x-maximum": "1000"
+            }
+          ],
+          "x-location": "query",
+          "description": "pageSize for the Microsoft operation."
+        },
+        "pageToken": {
+          "type": "string",
+          "x-location": "query",
+          "description": "pageToken for the Microsoft operation."
+        },
+        "q": {
+          "type": "string",
+          "x-location": "query",
+          "description": "Search expression supported by the Microsoft adapter."
+        }
+      },
+      "x-api-method-id": "drive.files.list",
+      "x-required-request-parameters": [],
+      "title": "files.list",
+      "description": "List or search OneDrive items in a folder."
+    },
+    "files.update": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "addParents": {
+          "type": "string",
+          "x-location": "query",
+          "description": "addParents for the Microsoft operation."
+        },
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "fileId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "fileId for the Microsoft operation."
+        },
+        "removeParents": {
+          "type": "string",
+          "x-location": "query",
+          "description": "removeParents for the Microsoft operation."
+        },
+        "body": {
+          "$ref": "#/x-body-types/FileUpdate"
+        }
+      },
+      "x-api-method-id": "drive.files.update",
+      "x-required-request-parameters": [
+        "fileId"
+      ],
+      "title": "files.update",
+      "description": "Rename, move, recycle, or upload new content to a OneDrive item."
+    },
+    "permissions.create": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "fileId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "fileId for the Microsoft operation."
+        },
+        "sendNotificationEmail": {
+          "enum": [
+            true,
+            false,
+            "true",
+            "false"
+          ],
+          "x-location": "query",
+          "description": "sendNotificationEmail for the Microsoft operation."
+        },
+        "body": {
+          "$ref": "#/x-body-types/PermissionCreateInput"
+        }
+      },
+      "x-api-method-id": "drive.permissions.create",
+      "x-required-request-parameters": [
+        "fileId"
+      ],
+      "title": "permissions.create",
+      "description": "Invite a user to read or edit a OneDrive item."
+    },
+    "permissions.delete": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "fileId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "fileId for the Microsoft operation."
+        },
+        "permissionId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "permissionId for the Microsoft operation."
+        }
+      },
+      "x-api-method-id": "drive.permissions.delete",
+      "x-required-request-parameters": [
+        "fileId",
+        "permissionId"
+      ],
+      "title": "permissions.delete",
+      "description": "Delete a OneDrive item permission."
+    },
+    "permissions.get": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "fileId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "fileId for the Microsoft operation."
+        },
+        "permissionId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "permissionId for the Microsoft operation."
+        }
+      },
+      "x-api-method-id": "drive.permissions.get",
+      "x-required-request-parameters": [
+        "fileId",
+        "permissionId"
+      ],
+      "title": "permissions.get",
+      "description": "Get a OneDrive item permission."
+    },
+    "permissions.list": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "fileId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "fileId for the Microsoft operation."
+        },
+        "pageSize": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            {
+              "type": "string",
+              "pattern": "^[+-]?[0-9]+$",
+              "x-minimum": "1",
+              "x-maximum": "100"
+            }
+          ],
+          "x-location": "query",
+          "description": "pageSize for the Microsoft operation."
+        },
+        "pageToken": {
+          "type": "string",
+          "x-location": "query",
+          "description": "pageToken for the Microsoft operation."
+        }
+      },
+      "x-api-method-id": "drive.permissions.list",
+      "x-required-request-parameters": [
+        "fileId"
+      ],
+      "title": "permissions.list",
+      "description": "List OneDrive item permissions."
+    },
+    "revisions.get": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "fileId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "fileId for the Microsoft operation."
+        },
+        "revisionId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "revisionId for the Microsoft operation."
+        }
+      },
+      "x-api-method-id": "drive.revisions.get",
+      "x-required-request-parameters": [
+        "fileId",
+        "revisionId"
+      ],
+      "title": "revisions.get",
+      "description": "Get or download a OneDrive file version."
+    },
+    "revisions.list": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "fileId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "fileId for the Microsoft operation."
+        },
+        "pageSize": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000
+            },
+            {
+              "type": "string",
+              "pattern": "^[+-]?[0-9]+$",
+              "x-minimum": "1",
+              "x-maximum": "1000"
+            }
+          ],
+          "x-location": "query",
+          "description": "pageSize for the Microsoft operation."
+        },
+        "pageToken": {
+          "type": "string",
+          "x-location": "query",
+          "description": "pageToken for the Microsoft operation."
+        }
+      },
+      "x-api-method-id": "drive.revisions.list",
+      "x-required-request-parameters": [
+        "fileId"
+      ],
+      "title": "revisions.list",
+      "description": "List OneDrive file versions."
+    }
+  },
+  "x-api-root": "https://graph.microsoft.com/",
+  "x-api-service-path": "v1.0/",
+  "x-api-parameters": {
+    "alt": {
+      "location": "query",
+      "enum": [
+        "json",
+        "media"
+      ],
+      "description": "Data format for response.",
+      "default": "json",
+      "type": "string"
+    },
+    "fields": {
+      "type": "string",
+      "description": "Selector specifying which fields to include in a partial response.",
+      "location": "query"
+    }
+  },
+  "x-body-types": {
+    "FileCreate": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "mimeType": {
+          "type": "string",
+          "enum": [
+            "inode/directory"
+          ]
+        },
+        "parents": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "FileUpdate": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "parents": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 1
+        },
+        "trashed": {
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "FileCopy": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "parents": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "PermissionCreateInput": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "user"
+          ]
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "reader",
+            "writer"
+          ]
+        },
+        "emailAddress": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "role",
+        "emailAddress"
+      ]
+    }
+  },
+  "x-api-methods": {
+    "drive.drives.get": {
+      "id": "drive.drives.get",
+      "path": "drives/{driveId}",
+      "httpMethod": "GET",
+      "description": "Get a Microsoft drive.",
+      "parameters": {
+        "driveId": {
+          "description": "driveId for the Microsoft operation.",
+          "type": "string",
+          "location": "path",
+          "required": true
+        }
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "drive.drives.list": {
+      "id": "drive.drives.list",
+      "path": "me/drives",
+      "httpMethod": "GET",
+      "description": "List the signed-in account drives.",
+      "parameters": {
+        "pageToken": {
+          "type": "string",
+          "location": "query",
+          "description": "pageToken for the Microsoft operation."
+        },
+        "pageSize": {
+          "minimum": "1",
+          "location": "query",
+          "type": "integer",
+          "default": "10",
+          "description": "pageSize for the Microsoft operation.",
+          "maximum": "100",
+          "format": "int32"
+        },
+        "q": {
+          "location": "query",
+          "type": "string",
+          "description": "Search expression supported by the Microsoft adapter."
+        }
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "drive.files.copy": {
+      "id": "drive.files.copy",
+      "path": "me/drive/items/{fileId}/copy",
+      "httpMethod": "POST",
+      "description": "Copy a OneDrive file through download and upload; folders are not supported.",
+      "parameters": {
+        "fileId": {
+          "location": "path",
+          "required": true,
+          "type": "string",
+          "description": "fileId for the Microsoft operation."
+        }
+      },
+      "request": {
+        "$ref": "FileCopy"
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "drive.files.create": {
+      "id": "drive.files.create",
+      "path": "me/drive/root/children",
+      "httpMethod": "POST",
+      "description": "Create a OneDrive folder or upload a local file.",
+      "parameters": {},
+      "request": {
+        "$ref": "FileCreate"
+      },
+      "mediaUpload": {
+        "accept": [
+          "*/*"
+        ],
+        "maxSize": "262144000"
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "drive.files.delete": {
+      "id": "drive.files.delete",
+      "path": "me/drive/items/{fileId}",
+      "httpMethod": "DELETE",
+      "description": "Move a OneDrive item to the recycle bin.",
+      "parameters": {
+        "fileId": {
+          "location": "path",
+          "required": true,
+          "description": "fileId for the Microsoft operation.",
+          "type": "string"
+        }
+      }
+    },
+    "drive.files.export": {
+      "id": "drive.files.export",
+      "path": "me/drive/items/{fileId}/content",
+      "httpMethod": "GET",
+      "description": "Export an existing OneDrive file to PDF.",
+      "parameters": {
+        "fileId": {
+          "location": "path",
+          "required": true,
+          "description": "fileId for the Microsoft operation.",
+          "type": "string"
+        },
+        "mimeType": {
+          "description": "mimeType for the Microsoft operation.",
+          "required": true,
+          "type": "string",
+          "location": "query",
+          "enum": [
+            "application/pdf"
+          ]
+        }
+      },
+      "supportsMediaDownload": true
+    },
+    "drive.files.get": {
+      "id": "drive.files.get",
+      "path": "me/drive/items/{fileId}",
+      "httpMethod": "GET",
+      "description": "Get OneDrive item metadata or download its content.",
+      "parameters": {
+        "fileId": {
+          "type": "string",
+          "required": true,
+          "description": "fileId for the Microsoft operation.",
+          "location": "path"
+        }
+      },
+      "supportsMediaDownload": true,
+      "response": {
+        "type": "object"
+      }
+    },
+    "drive.files.list": {
+      "id": "drive.files.list",
+      "path": "me/drive/root/children",
+      "httpMethod": "GET",
+      "description": "List or search OneDrive items in a folder.",
+      "parameters": {
+        "q": {
+          "type": "string",
+          "description": "Search expression supported by the Microsoft adapter.",
+          "location": "query"
+        },
+        "orderBy": {
+          "description": "orderBy for the Microsoft operation.",
+          "location": "query",
+          "type": "string",
+          "enum": [
+            "name",
+            "name desc",
+            "modifiedTime",
+            "modifiedTime desc",
+            "createdTime",
+            "createdTime desc"
+          ]
+        },
+        "driveId": {
+          "location": "query",
+          "description": "driveId for the Microsoft operation.",
+          "type": "string"
+        },
+        "pageToken": {
+          "type": "string",
+          "description": "pageToken for the Microsoft operation.",
+          "location": "query"
+        },
+        "pageSize": {
+          "maximum": "1000",
+          "type": "integer",
+          "default": "100",
+          "location": "query",
+          "format": "int32",
+          "description": "pageSize for the Microsoft operation.",
+          "minimum": "1"
+        }
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "drive.files.update": {
+      "id": "drive.files.update",
+      "path": "me/drive/items/{fileId}",
+      "httpMethod": "PATCH",
+      "description": "Rename, move, recycle, or upload new content to a OneDrive item.",
+      "parameters": {
+        "fileId": {
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "fileId for the Microsoft operation."
+        },
+        "addParents": {
+          "description": "addParents for the Microsoft operation.",
+          "type": "string",
+          "location": "query"
+        },
+        "removeParents": {
+          "type": "string",
+          "location": "query",
+          "description": "removeParents for the Microsoft operation."
+        }
+      },
+      "request": {
+        "$ref": "FileUpdate"
+      },
+      "mediaUpload": {
+        "accept": [
+          "*/*"
+        ],
+        "maxSize": "262144000"
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "drive.permissions.create": {
+      "id": "drive.permissions.create",
+      "path": "me/drive/items/{fileId}/invite",
+      "httpMethod": "POST",
+      "description": "Invite a user to read or edit a OneDrive item.",
+      "parameters": {
+        "fileId": {
+          "description": "fileId for the Microsoft operation.",
+          "required": true,
+          "location": "path",
+          "type": "string"
+        },
+        "sendNotificationEmail": {
+          "location": "query",
+          "description": "sendNotificationEmail for the Microsoft operation.",
+          "type": "boolean"
+        }
+      },
+      "request": {
+        "$ref": "PermissionCreateInput"
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "drive.permissions.delete": {
+      "id": "drive.permissions.delete",
+      "path": "me/drive/items/{fileId}/permissions/{permissionId}",
+      "httpMethod": "DELETE",
+      "description": "Delete a OneDrive item permission.",
+      "parameters": {
+        "permissionId": {
+          "type": "string",
+          "description": "permissionId for the Microsoft operation.",
+          "location": "path",
+          "required": true
+        },
+        "fileId": {
+          "location": "path",
+          "description": "fileId for the Microsoft operation.",
+          "required": true,
+          "type": "string"
+        }
+      }
+    },
+    "drive.permissions.get": {
+      "id": "drive.permissions.get",
+      "path": "me/drive/items/{fileId}/permissions/{permissionId}",
+      "httpMethod": "GET",
+      "description": "Get a OneDrive item permission.",
+      "parameters": {
+        "permissionId": {
+          "required": true,
+          "location": "path",
+          "description": "permissionId for the Microsoft operation.",
+          "type": "string"
+        },
+        "fileId": {
+          "type": "string",
+          "description": "fileId for the Microsoft operation.",
+          "required": true,
+          "location": "path"
+        }
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "drive.permissions.list": {
+      "id": "drive.permissions.list",
+      "path": "me/drive/items/{fileId}/permissions",
+      "httpMethod": "GET",
+      "description": "List OneDrive item permissions.",
+      "parameters": {
+        "pageToken": {
+          "location": "query",
+          "type": "string",
+          "description": "pageToken for the Microsoft operation."
+        },
+        "fileId": {
+          "required": true,
+          "type": "string",
+          "description": "fileId for the Microsoft operation.",
+          "location": "path"
+        },
+        "pageSize": {
+          "maximum": "100",
+          "format": "int32",
+          "location": "query",
+          "minimum": "1",
+          "description": "pageSize for the Microsoft operation.",
+          "type": "integer"
+        }
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "drive.revisions.get": {
+      "id": "drive.revisions.get",
+      "path": "me/drive/items/{fileId}/versions/{revisionId}",
+      "httpMethod": "GET",
+      "description": "Get or download a OneDrive file version.",
+      "parameters": {
+        "revisionId": {
+          "type": "string",
+          "location": "path",
+          "required": true,
+          "description": "revisionId for the Microsoft operation."
+        },
+        "fileId": {
+          "description": "fileId for the Microsoft operation.",
+          "required": true,
+          "location": "path",
+          "type": "string"
+        }
+      },
+      "supportsMediaDownload": true,
+      "response": {
+        "type": "object"
+      }
+    },
+    "drive.revisions.list": {
+      "id": "drive.revisions.list",
+      "path": "me/drive/items/{fileId}/versions",
+      "httpMethod": "GET",
+      "description": "List OneDrive file versions.",
+      "parameters": {
+        "pageSize": {
+          "format": "int32",
+          "type": "integer",
+          "description": "pageSize for the Microsoft operation.",
+          "location": "query",
+          "minimum": "1",
+          "default": "200",
+          "maximum": "1000"
+        },
+        "fileId": {
+          "location": "path",
+          "required": true,
+          "type": "string",
+          "description": "fileId for the Microsoft operation."
+        },
+        "pageToken": {
+          "location": "query",
+          "description": "pageToken for the Microsoft operation.",
+          "type": "string"
+        }
+      },
+      "response": {
+        "type": "object"
+      }
+    }
+  },
+  "x-api-reference": "https://learn.microsoft.com/en-us/graph/api/resources/drive?view=graph-rest-1.0"
+}

@@ -1,0 +1,6 @@
+{
+  "fileId": "FILE_ID",
+  "type": "user",
+  "role": "reader",
+  "emailAddress": "alice@example.com"
+}

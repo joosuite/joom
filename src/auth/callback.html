@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>{{title}} | Joom</title>
+  <link rel="icon" type="image/png" href="data:image/png;base64,{{brandIcon}}">
+  <style>
+    :root {
+      color-scheme: light dark;
+      --paper: #f5f4ee;
+      --ink: #202c24;
+      --muted: #566057;
+      --line: #d6dbd1;
+      --accent: #3154ae;
+      --wash: #e4e9f7;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100svh; display: flex; flex-direction: column; }
+    ::selection { background: var(--accent); color: var(--paper); }
+    header, main, footer { width: min(100% - 48px, 960px); margin-inline: auto; }
+    header { padding-block: 32px; border-bottom: 1px solid var(--line); }
+    .brand { display: block; width: 128px; height: auto; }
+    main { flex: 1; display: flex; flex-direction: column; justify-content: center; padding-block: 64px 80px; }
+    .mark { width: 56px; height: 56px; margin-bottom: 28px; color: var(--accent); }
+    h1 { max-width: 14ch; font-size: clamp(40px, 7vw, 72px); line-height: 1.05; letter-spacing: -.035em; font-weight: 650; margin: 0 0 24px; text-wrap: balance; }
+    .message { max-width: 44ch; margin: 0; color: var(--muted); font-size: clamp(18px, 2.5vw, 22px); line-height: 1.6; }
+    .next { align-self: flex-start; margin: 36px 0 0; font-size: 17px; line-height: 1.6; font-weight: 600; }
+    footer { border-top: 1px solid var(--line); padding-block: 24px 32px; color: var(--muted); font-size: 14px; line-height: 1.6; }
+    footer p { margin: 0; }
+    body[data-state="error"] { --accent: #954229; --wash: #f3e4dc; }
+    @media (prefers-color-scheme: dark) {
+      :root { --paper: #18231d; --ink: #f1f3e9; --muted: #b7c6b8; --line: #3c5041; --accent: #acc0ff; --wash: #293654; }
+      .brand { filter: brightness(0) invert(1); }
+      body[data-state="error"] { --accent: #efb59e; --wash: #4c322b; }
+    }
+    @media (max-width: 480px) {
+      header, main, footer { width: calc(100% - 40px); }
+      header { padding-block: 24px; }
+      main { padding-block: 48px 64px; }
+      .next { margin-top: 28px; }
+    }
+  </style>
+</head>
+<body data-state="{{state}}">
+  <header><img class="brand" src="data:image/png;base64,{{brandLogo}}" alt="Joom" width="128" height="64"></header>
+  <main>
+    <svg class="mark" viewBox="0 0 56 56" fill="none" aria-hidden="true">
+      <circle cx="28" cy="28" r="28" fill="var(--wash)"/>
+      <path d="{{icon}}" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <h1>{{title}}</h1>
+    <p class="message">{{message}}</p>
+    <p class="next">{{next}}</p>
+  </main>
+  <footer><p>{{detail}}</p></footer>
+</body>
+</html>

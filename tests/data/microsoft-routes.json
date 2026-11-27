@@ -1,0 +1,848 @@
+[
+  {
+    "service": "mail",
+    "id": "mail.profile",
+    "params": {},
+    "body": null,
+    "mode": "json",
+    "method": "GET",
+    "path": "/v1.0/me"
+  },
+  {
+    "service": "mail",
+    "id": "mail.drafts.create",
+    "params": {},
+    "body": {
+      "message": {
+        "raw": "VG86IGZyaWVuZEBleGFtcGxlLmNvbQ0KU3ViamVjdDogVGVzdA0KDQpCb2R5"
+      }
+    },
+    "mode": "json",
+    "method": "POST",
+    "path": "/v1.0/me/messages"
+  },
+  {
+    "service": "mail",
+    "id": "mail.drafts.delete",
+    "params": {
+      "id": "item"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "DELETE",
+    "path": "/v1.0/me/messages/item"
+  },
+  {
+    "service": "mail",
+    "id": "mail.drafts.get",
+    "params": {
+      "id": "item"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "GET",
+    "path": "/v1.0/me/messages/item"
+  },
+  {
+    "service": "mail",
+    "id": "mail.drafts.list",
+    "params": {},
+    "body": null,
+    "mode": "json",
+    "method": "GET",
+    "path": "/v1.0/me/mailFolders/drafts/messages"
+  },
+  {
+    "service": "mail",
+    "id": "mail.drafts.send",
+    "params": {},
+    "body": {
+      "id": "item"
+    },
+    "mode": "json",
+    "method": "POST",
+    "path": "/v1.0/me/messages/item/send"
+  },
+  {
+    "service": "mail",
+    "id": "mail.messages.delete",
+    "params": {
+      "id": "item"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "POST",
+    "path": "/v1.0/me/messages/item/permanentDelete"
+  },
+  {
+    "service": "mail",
+    "id": "mail.messages.get",
+    "params": {
+      "id": "item"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "GET",
+    "path": "/v1.0/me/messages/item"
+  },
+  {
+    "service": "mail",
+    "id": "mail.messages.list",
+    "params": {},
+    "body": null,
+    "mode": "json",
+    "method": "GET",
+    "path": "/v1.0/me/messages"
+  },
+  {
+    "service": "mail",
+    "id": "mail.messages.modify",
+    "params": {
+      "id": "item"
+    },
+    "body": {
+      "removeLabelIds": [
+        "UNREAD"
+      ]
+    },
+    "mode": "json",
+    "method": "PATCH",
+    "path": "/v1.0/me/messages/item"
+  },
+  {
+    "service": "mail",
+    "id": "mail.messages.send",
+    "params": {},
+    "body": {
+      "raw": "VG86IGZyaWVuZEBleGFtcGxlLmNvbQ0KU3ViamVjdDogVGVzdA0KDQpCb2R5"
+    },
+    "mode": "json",
+    "method": "POST",
+    "path": "/v1.0/me/sendMail"
+  },
+  {
+    "service": "mail",
+    "id": "mail.messages.trash",
+    "params": {
+      "id": "item"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "POST",
+    "path": "/v1.0/me/messages/item/move"
+  },
+  {
+    "service": "mail",
+    "id": "mail.messages.untrash",
+    "params": {
+      "id": "item"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "POST",
+    "path": "/v1.0/me/messages/item/move"
+  },
+  {
+    "service": "mail",
+    "id": "mail.messages.attachments.get",
+    "params": {
+      "id": "item",
+      "messageId": "message"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "GET",
+    "path": "/v1.0/me/messages/message/attachments/item"
+  },
+  {
+    "service": "mail",
+    "id": "mail.labels.list",
+    "params": {},
+    "body": null,
+    "mode": "json",
+    "method": "GET",
+    "path": "/v1.0/me/mailFolders"
+  },
+  {
+    "service": "mail",
+    "id": "mail.labels.create",
+    "params": {},
+    "body": {
+      "name": "Folder"
+    },
+    "mode": "json",
+    "method": "POST",
+    "path": "/v1.0/me/mailFolders"
+  },
+  {
+    "service": "mail",
+    "id": "mail.labels.get",
+    "params": {
+      "id": "item"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "GET",
+    "path": "/v1.0/me/mailFolders/item"
+  },
+  {
+    "service": "mail",
+    "id": "mail.labels.delete",
+    "params": {
+      "id": "item"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "DELETE",
+    "path": "/v1.0/me/mailFolders/item"
+  },
+  {
+    "service": "mail",
+    "id": "mail.labels.patch",
+    "params": {
+      "id": "item"
+    },
+    "body": {
+      "name": "Folder"
+    },
+    "mode": "json",
+    "method": "PATCH",
+    "path": "/v1.0/me/mailFolders/item"
+  },
+  {
+    "service": "mail",
+    "id": "mail.labels.update",
+    "params": {
+      "id": "item"
+    },
+    "body": {
+      "name": "Folder"
+    },
+    "mode": "json",
+    "method": "PATCH",
+    "path": "/v1.0/me/mailFolders/item"
+  },
+  {
+    "service": "drive",
+    "id": "drive.files.copy",
+    "params": {
+      "fileId": "file"
+    },
+    "body": {
+      "name": "Copy"
+    },
+    "mode": "json",
+    "method": "POST",
+    "path": "/v1.0/me/drive/items/file/copy"
+  },
+  {
+    "service": "drive",
+    "id": "drive.files.create",
+    "params": {},
+    "body": {
+      "name": "Folder",
+      "mimeType": "inode/directory"
+    },
+    "mode": "json",
+    "method": "POST",
+    "path": "/v1.0/me/drive/root/children"
+  },
+  {
+    "service": "drive",
+    "id": "drive.files.get",
+    "params": {
+      "fileId": "file"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "GET",
+    "path": "/v1.0/me/drive/items/file"
+  },
+  {
+    "service": "drive",
+    "id": "drive.files.delete",
+    "params": {
+      "fileId": "file"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "DELETE",
+    "path": "/v1.0/me/drive/items/file"
+  },
+  {
+    "service": "drive",
+    "id": "drive.files.list",
+    "params": {
+      "driveId": "drive"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "GET",
+    "path": "/v1.0/me/drive/root/children"
+  },
+  {
+    "service": "drive",
+    "id": "drive.files.update",
+    "params": {
+      "fileId": "file"
+    },
+    "body": {
+      "name": "Renamed"
+    },
+    "mode": "json",
+    "method": "PATCH",
+    "path": "/v1.0/me/drive/items/file"
+  },
+  {
+    "service": "drive",
+    "id": "drive.permissions.list",
+    "params": {
+      "fileId": "file"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "GET",
+    "path": "/v1.0/me/drive/items/file/permissions"
+  },
+  {
+    "service": "drive",
+    "id": "drive.permissions.get",
+    "params": {
+      "permissionId": "permission",
+      "fileId": "file"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "GET",
+    "path": "/v1.0/me/drive/items/file/permissions/permission"
+  },
+  {
+    "service": "drive",
+    "id": "drive.permissions.delete",
+    "params": {
+      "permissionId": "permission",
+      "fileId": "file"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "DELETE",
+    "path": "/v1.0/me/drive/items/file/permissions/permission"
+  },
+  {
+    "service": "drive",
+    "id": "drive.permissions.create",
+    "params": {
+      "fileId": "file"
+    },
+    "body": {
+      "type": "user",
+      "role": "reader",
+      "emailAddress": "friend@example.com"
+    },
+    "mode": "json",
+    "method": "POST",
+    "path": "/v1.0/me/drive/items/file/invite"
+  },
+  {
+    "service": "drive",
+    "id": "drive.revisions.get",
+    "params": {
+      "revisionId": "version",
+      "fileId": "file"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "GET",
+    "path": "/v1.0/me/drive/items/file/versions/version"
+  },
+  {
+    "service": "drive",
+    "id": "drive.revisions.list",
+    "params": {
+      "fileId": "file"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "GET",
+    "path": "/v1.0/me/drive/items/file/versions"
+  },
+  {
+    "service": "drive",
+    "id": "drive.drives.get",
+    "params": {
+      "driveId": "drive"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "GET",
+    "path": "/v1.0/drives/drive"
+  },
+  {
+    "service": "drive",
+    "id": "drive.drives.list",
+    "params": {},
+    "body": null,
+    "mode": "json",
+    "method": "GET",
+    "path": "/v1.0/me/drives"
+  },
+  {
+    "service": "drive",
+    "id": "drive.files.export",
+    "params": {
+      "fileId": "file",
+      "mimeType": "application/pdf"
+    },
+    "body": null,
+    "mode": "download",
+    "method": "GET",
+    "path": "/v1.0/me/drive/items/file/content"
+  },
+  {
+    "service": "calendar",
+    "id": "calendar.calendars.list",
+    "params": {},
+    "body": null,
+    "mode": "json",
+    "method": "GET",
+    "path": "/v1.0/me/calendars"
+  },
+  {
+    "service": "calendar",
+    "id": "calendar.calendar-list.get",
+    "params": {
+      "calendarId": "primary"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "GET",
+    "path": "/v1.0/me/calendar"
+  },
+  {
+    "service": "calendar",
+    "id": "calendar.calendars.get",
+    "params": {
+      "calendarId": "primary"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "GET",
+    "path": "/v1.0/me/calendar"
+  },
+  {
+    "service": "calendar",
+    "id": "calendar.calendars.delete",
+    "params": {
+      "calendarId": "primary"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "DELETE",
+    "path": "/v1.0/me/calendar"
+  },
+  {
+    "service": "calendar",
+    "id": "calendar.calendars.insert",
+    "params": {},
+    "body": {
+      "summary": "Test"
+    },
+    "mode": "json",
+    "method": "POST",
+    "path": "/v1.0/me/calendars"
+  },
+  {
+    "service": "calendar",
+    "id": "calendar.calendars.patch",
+    "params": {
+      "calendarId": "primary"
+    },
+    "body": {
+      "summary": "Test"
+    },
+    "mode": "json",
+    "method": "PATCH",
+    "path": "/v1.0/me/calendar"
+  },
+  {
+    "service": "calendar",
+    "id": "calendar.calendars.update",
+    "params": {
+      "calendarId": "primary"
+    },
+    "body": {
+      "summary": "Test"
+    },
+    "mode": "json",
+    "method": "PATCH",
+    "path": "/v1.0/me/calendar"
+  },
+  {
+    "service": "calendar",
+    "id": "calendar.events.list",
+    "params": {
+      "calendarId": "primary"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "GET",
+    "path": "/v1.0/me/calendar/events"
+  },
+  {
+    "service": "calendar",
+    "id": "calendar.events.get",
+    "params": {
+      "calendarId": "primary",
+      "eventId": "event"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "GET",
+    "path": "/v1.0/me/calendar/events/event"
+  },
+  {
+    "service": "calendar",
+    "id": "calendar.events.delete",
+    "params": {
+      "eventId": "event",
+      "calendarId": "primary"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "DELETE",
+    "path": "/v1.0/me/calendar/events/event"
+  },
+  {
+    "service": "calendar",
+    "id": "calendar.events.insert",
+    "params": {
+      "calendarId": "primary"
+    },
+    "body": {
+      "summary": "Test",
+      "start": {
+        "date": "2026-11-26"
+      },
+      "end": {
+        "date": "2026-11-27"
+      }
+    },
+    "mode": "json",
+    "method": "POST",
+    "path": "/v1.0/me/calendar/events"
+  },
+  {
+    "service": "calendar",
+    "id": "calendar.events.patch",
+    "params": {
+      "calendarId": "primary",
+      "eventId": "event"
+    },
+    "body": {
+      "summary": "Changed"
+    },
+    "mode": "json",
+    "method": "PATCH",
+    "path": "/v1.0/me/calendar/events/event"
+  },
+  {
+    "service": "calendar",
+    "id": "calendar.events.update",
+    "params": {
+      "eventId": "event",
+      "calendarId": "primary"
+    },
+    "body": {
+      "summary": "Changed"
+    },
+    "mode": "json",
+    "method": "PATCH",
+    "path": "/v1.0/me/calendar/events/event"
+  },
+  {
+    "service": "calendar",
+    "id": "calendar.events.instances",
+    "params": {
+      "eventId": "event",
+      "calendarId": "primary",
+      "timeMin": "2026-11-26T00:00:00Z",
+      "timeMax": "2026-11-27T00:00:00Z"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "GET",
+    "path": "/v1.0/me/calendar/events/event/instances"
+  },
+  {
+    "service": "tasks",
+    "id": "tasks.tasklists.list",
+    "params": {},
+    "body": null,
+    "mode": "json",
+    "method": "GET",
+    "path": "/v1.0/me/todo/lists"
+  },
+  {
+    "service": "tasks",
+    "id": "tasks.tasklists.get",
+    "params": {
+      "tasklist": "list"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "GET",
+    "path": "/v1.0/me/todo/lists/list"
+  },
+  {
+    "service": "tasks",
+    "id": "tasks.tasklists.insert",
+    "params": {},
+    "body": {
+      "title": "Test"
+    },
+    "mode": "json",
+    "method": "POST",
+    "path": "/v1.0/me/todo/lists"
+  },
+  {
+    "service": "tasks",
+    "id": "tasks.tasklists.delete",
+    "params": {
+      "tasklist": "list"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "DELETE",
+    "path": "/v1.0/me/todo/lists/list"
+  },
+  {
+    "service": "tasks",
+    "id": "tasks.tasklists.patch",
+    "params": {
+      "tasklist": "list"
+    },
+    "body": {
+      "title": "Test"
+    },
+    "mode": "json",
+    "method": "PATCH",
+    "path": "/v1.0/me/todo/lists/list"
+  },
+  {
+    "service": "tasks",
+    "id": "tasks.tasklists.update",
+    "params": {
+      "tasklist": "list"
+    },
+    "body": {
+      "title": "Test"
+    },
+    "mode": "json",
+    "method": "PATCH",
+    "path": "/v1.0/me/todo/lists/list"
+  },
+  {
+    "service": "tasks",
+    "id": "tasks.tasks.list",
+    "params": {
+      "tasklist": "list"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "GET",
+    "path": "/v1.0/me/todo/lists/list/tasks"
+  },
+  {
+    "service": "tasks",
+    "id": "tasks.tasks.get",
+    "params": {
+      "tasklist": "list",
+      "task": "task"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "GET",
+    "path": "/v1.0/me/todo/lists/list/tasks/task"
+  },
+  {
+    "service": "tasks",
+    "id": "tasks.tasks.insert",
+    "params": {
+      "tasklist": "list"
+    },
+    "body": {
+      "title": "Test"
+    },
+    "mode": "json",
+    "method": "POST",
+    "path": "/v1.0/me/todo/lists/list/tasks"
+  },
+  {
+    "service": "tasks",
+    "id": "tasks.tasks.delete",
+    "params": {
+      "task": "task",
+      "tasklist": "list"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "DELETE",
+    "path": "/v1.0/me/todo/lists/list/tasks/task"
+  },
+  {
+    "service": "tasks",
+    "id": "tasks.tasks.patch",
+    "params": {
+      "task": "task",
+      "tasklist": "list"
+    },
+    "body": {
+      "title": "Test"
+    },
+    "mode": "json",
+    "method": "PATCH",
+    "path": "/v1.0/me/todo/lists/list/tasks/task"
+  },
+  {
+    "service": "tasks",
+    "id": "tasks.tasks.update",
+    "params": {
+      "task": "task",
+      "tasklist": "list"
+    },
+    "body": {
+      "title": "Test"
+    },
+    "mode": "json",
+    "method": "PATCH",
+    "path": "/v1.0/me/todo/lists/list/tasks/task"
+  },
+  {
+    "service": "contacts",
+    "id": "contacts.people.connections.list",
+    "params": {
+      "resourceName": "people/contact"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "GET",
+    "path": "/v1.0/me/contacts"
+  },
+  {
+    "service": "contacts",
+    "id": "contacts.people.search-contacts",
+    "params": {},
+    "body": null,
+    "mode": "json",
+    "method": "GET",
+    "path": "/v1.0/me/contacts"
+  },
+  {
+    "service": "contacts",
+    "id": "contacts.people.get",
+    "params": {
+      "resourceName": "people/contact"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "GET",
+    "path": "/v1.0/me/contacts/contact"
+  },
+  {
+    "service": "contacts",
+    "id": "contacts.people.create-contact",
+    "params": {},
+    "body": {
+      "names": [
+        {
+          "givenName": "Alex"
+        }
+      ]
+    },
+    "mode": "json",
+    "method": "POST",
+    "path": "/v1.0/me/contacts"
+  },
+  {
+    "service": "contacts",
+    "id": "contacts.people.update-contact",
+    "params": {
+      "resourceName": "people/contact"
+    },
+    "body": {
+      "names": [
+        {
+          "givenName": "Alex"
+        }
+      ]
+    },
+    "mode": "json",
+    "method": "PATCH",
+    "path": "/v1.0/me/contacts/contact"
+  },
+  {
+    "service": "contacts",
+    "id": "contacts.people.delete-contact",
+    "params": {
+      "resourceName": "people/contact"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "DELETE",
+    "path": "/v1.0/me/contacts/contact"
+  },
+  {
+    "service": "sheets",
+    "id": "sheets.get",
+    "params": {
+      "spreadsheetId": "workbook"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "GET",
+    "path": "/v1.0/me/drive/items/workbook/workbook/worksheets"
+  },
+  {
+    "service": "sheets",
+    "id": "sheets.values.get",
+    "params": {
+      "range": "Sheet1!A1:B2",
+      "spreadsheetId": "workbook"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "GET",
+    "path": "/v1.0/me/drive/items/workbook/workbook/worksheets/Sheet1/range(address='A1%3AB2')"
+  },
+  {
+    "service": "sheets",
+    "id": "sheets.values.update",
+    "params": {
+      "range": "Sheet1!A1:B2",
+      "spreadsheetId": "workbook"
+    },
+    "body": {
+      "values": [
+        [
+          "Text",
+          42
+        ]
+      ]
+    },
+    "mode": "json",
+    "method": "PATCH",
+    "path": "/v1.0/me/drive/items/workbook/workbook/worksheets/Sheet1/range(address='A1%3AB2')"
+  },
+  {
+    "service": "sheets",
+    "id": "sheets.values.clear",
+    "params": {
+      "spreadsheetId": "workbook",
+      "range": "Sheet1!A1:B2"
+    },
+    "body": null,
+    "mode": "json",
+    "method": "POST",
+    "path": "/v1.0/me/drive/items/workbook/workbook/worksheets/Sheet1/range(address='A1%3AB2')/clear"
+  }
+]

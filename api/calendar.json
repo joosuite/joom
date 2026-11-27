@@ -1,0 +1,1080 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:joom:file:calendar",
+  "title": "Outlook Calendar command contracts",
+  "description": "Joom command contracts for Microsoft Graph. The adapter resolves dynamic routes and CLI parameter names.",
+  "type": "object",
+  "x-api-service": "calendar",
+  "x-api-version": "v1.0",
+  "anyOf": [
+    {
+      "$ref": "#/$defs/calendar-list.get"
+    },
+    {
+      "$ref": "#/$defs/calendars.list"
+    },
+    {
+      "$ref": "#/$defs/calendars.delete"
+    },
+    {
+      "$ref": "#/$defs/calendars.get"
+    },
+    {
+      "$ref": "#/$defs/calendars.insert"
+    },
+    {
+      "$ref": "#/$defs/calendars.patch"
+    },
+    {
+      "$ref": "#/$defs/calendars.update"
+    },
+    {
+      "$ref": "#/$defs/events.delete"
+    },
+    {
+      "$ref": "#/$defs/events.get"
+    },
+    {
+      "$ref": "#/$defs/events.insert"
+    },
+    {
+      "$ref": "#/$defs/events.instances"
+    },
+    {
+      "$ref": "#/$defs/events.list"
+    },
+    {
+      "$ref": "#/$defs/events.patch"
+    },
+    {
+      "$ref": "#/$defs/events.update"
+    }
+  ],
+  "$defs": {
+    "calendar-list.get": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "calendarId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "Outlook calendar ID; primary selects the default calendar."
+        },
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        }
+      },
+      "x-api-method-id": "calendar.calendar-list.get",
+      "x-required-request-parameters": [
+        "calendarId"
+      ],
+      "title": "calendar-list.get",
+      "description": "Get an Outlook calendar and the mailbox timezone."
+    },
+    "calendars.list": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "maxResults": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1
+            },
+            {
+              "type": "string",
+              "pattern": "^[+-]?[0-9]+$",
+              "x-minimum": "1"
+            }
+          ],
+          "x-location": "query",
+          "description": "maxResults for the Microsoft operation."
+        },
+        "pageToken": {
+          "type": "string",
+          "x-location": "query",
+          "description": "pageToken for the Microsoft operation."
+        }
+      },
+      "x-api-method-id": "calendar.calendars.list",
+      "x-required-request-parameters": [],
+      "title": "calendars.list",
+      "description": "List Outlook calendars and the mailbox timezone."
+    },
+    "calendars.delete": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "calendarId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "Outlook calendar ID; primary selects the default calendar."
+        },
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        }
+      },
+      "x-api-method-id": "calendar.calendars.delete",
+      "x-required-request-parameters": [
+        "calendarId"
+      ],
+      "title": "calendars.delete",
+      "description": "Delete an Outlook calendar."
+    },
+    "calendars.get": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "calendarId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "Outlook calendar ID; primary selects the default calendar."
+        },
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        }
+      },
+      "x-api-method-id": "calendar.calendars.get",
+      "x-required-request-parameters": [
+        "calendarId"
+      ],
+      "title": "calendars.get",
+      "description": "Get an Outlook calendar and the mailbox timezone."
+    },
+    "calendars.insert": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "body": {
+          "$ref": "#/x-body-types/Calendar"
+        }
+      },
+      "x-api-method-id": "calendar.calendars.insert",
+      "x-required-request-parameters": [],
+      "title": "calendars.insert",
+      "description": "Create an Outlook calendar."
+    },
+    "calendars.patch": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "calendarId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "Outlook calendar ID; primary selects the default calendar."
+        },
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "body": {
+          "$ref": "#/x-body-types/Calendar"
+        }
+      },
+      "x-api-method-id": "calendar.calendars.patch",
+      "x-required-request-parameters": [
+        "calendarId"
+      ],
+      "title": "calendars.patch",
+      "description": "Rename an Outlook calendar."
+    },
+    "calendars.update": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "calendarId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "Outlook calendar ID; primary selects the default calendar."
+        },
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "body": {
+          "$ref": "#/x-body-types/Calendar"
+        }
+      },
+      "x-api-method-id": "calendar.calendars.update",
+      "x-required-request-parameters": [
+        "calendarId"
+      ],
+      "title": "calendars.update",
+      "description": "Rename an Outlook calendar."
+    },
+    "events.delete": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "calendarId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "Outlook calendar ID; primary selects the default calendar."
+        },
+        "eventId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "eventId for the Microsoft operation."
+        },
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "sendUpdates": {
+          "type": "string",
+          "enum": [
+            "all"
+          ],
+          "x-location": "query",
+          "description": "sendUpdates for the Microsoft operation."
+        }
+      },
+      "x-api-method-id": "calendar.events.delete",
+      "x-required-request-parameters": [
+        "calendarId",
+        "eventId"
+      ],
+      "title": "events.delete",
+      "description": "Delete an Outlook event; Outlook sends meeting updates automatically."
+    },
+    "events.get": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "calendarId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "Outlook calendar ID; primary selects the default calendar."
+        },
+        "eventId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "eventId for the Microsoft operation."
+        },
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        }
+      },
+      "x-api-method-id": "calendar.events.get",
+      "x-required-request-parameters": [
+        "calendarId",
+        "eventId"
+      ],
+      "title": "events.get",
+      "description": "Get an Outlook event."
+    },
+    "events.insert": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "calendarId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "Outlook calendar ID; primary selects the default calendar."
+        },
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "sendUpdates": {
+          "type": "string",
+          "enum": [
+            "all"
+          ],
+          "x-location": "query",
+          "description": "sendUpdates for the Microsoft operation."
+        },
+        "body": {
+          "$ref": "#/x-body-types/Event"
+        }
+      },
+      "x-api-method-id": "calendar.events.insert",
+      "x-required-request-parameters": [
+        "calendarId"
+      ],
+      "title": "events.insert",
+      "description": "Create an Outlook event."
+    },
+    "events.instances": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "calendarId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "Outlook calendar ID; primary selects the default calendar."
+        },
+        "eventId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "eventId for the Microsoft operation."
+        },
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "maxResults": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1
+            },
+            {
+              "type": "string",
+              "pattern": "^[+-]?[0-9]+$",
+              "x-minimum": "1"
+            }
+          ],
+          "x-location": "query",
+          "description": "maxResults for the Microsoft operation."
+        },
+        "pageToken": {
+          "type": "string",
+          "x-location": "query",
+          "description": "pageToken for the Microsoft operation."
+        },
+        "timeMax": {
+          "type": "string",
+          "x-location": "query",
+          "description": "timeMax for the Microsoft operation."
+        },
+        "timeMin": {
+          "type": "string",
+          "x-location": "query",
+          "description": "timeMin for the Microsoft operation."
+        }
+      },
+      "x-api-method-id": "calendar.events.instances",
+      "x-required-request-parameters": [
+        "calendarId",
+        "eventId",
+        "timeMin",
+        "timeMax"
+      ],
+      "title": "events.instances",
+      "description": "List instances of a recurring Outlook event within a time window."
+    },
+    "events.list": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "calendarId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "Outlook calendar ID; primary selects the default calendar."
+        },
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "maxResults": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1
+            },
+            {
+              "type": "string",
+              "pattern": "^[+-]?[0-9]+$",
+              "x-minimum": "1"
+            }
+          ],
+          "x-location": "query",
+          "description": "maxResults for the Microsoft operation."
+        },
+        "orderBy": {
+          "type": "string",
+          "enum": [
+            "startTime"
+          ],
+          "x-location": "query",
+          "description": "orderBy for the Microsoft operation."
+        },
+        "pageToken": {
+          "type": "string",
+          "x-location": "query",
+          "description": "pageToken for the Microsoft operation."
+        },
+        "q": {
+          "type": "string",
+          "x-location": "query",
+          "description": "Search expression supported by the Microsoft adapter."
+        },
+        "timeMax": {
+          "type": "string",
+          "x-location": "query",
+          "description": "timeMax for the Microsoft operation."
+        },
+        "timeMin": {
+          "type": "string",
+          "x-location": "query",
+          "description": "timeMin for the Microsoft operation."
+        }
+      },
+      "x-api-method-id": "calendar.events.list",
+      "x-required-request-parameters": [
+        "calendarId"
+      ],
+      "title": "events.list",
+      "description": "List Outlook events or a calendar view within a time window."
+    },
+    "events.patch": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "calendarId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "Outlook calendar ID; primary selects the default calendar."
+        },
+        "eventId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "eventId for the Microsoft operation."
+        },
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "sendUpdates": {
+          "type": "string",
+          "enum": [
+            "all"
+          ],
+          "x-location": "query",
+          "description": "sendUpdates for the Microsoft operation."
+        },
+        "body": {
+          "$ref": "#/x-body-types/Event"
+        }
+      },
+      "x-api-method-id": "calendar.events.patch",
+      "x-required-request-parameters": [
+        "calendarId",
+        "eventId"
+      ],
+      "title": "events.patch",
+      "description": "Update supported fields of an Outlook event."
+    },
+    "events.update": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "calendarId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "Outlook calendar ID; primary selects the default calendar."
+        },
+        "eventId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "eventId for the Microsoft operation."
+        },
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "sendUpdates": {
+          "type": "string",
+          "enum": [
+            "all"
+          ],
+          "x-location": "query",
+          "description": "sendUpdates for the Microsoft operation."
+        },
+        "body": {
+          "$ref": "#/x-body-types/Event"
+        }
+      },
+      "x-api-method-id": "calendar.events.update",
+      "x-required-request-parameters": [
+        "calendarId",
+        "eventId"
+      ],
+      "title": "events.update",
+      "description": "Update supported fields of an Outlook event."
+    }
+  },
+  "x-api-root": "https://graph.microsoft.com/",
+  "x-api-service-path": "v1.0/",
+  "x-api-parameters": {
+    "fields": {
+      "description": "Selector specifying which fields to include in a partial response.",
+      "location": "query",
+      "type": "string"
+    },
+    "alt": {
+      "type": "string",
+      "location": "query",
+      "default": "json",
+      "enum": [
+        "json"
+      ],
+      "description": "Data format for the response."
+    }
+  },
+  "x-body-types": {
+    "Calendar": {
+      "type": "object",
+      "properties": {
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "Event": {
+      "type": "object",
+      "properties": {
+        "summary": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "start": {
+          "type": "object",
+          "properties": {
+            "date": {
+              "type": "string"
+            },
+            "dateTime": {
+              "type": "string"
+            },
+            "timeZone": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "x-exclusive-fields": [
+            [
+              "date",
+              "dateTime"
+            ]
+          ],
+          "x-required-in-methods": [
+            "calendar.events.insert"
+          ],
+          "x-required-one-of": {
+            "calendar.events.insert": [
+              "date",
+              "dateTime"
+            ],
+            "calendar.events.patch": [
+              "date",
+              "dateTime"
+            ],
+            "calendar.events.update": [
+              "date",
+              "dateTime"
+            ]
+          }
+        },
+        "end": {
+          "type": "object",
+          "properties": {
+            "date": {
+              "type": "string"
+            },
+            "dateTime": {
+              "type": "string"
+            },
+            "timeZone": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "x-exclusive-fields": [
+            [
+              "date",
+              "dateTime"
+            ]
+          ],
+          "x-required-in-methods": [
+            "calendar.events.insert"
+          ],
+          "x-required-one-of": {
+            "calendar.events.insert": [
+              "date",
+              "dateTime"
+            ],
+            "calendar.events.patch": [
+              "date",
+              "dateTime"
+            ],
+            "calendar.events.update": [
+              "date",
+              "dateTime"
+            ]
+          }
+        },
+        "attendees": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "email": {
+                "type": "string"
+              },
+              "displayName": {
+                "type": "string"
+              },
+              "optional": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "email"
+            ]
+          }
+        },
+        "transparency": {
+          "type": "string",
+          "enum": [
+            "opaque",
+            "transparent"
+          ]
+        },
+        "reminders": {
+          "type": "object",
+          "properties": {
+            "useDefault": {
+              "type": "boolean"
+            },
+            "overrides": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "minutes": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "additionalProperties": false,
+                "required": [
+                  "minutes"
+                ]
+              },
+              "maxItems": 1
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-api-methods": {
+    "calendar.calendar-list.get": {
+      "id": "calendar.calendar-list.get",
+      "path": "me/calendars/{calendarId}",
+      "httpMethod": "GET",
+      "description": "Get an Outlook calendar and the mailbox timezone.",
+      "parameters": {
+        "calendarId": {
+          "location": "path",
+          "description": "Outlook calendar ID; primary selects the default calendar.",
+          "required": true,
+          "type": "string"
+        }
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "calendar.calendars.list": {
+      "id": "calendar.calendars.list",
+      "path": "me/calendars",
+      "httpMethod": "GET",
+      "description": "List Outlook calendars and the mailbox timezone.",
+      "parameters": {
+        "pageToken": {
+          "type": "string",
+          "location": "query",
+          "description": "pageToken for the Microsoft operation."
+        },
+        "maxResults": {
+          "description": "maxResults for the Microsoft operation.",
+          "minimum": "1",
+          "format": "int32",
+          "location": "query",
+          "type": "integer"
+        }
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "calendar.calendars.delete": {
+      "id": "calendar.calendars.delete",
+      "path": "me/calendars/{calendarId}",
+      "httpMethod": "DELETE",
+      "description": "Delete an Outlook calendar.",
+      "parameters": {
+        "calendarId": {
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Outlook calendar ID; primary selects the default calendar."
+        }
+      }
+    },
+    "calendar.calendars.get": {
+      "id": "calendar.calendars.get",
+      "path": "me/calendars/{calendarId}",
+      "httpMethod": "GET",
+      "description": "Get an Outlook calendar and the mailbox timezone.",
+      "parameters": {
+        "calendarId": {
+          "description": "Outlook calendar ID; primary selects the default calendar.",
+          "location": "path",
+          "type": "string",
+          "required": true
+        }
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "calendar.calendars.insert": {
+      "id": "calendar.calendars.insert",
+      "path": "me/calendars",
+      "httpMethod": "POST",
+      "description": "Create an Outlook calendar.",
+      "request": {
+        "$ref": "Calendar"
+      },
+      "parameters": {},
+      "response": {
+        "type": "object"
+      }
+    },
+    "calendar.calendars.patch": {
+      "id": "calendar.calendars.patch",
+      "path": "me/calendars/{calendarId}",
+      "httpMethod": "PATCH",
+      "description": "Rename an Outlook calendar.",
+      "parameters": {
+        "calendarId": {
+          "description": "Outlook calendar ID; primary selects the default calendar.",
+          "location": "path",
+          "type": "string",
+          "required": true
+        }
+      },
+      "request": {
+        "$ref": "Calendar"
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "calendar.calendars.update": {
+      "id": "calendar.calendars.update",
+      "path": "me/calendars/{calendarId}",
+      "httpMethod": "PATCH",
+      "description": "Rename an Outlook calendar.",
+      "parameters": {
+        "calendarId": {
+          "description": "Outlook calendar ID; primary selects the default calendar.",
+          "location": "path",
+          "type": "string",
+          "required": true
+        }
+      },
+      "request": {
+        "$ref": "Calendar"
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "calendar.events.delete": {
+      "id": "calendar.events.delete",
+      "path": "me/calendars/{calendarId}/events/{eventId}",
+      "httpMethod": "DELETE",
+      "description": "Delete an Outlook event; Outlook sends meeting updates automatically.",
+      "parameters": {
+        "eventId": {
+          "description": "eventId for the Microsoft operation.",
+          "required": true,
+          "type": "string",
+          "location": "path"
+        },
+        "calendarId": {
+          "location": "path",
+          "required": true,
+          "type": "string",
+          "description": "Outlook calendar ID; primary selects the default calendar."
+        },
+        "sendUpdates": {
+          "description": "sendUpdates for the Microsoft operation.",
+          "enum": [
+            "all"
+          ],
+          "type": "string",
+          "location": "query"
+        }
+      }
+    },
+    "calendar.events.get": {
+      "id": "calendar.events.get",
+      "path": "me/calendars/{calendarId}/events/{eventId}",
+      "httpMethod": "GET",
+      "description": "Get an Outlook event.",
+      "parameters": {
+        "calendarId": {
+          "required": true,
+          "location": "path",
+          "description": "Outlook calendar ID; primary selects the default calendar.",
+          "type": "string"
+        },
+        "eventId": {
+          "type": "string",
+          "required": true,
+          "location": "path",
+          "description": "eventId for the Microsoft operation."
+        }
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "calendar.events.insert": {
+      "id": "calendar.events.insert",
+      "path": "me/calendars/{calendarId}/events",
+      "httpMethod": "POST",
+      "description": "Create an Outlook event.",
+      "parameters": {
+        "calendarId": {
+          "location": "path",
+          "type": "string",
+          "required": true,
+          "description": "Outlook calendar ID; primary selects the default calendar."
+        },
+        "sendUpdates": {
+          "location": "query",
+          "description": "sendUpdates for the Microsoft operation.",
+          "type": "string",
+          "enum": [
+            "all"
+          ]
+        }
+      },
+      "request": {
+        "$ref": "Event"
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "calendar.events.instances": {
+      "id": "calendar.events.instances",
+      "path": "me/calendars/{calendarId}/events/{eventId}/instances",
+      "httpMethod": "GET",
+      "description": "List instances of a recurring Outlook event within a time window.",
+      "parameters": {
+        "pageToken": {
+          "description": "pageToken for the Microsoft operation.",
+          "location": "query",
+          "type": "string"
+        },
+        "maxResults": {
+          "minimum": "1",
+          "description": "maxResults for the Microsoft operation.",
+          "type": "integer",
+          "format": "int32",
+          "location": "query"
+        },
+        "eventId": {
+          "type": "string",
+          "description": "eventId for the Microsoft operation.",
+          "required": true,
+          "location": "path"
+        },
+        "timeMin": {
+          "type": "string",
+          "format": "date-time",
+          "location": "query",
+          "description": "timeMin for the Microsoft operation.",
+          "required": true
+        },
+        "calendarId": {
+          "description": "Outlook calendar ID; primary selects the default calendar.",
+          "location": "path",
+          "type": "string",
+          "required": true
+        },
+        "timeMax": {
+          "type": "string",
+          "location": "query",
+          "description": "timeMax for the Microsoft operation.",
+          "format": "date-time",
+          "required": true
+        }
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "calendar.events.list": {
+      "id": "calendar.events.list",
+      "path": "me/calendars/{calendarId}/events",
+      "httpMethod": "GET",
+      "description": "List Outlook events or a calendar view within a time window.",
+      "parameters": {
+        "timeMax": {
+          "type": "string",
+          "location": "query",
+          "format": "date-time",
+          "description": "timeMax for the Microsoft operation."
+        },
+        "calendarId": {
+          "location": "path",
+          "required": true,
+          "description": "Outlook calendar ID; primary selects the default calendar.",
+          "type": "string"
+        },
+        "q": {
+          "description": "Search expression supported by the Microsoft adapter.",
+          "type": "string",
+          "location": "query"
+        },
+        "orderBy": {
+          "enum": [
+            "startTime"
+          ],
+          "description": "orderBy for the Microsoft operation.",
+          "location": "query",
+          "type": "string"
+        },
+        "maxResults": {
+          "location": "query",
+          "type": "integer",
+          "default": "250",
+          "minimum": "1",
+          "description": "maxResults for the Microsoft operation.",
+          "format": "int32"
+        },
+        "pageToken": {
+          "location": "query",
+          "type": "string",
+          "description": "pageToken for the Microsoft operation."
+        },
+        "timeMin": {
+          "location": "query",
+          "type": "string",
+          "format": "date-time",
+          "description": "timeMin for the Microsoft operation."
+        }
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "calendar.events.patch": {
+      "id": "calendar.events.patch",
+      "path": "me/calendars/{calendarId}/events/{eventId}",
+      "httpMethod": "PATCH",
+      "description": "Update supported fields of an Outlook event.",
+      "parameters": {
+        "sendUpdates": {
+          "type": "string",
+          "location": "query",
+          "description": "sendUpdates for the Microsoft operation.",
+          "enum": [
+            "all"
+          ]
+        },
+        "calendarId": {
+          "description": "Outlook calendar ID; primary selects the default calendar.",
+          "location": "path",
+          "type": "string",
+          "required": true
+        },
+        "eventId": {
+          "description": "eventId for the Microsoft operation.",
+          "required": true,
+          "type": "string",
+          "location": "path"
+        }
+      },
+      "request": {
+        "$ref": "Event"
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "calendar.events.update": {
+      "id": "calendar.events.update",
+      "path": "me/calendars/{calendarId}/events/{eventId}",
+      "httpMethod": "PATCH",
+      "description": "Update supported fields of an Outlook event.",
+      "parameters": {
+        "sendUpdates": {
+          "type": "string",
+          "location": "query",
+          "description": "sendUpdates for the Microsoft operation.",
+          "enum": [
+            "all"
+          ]
+        },
+        "eventId": {
+          "location": "path",
+          "description": "eventId for the Microsoft operation.",
+          "required": true,
+          "type": "string"
+        },
+        "calendarId": {
+          "description": "Outlook calendar ID; primary selects the default calendar.",
+          "type": "string",
+          "required": true,
+          "location": "path"
+        }
+      },
+      "request": {
+        "$ref": "Event"
+      },
+      "response": {
+        "type": "object"
+      }
+    }
+  },
+  "x-api-reference": "https://learn.microsoft.com/en-us/graph/api/calendar-list-events?view=graph-rest-1.0"
+}

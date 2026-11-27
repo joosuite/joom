@@ -1,0 +1,2044 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:joom:file:drive",
+  "title": "Joom drive command parameters",
+  "description": "Parameters accepted by Joom from --file. Each command definition describes CLI inputs. Explicit command-line values override file values. Select a command under $defs.",
+  "type": "object",
+  "anyOf": [
+    {
+      "$ref": "#/$defs/drives.get"
+    },
+    {
+      "$ref": "#/$defs/drives.list"
+    },
+    {
+      "$ref": "#/$defs/files.copy"
+    },
+    {
+      "$ref": "#/$defs/files.create"
+    },
+    {
+      "$ref": "#/$defs/files.delete"
+    },
+    {
+      "$ref": "#/$defs/files.export"
+    },
+    {
+      "$ref": "#/$defs/files.get"
+    },
+    {
+      "$ref": "#/$defs/files.list"
+    },
+    {
+      "$ref": "#/$defs/files.update"
+    },
+    {
+      "$ref": "#/$defs/permissions.create"
+    },
+    {
+      "$ref": "#/$defs/permissions.delete"
+    },
+    {
+      "$ref": "#/$defs/permissions.get"
+    },
+    {
+      "$ref": "#/$defs/permissions.list"
+    },
+    {
+      "$ref": "#/$defs/revisions.get"
+    },
+    {
+      "$ref": "#/$defs/revisions.list"
+    },
+    {
+      "$ref": "#/$defs/search"
+    }
+  ],
+  "$defs": {
+    "drives.get": {
+      "type": "object",
+      "title": "joom drive ACCOUNT drives.get",
+      "description": "Get a Microsoft drive.",
+      "additionalProperties": false,
+      "properties": {
+        "driveId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "driveId for the Microsoft operation.",
+          "x-cli-option": "drive-id",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "driveId"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "ttl": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Cache freshness in minutes. Zero fetches fresh data.",
+          "x-cli-option": "ttl",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "ttl"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "driveId"
+          ],
+          "properties": {
+            "driveId": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --drive-id.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "driveId"
+          ]
+        }
+      ]
+    },
+    "drives.list": {
+      "type": "object",
+      "title": "joom drive ACCOUNT drives.list",
+      "description": "List the signed-in account drives.",
+      "additionalProperties": false,
+      "properties": {
+        "pageSize": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            {
+              "type": "string",
+              "pattern": "^[+-]?[0-9]+$",
+              "x-minimum": "1",
+              "x-maximum": "100"
+            }
+          ],
+          "x-location": "query",
+          "description": "pageSize for the Microsoft operation.",
+          "x-cli-option": "page-size",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "pageSize"
+          },
+          "x-cli-repeated": false
+        },
+        "pageToken": {
+          "type": "string",
+          "x-location": "query",
+          "description": "pageToken for the Microsoft operation.",
+          "x-cli-option": "page-token",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "pageToken"
+          },
+          "x-cli-repeated": false
+        },
+        "q": {
+          "type": "string",
+          "x-location": "query",
+          "description": "Search expression supported by the Microsoft adapter.",
+          "x-cli-option": "q",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "q"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "ttl": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Cache freshness in minutes. Zero fetches fresh data.",
+          "x-cli-option": "ttl",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "ttl"
+          }
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4294967295,
+          "description": "Maximum total results.",
+          "x-cli-option": "max",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "max"
+          }
+        },
+        "maxPages": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000,
+          "description": "Maximum pages to fetch.",
+          "x-cli-option": "max-pages",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "max-pages"
+          }
+        }
+      }
+    },
+    "files.copy": {
+      "type": "object",
+      "title": "joom drive ACCOUNT files.copy",
+      "description": "Copy a OneDrive file through download and upload; folders are not supported.",
+      "additionalProperties": false,
+      "properties": {
+        "fileId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "fileId for the Microsoft operation.",
+          "x-cli-option": "file-id",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "fileId"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "body": {
+          "$ref": "#/x-input-types/FileCopy",
+          "x-cli-option": "body",
+          "x-cli-binding": {
+            "source": "raw",
+            "property": "body"
+          }
+        },
+        "name": {
+          "type": "string",
+          "x-cli-option": "name",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "name"
+          },
+          "x-cli-repeated": false
+        },
+        "parents": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 1,
+          "x-cli-option": "parents",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "parents"
+          },
+          "x-cli-repeated": true
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "fileId"
+          ],
+          "properties": {
+            "fileId": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --file-id.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "fileId"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "name"
+              ]
+            },
+            {
+              "required": [
+                "parents"
+              ]
+            },
+            {
+              "required": [
+                "body"
+              ],
+              "properties": {
+                "body": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ],
+          "description": "Provide the content to write using named parameters, a JSON file, or --body.",
+          "x-cli-kind": "content",
+          "x-cli-parameters": [
+            "name",
+            "parents",
+            "body"
+          ]
+        }
+      ]
+    },
+    "files.create": {
+      "type": "object",
+      "title": "joom drive ACCOUNT files.create",
+      "description": "Create a OneDrive folder or upload a local file.",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "body": {
+          "$ref": "#/x-input-types/FileCreate",
+          "x-cli-option": "body",
+          "x-cli-binding": {
+            "source": "raw",
+            "property": "body"
+          }
+        },
+        "description": {
+          "type": "string",
+          "x-cli-option": "description",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "description"
+          },
+          "x-cli-repeated": false
+        },
+        "mimeType": {
+          "type": "string",
+          "enum": [
+            "inode/directory"
+          ],
+          "x-cli-option": "mime-type",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "mimeType"
+          },
+          "x-cli-repeated": false
+        },
+        "name": {
+          "type": "string",
+          "x-cli-option": "name",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "name"
+          },
+          "x-cli-repeated": false
+        },
+        "parents": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 1,
+          "x-cli-option": "parents",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "parents"
+          },
+          "x-cli-repeated": true
+        },
+        "upload": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Upload a local file of at most 250 MiB.",
+          "x-file-max-bytes": 262144000,
+          "x-file-mime-types": [
+            "*/*"
+          ],
+          "x-cli-option": "upload",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "upload"
+          }
+        },
+        "contentType": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Upload MIME type.",
+          "x-cli-option": "content-type",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "content-type"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "anyOf": [
+            {
+              "required": [
+                "description"
+              ]
+            },
+            {
+              "required": [
+                "mimeType"
+              ]
+            },
+            {
+              "required": [
+                "name"
+              ]
+            },
+            {
+              "required": [
+                "parents"
+              ]
+            },
+            {
+              "required": [
+                "upload"
+              ],
+              "properties": {
+                "upload": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              }
+            },
+            {
+              "required": [
+                "body"
+              ],
+              "properties": {
+                "body": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ],
+          "description": "Provide the content to write using named parameters, a JSON file, or --body.",
+          "x-cli-kind": "content",
+          "x-cli-parameters": [
+            "description",
+            "mimeType",
+            "name",
+            "parents",
+            "upload",
+            "body"
+          ]
+        },
+        {
+          "if": {
+            "required": [
+              "contentType"
+            ],
+            "properties": {
+              "contentType": {
+                "not": {
+                  "type": "null"
+                }
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "upload"
+            ],
+            "properties": {
+              "upload": {
+                "not": {
+                  "type": "null"
+                }
+              }
+            }
+          },
+          "description": "--content-type sets the MIME type of a file supplied with --upload.",
+          "x-cli-kind": "dependency",
+          "x-cli-parameters": [
+            "contentType",
+            "upload"
+          ]
+        }
+      ]
+    },
+    "files.delete": {
+      "type": "object",
+      "title": "joom drive ACCOUNT files.delete",
+      "description": "Move a OneDrive item to the recycle bin.",
+      "additionalProperties": false,
+      "properties": {
+        "fileId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "fileId for the Microsoft operation.",
+          "x-cli-option": "file-id",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "fileId"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "fileId"
+          ],
+          "properties": {
+            "fileId": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --file-id.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "fileId"
+          ]
+        }
+      ]
+    },
+    "files.export": {
+      "type": "object",
+      "title": "joom drive ACCOUNT files.export",
+      "description": "Export an existing OneDrive file to PDF.",
+      "additionalProperties": false,
+      "properties": {
+        "fileId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "fileId for the Microsoft operation.",
+          "x-cli-option": "file-id",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "fileId"
+          },
+          "x-cli-repeated": false
+        },
+        "mimeType": {
+          "type": "string",
+          "x-location": "query",
+          "description": "mimeType for the Microsoft operation.",
+          "enum": [
+            "application/pdf"
+          ],
+          "x-cli-option": "mime-type",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "mimeType"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "output": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Write downloaded content to this new file.",
+          "x-cli-option": "output",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "output"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "fileId"
+          ],
+          "properties": {
+            "fileId": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --file-id.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "fileId"
+          ]
+        },
+        {
+          "required": [
+            "mimeType"
+          ],
+          "properties": {
+            "mimeType": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --mime-type.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "mimeType"
+          ]
+        },
+        {
+          "required": [
+            "output"
+          ],
+          "properties": {
+            "output": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --output.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "output"
+          ]
+        }
+      ]
+    },
+    "files.get": {
+      "type": "object",
+      "title": "joom drive ACCOUNT files.get",
+      "description": "Get OneDrive item metadata or download its content.",
+      "additionalProperties": false,
+      "properties": {
+        "fileId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "fileId for the Microsoft operation.",
+          "x-cli-option": "file-id",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "fileId"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "ttl": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Cache freshness in minutes. Zero fetches fresh data.",
+          "x-cli-option": "ttl",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "ttl"
+          }
+        },
+        "output": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Write downloaded content to this new file.",
+          "x-cli-option": "output",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "output"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "fileId"
+          ],
+          "properties": {
+            "fileId": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --file-id.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "fileId"
+          ]
+        }
+      ]
+    },
+    "files.list": {
+      "type": "object",
+      "title": "joom drive ACCOUNT files.list",
+      "description": "List or search OneDrive items in a folder.",
+      "additionalProperties": false,
+      "properties": {
+        "driveId": {
+          "type": "string",
+          "x-location": "query",
+          "description": "driveId for the Microsoft operation.",
+          "x-cli-option": "drive-id",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "driveId"
+          },
+          "x-cli-repeated": false
+        },
+        "orderBy": {
+          "type": "string",
+          "x-location": "query",
+          "description": "orderBy for the Microsoft operation.",
+          "enum": [
+            "name",
+            "name desc",
+            "modifiedTime",
+            "modifiedTime desc",
+            "createdTime",
+            "createdTime desc"
+          ],
+          "x-cli-option": "order-by",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "orderBy"
+          },
+          "x-cli-repeated": false
+        },
+        "pageSize": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000
+            },
+            {
+              "type": "string",
+              "pattern": "^[+-]?[0-9]+$",
+              "x-minimum": "1",
+              "x-maximum": "1000"
+            }
+          ],
+          "x-location": "query",
+          "description": "pageSize for the Microsoft operation.",
+          "x-cli-option": "page-size",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "pageSize"
+          },
+          "x-cli-repeated": false
+        },
+        "pageToken": {
+          "type": "string",
+          "x-location": "query",
+          "description": "pageToken for the Microsoft operation.",
+          "x-cli-option": "page-token",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "pageToken"
+          },
+          "x-cli-repeated": false
+        },
+        "q": {
+          "type": "string",
+          "x-location": "query",
+          "description": "Search expression supported by the Microsoft adapter.",
+          "x-cli-option": "q",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "q"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "ttl": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Cache freshness in minutes. Zero fetches fresh data.",
+          "x-cli-option": "ttl",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "ttl"
+          }
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4294967295,
+          "description": "Maximum total results.",
+          "x-cli-option": "max",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "max"
+          }
+        },
+        "maxPages": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000,
+          "description": "Maximum pages to fetch.",
+          "x-cli-option": "max-pages",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "max-pages"
+          }
+        }
+      }
+    },
+    "files.update": {
+      "type": "object",
+      "title": "joom drive ACCOUNT files.update",
+      "description": "Rename, move, recycle, or upload new content to a OneDrive item.",
+      "additionalProperties": false,
+      "properties": {
+        "addParents": {
+          "type": "string",
+          "x-location": "query",
+          "description": "addParents for the Microsoft operation.",
+          "x-cli-option": "add-parents",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "addParents"
+          },
+          "x-cli-repeated": false
+        },
+        "fileId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "fileId for the Microsoft operation.",
+          "x-cli-option": "file-id",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "fileId"
+          },
+          "x-cli-repeated": false
+        },
+        "removeParents": {
+          "type": "string",
+          "x-location": "query",
+          "description": "removeParents for the Microsoft operation.",
+          "x-cli-option": "remove-parents",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "removeParents"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "body": {
+          "$ref": "#/x-input-types/FileUpdate",
+          "x-cli-option": "body",
+          "x-cli-binding": {
+            "source": "raw",
+            "property": "body"
+          }
+        },
+        "description": {
+          "type": "string",
+          "x-cli-option": "description",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "description"
+          },
+          "x-cli-repeated": false
+        },
+        "name": {
+          "type": "string",
+          "x-cli-option": "name",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "name"
+          },
+          "x-cli-repeated": false
+        },
+        "parents": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 1,
+          "x-cli-option": "parents",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "parents"
+          },
+          "x-cli-repeated": true
+        },
+        "trashed": {
+          "type": "boolean",
+          "enum": [
+            true
+          ],
+          "x-cli-option": "trashed",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "trashed"
+          },
+          "x-cli-repeated": false
+        },
+        "upload": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Upload a local file of at most 250 MiB.",
+          "x-file-max-bytes": 262144000,
+          "x-file-mime-types": [
+            "*/*"
+          ],
+          "x-cli-option": "upload",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "upload"
+          }
+        },
+        "contentType": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Upload MIME type.",
+          "x-cli-option": "content-type",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "content-type"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "fileId"
+          ],
+          "properties": {
+            "fileId": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --file-id.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "fileId"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "description"
+              ]
+            },
+            {
+              "required": [
+                "name"
+              ]
+            },
+            {
+              "required": [
+                "parents"
+              ]
+            },
+            {
+              "required": [
+                "trashed"
+              ]
+            },
+            {
+              "required": [
+                "upload"
+              ],
+              "properties": {
+                "upload": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              }
+            },
+            {
+              "required": [
+                "body"
+              ],
+              "properties": {
+                "body": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ],
+          "description": "Provide the content to write using named parameters, a JSON file, or --body.",
+          "x-cli-kind": "content",
+          "x-cli-parameters": [
+            "description",
+            "name",
+            "parents",
+            "trashed",
+            "upload",
+            "body"
+          ]
+        },
+        {
+          "if": {
+            "required": [
+              "contentType"
+            ],
+            "properties": {
+              "contentType": {
+                "not": {
+                  "type": "null"
+                }
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "upload"
+            ],
+            "properties": {
+              "upload": {
+                "not": {
+                  "type": "null"
+                }
+              }
+            }
+          },
+          "description": "--content-type sets the MIME type of a file supplied with --upload.",
+          "x-cli-kind": "dependency",
+          "x-cli-parameters": [
+            "contentType",
+            "upload"
+          ]
+        }
+      ]
+    },
+    "permissions.create": {
+      "type": "object",
+      "title": "joom drive ACCOUNT permissions.create",
+      "description": "Invite a user to read or edit a OneDrive item.",
+      "additionalProperties": false,
+      "properties": {
+        "fileId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "fileId for the Microsoft operation.",
+          "x-cli-option": "file-id",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "fileId"
+          },
+          "x-cli-repeated": false
+        },
+        "sendNotificationEmail": {
+          "enum": [
+            true,
+            false,
+            "true",
+            "false"
+          ],
+          "x-location": "query",
+          "description": "sendNotificationEmail for the Microsoft operation.",
+          "x-cli-option": "send-notification-email",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "sendNotificationEmail"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "body": {
+          "$ref": "#/x-input-types/PermissionCreateInput",
+          "x-cli-option": "body",
+          "x-cli-binding": {
+            "source": "raw",
+            "property": "body"
+          }
+        },
+        "emailAddress": {
+          "type": "string",
+          "x-cli-option": "email-address",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "emailAddress"
+          },
+          "x-cli-repeated": false
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "reader",
+            "writer"
+          ],
+          "x-cli-option": "role",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "role"
+          },
+          "x-cli-repeated": false
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "user"
+          ],
+          "x-cli-option": "type",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "type"
+          },
+          "x-cli-repeated": false
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "fileId"
+          ],
+          "properties": {
+            "fileId": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --file-id.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "fileId"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "body"
+              ],
+              "properties": {
+                "body": {
+                  "required": [
+                    "type"
+                  ],
+                  "properties": {
+                    "type": {
+                      "not": {
+                        "type": "null"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ],
+          "description": "Provide --type.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "type"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "body"
+              ],
+              "properties": {
+                "body": {
+                  "required": [
+                    "role"
+                  ],
+                  "properties": {
+                    "role": {
+                      "not": {
+                        "type": "null"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "required": [
+                "role"
+              ],
+              "properties": {
+                "role": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ],
+          "description": "Provide --role.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "role"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "body"
+              ],
+              "properties": {
+                "body": {
+                  "required": [
+                    "emailAddress"
+                  ],
+                  "properties": {
+                    "emailAddress": {
+                      "not": {
+                        "type": "null"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "required": [
+                "emailAddress"
+              ],
+              "properties": {
+                "emailAddress": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ],
+          "description": "Provide --email-address.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "emailAddress"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "emailAddress"
+              ]
+            },
+            {
+              "required": [
+                "role"
+              ]
+            },
+            {
+              "required": [
+                "type"
+              ]
+            },
+            {
+              "required": [
+                "body"
+              ],
+              "properties": {
+                "body": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ],
+          "description": "Provide the content to write using named parameters, a JSON file, or --body.",
+          "x-cli-kind": "content",
+          "x-cli-parameters": [
+            "emailAddress",
+            "role",
+            "type",
+            "body"
+          ]
+        }
+      ]
+    },
+    "permissions.delete": {
+      "type": "object",
+      "title": "joom drive ACCOUNT permissions.delete",
+      "description": "Delete a OneDrive item permission.",
+      "additionalProperties": false,
+      "properties": {
+        "fileId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "fileId for the Microsoft operation.",
+          "x-cli-option": "file-id",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "fileId"
+          },
+          "x-cli-repeated": false
+        },
+        "permissionId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "permissionId for the Microsoft operation.",
+          "x-cli-option": "permission-id",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "permissionId"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "fileId"
+          ],
+          "properties": {
+            "fileId": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --file-id.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "fileId"
+          ]
+        },
+        {
+          "required": [
+            "permissionId"
+          ],
+          "properties": {
+            "permissionId": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --permission-id.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "permissionId"
+          ]
+        }
+      ]
+    },
+    "permissions.get": {
+      "type": "object",
+      "title": "joom drive ACCOUNT permissions.get",
+      "description": "Get a OneDrive item permission.",
+      "additionalProperties": false,
+      "properties": {
+        "fileId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "fileId for the Microsoft operation.",
+          "x-cli-option": "file-id",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "fileId"
+          },
+          "x-cli-repeated": false
+        },
+        "permissionId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "permissionId for the Microsoft operation.",
+          "x-cli-option": "permission-id",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "permissionId"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "ttl": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Cache freshness in minutes. Zero fetches fresh data.",
+          "x-cli-option": "ttl",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "ttl"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "fileId"
+          ],
+          "properties": {
+            "fileId": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --file-id.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "fileId"
+          ]
+        },
+        {
+          "required": [
+            "permissionId"
+          ],
+          "properties": {
+            "permissionId": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --permission-id.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "permissionId"
+          ]
+        }
+      ]
+    },
+    "permissions.list": {
+      "type": "object",
+      "title": "joom drive ACCOUNT permissions.list",
+      "description": "List OneDrive item permissions.",
+      "additionalProperties": false,
+      "properties": {
+        "fileId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "fileId for the Microsoft operation.",
+          "x-cli-option": "file-id",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "fileId"
+          },
+          "x-cli-repeated": false
+        },
+        "pageSize": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            {
+              "type": "string",
+              "pattern": "^[+-]?[0-9]+$",
+              "x-minimum": "1",
+              "x-maximum": "100"
+            }
+          ],
+          "x-location": "query",
+          "description": "pageSize for the Microsoft operation.",
+          "x-cli-option": "page-size",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "pageSize"
+          },
+          "x-cli-repeated": false
+        },
+        "pageToken": {
+          "type": "string",
+          "x-location": "query",
+          "description": "pageToken for the Microsoft operation.",
+          "x-cli-option": "page-token",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "pageToken"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "ttl": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Cache freshness in minutes. Zero fetches fresh data.",
+          "x-cli-option": "ttl",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "ttl"
+          }
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4294967295,
+          "description": "Maximum total results.",
+          "x-cli-option": "max",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "max"
+          }
+        },
+        "maxPages": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000,
+          "description": "Maximum pages to fetch.",
+          "x-cli-option": "max-pages",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "max-pages"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "fileId"
+          ],
+          "properties": {
+            "fileId": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --file-id.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "fileId"
+          ]
+        }
+      ]
+    },
+    "revisions.get": {
+      "type": "object",
+      "title": "joom drive ACCOUNT revisions.get",
+      "description": "Get or download a OneDrive file version.",
+      "additionalProperties": false,
+      "properties": {
+        "fileId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "fileId for the Microsoft operation.",
+          "x-cli-option": "file-id",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "fileId"
+          },
+          "x-cli-repeated": false
+        },
+        "revisionId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "revisionId for the Microsoft operation.",
+          "x-cli-option": "revision-id",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "revisionId"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "ttl": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Cache freshness in minutes. Zero fetches fresh data.",
+          "x-cli-option": "ttl",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "ttl"
+          }
+        },
+        "output": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Write downloaded content to this new file.",
+          "x-cli-option": "output",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "output"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "fileId"
+          ],
+          "properties": {
+            "fileId": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --file-id.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "fileId"
+          ]
+        },
+        {
+          "required": [
+            "revisionId"
+          ],
+          "properties": {
+            "revisionId": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --revision-id.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "revisionId"
+          ]
+        }
+      ]
+    },
+    "revisions.list": {
+      "type": "object",
+      "title": "joom drive ACCOUNT revisions.list",
+      "description": "List OneDrive file versions.",
+      "additionalProperties": false,
+      "properties": {
+        "fileId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "fileId for the Microsoft operation.",
+          "x-cli-option": "file-id",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "fileId"
+          },
+          "x-cli-repeated": false
+        },
+        "pageSize": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000
+            },
+            {
+              "type": "string",
+              "pattern": "^[+-]?[0-9]+$",
+              "x-minimum": "1",
+              "x-maximum": "1000"
+            }
+          ],
+          "x-location": "query",
+          "description": "pageSize for the Microsoft operation.",
+          "x-cli-option": "page-size",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "pageSize"
+          },
+          "x-cli-repeated": false
+        },
+        "pageToken": {
+          "type": "string",
+          "x-location": "query",
+          "description": "pageToken for the Microsoft operation.",
+          "x-cli-option": "page-token",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "pageToken"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "ttl": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Cache freshness in minutes. Zero fetches fresh data.",
+          "x-cli-option": "ttl",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "ttl"
+          }
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4294967295,
+          "description": "Maximum total results.",
+          "x-cli-option": "max",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "max"
+          }
+        },
+        "maxPages": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000,
+          "description": "Maximum pages to fetch.",
+          "x-cli-option": "max-pages",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "max-pages"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "fileId"
+          ],
+          "properties": {
+            "fileId": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --file-id.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "fileId"
+          ]
+        }
+      ]
+    },
+    "search": {
+      "type": "object",
+      "title": "joom drive ACCOUNT search",
+      "additionalProperties": false,
+      "properties": {
+        "query": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Text.",
+          "x-cli-option": "query",
+          "x-cli-binding": {
+            "source": "native",
+            "property": "query",
+            "positional": true
+          },
+          "x-cli-value-name": "TEXT"
+        },
+        "parent": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Id.",
+          "x-cli-option": "parent",
+          "x-cli-binding": {
+            "source": "native",
+            "property": "parent",
+            "positional": false
+          },
+          "x-cli-value-name": "ID"
+        },
+        "type": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Mime.",
+          "x-cli-option": "type",
+          "x-cli-binding": {
+            "source": "native",
+            "property": "type",
+            "positional": false
+          },
+          "x-cli-value-name": "MIME"
+        },
+        "fields": {
+          "type": "string",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "ttl": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "x-cli-option": "ttl",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "ttl"
+          }
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4294967295,
+          "x-cli-option": "max",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "max"
+          }
+        },
+        "maxPages": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000,
+          "x-cli-option": "max-pages",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "max-pages"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "query"
+          ],
+          "properties": {
+            "query": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide TEXT.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "query"
+          ]
+        }
+      ]
+    }
+  },
+  "x-input-types": {
+    "FileCopy": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "parents": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "FileCreate": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "mimeType": {
+          "type": "string",
+          "enum": [
+            "inode/directory"
+          ]
+        },
+        "parents": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "FileUpdate": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "parents": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 1
+        },
+        "trashed": {
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "PermissionCreateInput": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "user"
+          ]
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "reader",
+            "writer"
+          ]
+        },
+        "emailAddress": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "role",
+        "emailAddress"
+      ]
+    }
+  }
+}

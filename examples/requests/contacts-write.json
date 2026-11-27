@@ -1,0 +1,13 @@
+{
+  "names": [
+    {
+      "givenName": "Alice",
+      "familyName": "Martin"
+    }
+  ],
+  "emailAddresses": [
+    {
+      "value": "alice@example.com"
+    }
+  ]
+}

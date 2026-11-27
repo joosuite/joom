@@ -1,0 +1,75 @@
+name: Rust
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rust-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install Rust
+        run: rustup toolchain install stable --profile minimal --component rustfmt,clippy
+      - uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Check TypeScript tooling
+        run: npm run check
+      - name: Test TypeScript tooling
+        run: npm test
+      - name: Format
+        run: cargo +stable fmt --all -- --check
+      - name: Check CLI schemas
+        run: npm run check:schemas
+      - name: Check wrapper reference
+        run: npm run check:wrappers
+      - name: Lint
+        run: cargo +stable clippy --locked --all-targets --all-features -- -D warnings
+      - name: Test
+        run: cargo +stable test --locked --all-targets --all-features
+      - name: Install Linux credential-test dependencies
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y dbus gnome-keyring
+      - name: Test Linux credential storage
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          dbus-run-session -- bash -euc '
+            printf %s joom-isolated-test-keyring | gnome-keyring-daemon --unlock --components=secrets
+            cargo +stable test --locked store::tests::real_ -- --ignored --nocapture
+          '
+      - name: Test Windows credential storage
+        if: runner.os == 'Windows'
+        run: cargo +stable test --locked store::tests::real_ -- --ignored --nocapture
+      - name: Build
+        run: cargo +stable build --release --locked
+      - name: Install wrapper entry points
+        run: cargo +stable run --release --locked --example install_wrappers -- --directory target/release
+
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install audit tool
+        run: cargo install cargo-audit --version 0.23.0 --locked
+      - name: Audit dependencies
+        run: cargo audit --deny warnings

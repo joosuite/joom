@@ -1,0 +1,178 @@
+[
+  {
+    "service": "mail",
+    "command": "messages.send",
+    "file": {
+      "to": [
+        "alice@example.com"
+      ],
+      "cc": [
+        "bob@example.com"
+      ],
+      "bcc": [
+        "archive@example.com"
+      ],
+      "subject": "Report",
+      "text": "Hello"
+    },
+    "cli": [
+      "--to",
+      "alice@example.com",
+      "--cc",
+      "bob@example.com",
+      "--bcc",
+      "archive@example.com",
+      "--subject",
+      "Report",
+      "--text",
+      "Hello"
+    ],
+    "body": null
+  },
+  {
+    "service": "drive",
+    "command": "files.create",
+    "file": {
+      "name": "Report",
+      "parents": [
+        "folder"
+      ]
+    },
+    "cli": [
+      "--name",
+      "Report",
+      "--parents",
+      "folder"
+    ],
+    "body": {
+      "name": "Report",
+      "parents": [
+        "folder"
+      ]
+    }
+  },
+  {
+    "service": "calendar",
+    "command": "events.insert",
+    "file": {
+      "summary": "Planning",
+      "startTime": "2026-12-01T10:00:00+01:00",
+      "endTime": "2026-12-01T11:00:00+01:00",
+      "attendees": [
+        {
+          "email": "alice@example.com"
+        }
+      ]
+    },
+    "cli": [
+      "--summary",
+      "Planning",
+      "--start-time",
+      "2026-12-01T10:00:00+01:00",
+      "--end-time",
+      "2026-12-01T11:00:00+01:00",
+      "--attendees",
+      "[{\"email\":\"alice@example.com\"}]"
+    ],
+    "body": {
+      "summary": "Planning",
+      "start": {
+        "dateTime": "2026-12-01T10:00:00+01:00"
+      },
+      "end": {
+        "dateTime": "2026-12-01T11:00:00+01:00"
+      },
+      "attendees": [
+        {
+          "email": "alice@example.com"
+        }
+      ]
+    }
+  },
+  {
+    "service": "sheets",
+    "command": "values.update",
+    "file": {
+      "spreadsheetId": "workbook",
+      "range": "Sheet1!A1",
+      "values": [
+        [
+          42
+        ]
+      ]
+    },
+    "cli": [
+      "--spreadsheet-id",
+      "workbook",
+      "--range",
+      "Sheet1!A1",
+      "--values",
+      "[[42]]"
+    ],
+    "body": {
+      "values": [
+        [
+          42
+        ]
+      ]
+    }
+  },
+  {
+    "service": "tasks",
+    "command": "tasks.insert",
+    "file": {
+      "title": "Report",
+      "notes": "Draft it",
+      "due": "2026-12-01T00:00:00Z"
+    },
+    "cli": [
+      "--title",
+      "Report",
+      "--notes",
+      "Draft it",
+      "--due",
+      "2026-12-01T00:00:00Z"
+    ],
+    "body": {
+      "title": "Report",
+      "notes": "Draft it",
+      "due": "2026-12-01T00:00:00Z"
+    }
+  },
+  {
+    "service": "contacts",
+    "command": "people.create-contact",
+    "file": {
+      "names": [
+        {
+          "givenName": "Alice",
+          "familyName": "Martin"
+        }
+      ],
+      "emailAddresses": [
+        {
+          "value": "alice@example.com"
+        }
+      ]
+    },
+    "cli": [
+      "--names",
+      "[{\"givenName\":\"Alice\",\"familyName\":\"Martin\"}]",
+      "--email-addresses",
+      "[{\"value\":\"alice@example.com\"}]"
+    ],
+    "body": {
+      "names": [
+        {
+          "givenName": "Alice",
+          "familyName": "Martin"
+        }
+      ],
+      "emailAddresses": [
+        {
+          "value": "alice@example.com"
+        }
+      ]
+    }
+  }
+]

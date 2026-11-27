@@ -1,0 +1,676 @@
+{
+  "mail": {
+    "name": "mail",
+    "version": "v1.0",
+    "rootUrl": "https://graph.microsoft.com/",
+    "servicePath": "v1.0/",
+    "parameters": {
+      "fields": {
+        "location": "query",
+        "description": "Selector specifying which fields to include in a partial response.",
+        "type": "string"
+      },
+      "alt": {
+        "description": "Data format for response.",
+        "enum": [
+          "json"
+        ],
+        "location": "query",
+        "default": "json",
+        "type": "string"
+      }
+    },
+    "methods": {
+      "read": {
+        "id": "mail.messages.modify",
+        "path": "me/messages/{id}",
+        "httpMethod": "PATCH",
+        "description": "Change the read or flagged state of an Outlook message.",
+        "parameters": {
+          "id": {
+            "type": "string",
+            "location": "path",
+            "description": "id for the Microsoft operation.",
+            "required": true
+          }
+        },
+        "request": {
+          "$ref": "ModifyMessageRequest"
+        },
+        "response": {
+          "type": "object"
+        }
+      },
+      "unread": {
+        "id": "mail.messages.modify",
+        "path": "me/messages/{id}",
+        "httpMethod": "PATCH",
+        "description": "Change the read or flagged state of an Outlook message.",
+        "parameters": {
+          "id": {
+            "type": "string",
+            "location": "path",
+            "description": "id for the Microsoft operation.",
+            "required": true
+          }
+        },
+        "request": {
+          "$ref": "ModifyMessageRequest"
+        },
+        "response": {
+          "type": "object"
+        }
+      },
+      "star": {
+        "id": "mail.messages.modify",
+        "path": "me/messages/{id}",
+        "httpMethod": "PATCH",
+        "description": "Change the read or flagged state of an Outlook message.",
+        "parameters": {
+          "id": {
+            "type": "string",
+            "location": "path",
+            "description": "id for the Microsoft operation.",
+            "required": true
+          }
+        },
+        "request": {
+          "$ref": "ModifyMessageRequest"
+        },
+        "response": {
+          "type": "object"
+        }
+      },
+      "unstar": {
+        "id": "mail.messages.modify",
+        "path": "me/messages/{id}",
+        "httpMethod": "PATCH",
+        "description": "Change the read or flagged state of an Outlook message.",
+        "parameters": {
+          "id": {
+            "type": "string",
+            "location": "path",
+            "description": "id for the Microsoft operation.",
+            "required": true
+          }
+        },
+        "request": {
+          "$ref": "ModifyMessageRequest"
+        },
+        "response": {
+          "type": "object"
+        }
+      }
+    },
+    "schemas": {
+      "Message": {
+        "type": "object",
+        "properties": {
+          "raw": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "raw"
+        ]
+      },
+      "DraftCreate": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "$ref": "Message"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "message"
+        ]
+      },
+      "DraftSend": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ]
+      },
+      "Label": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "name"
+        ]
+      },
+      "ModifyMessageRequest": {
+        "type": "object",
+        "properties": {
+          "addLabelIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "UNREAD",
+                "STARRED"
+              ]
+            }
+          },
+          "removeLabelIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "UNREAD",
+                "STARRED"
+              ]
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "x-expected-methods": {
+      "read": "messages.modify",
+      "unread": "messages.modify",
+      "star": "messages.modify",
+      "unstar": "messages.modify"
+    }
+  },
+  "drive": {
+    "name": "drive",
+    "version": "v1.0",
+    "rootUrl": "https://graph.microsoft.com/",
+    "servicePath": "v1.0/",
+    "parameters": {
+      "alt": {
+        "location": "query",
+        "enum": [
+          "json",
+          "media"
+        ],
+        "description": "Data format for response.",
+        "default": "json",
+        "type": "string"
+      },
+      "fields": {
+        "type": "string",
+        "description": "Selector specifying which fields to include in a partial response.",
+        "location": "query"
+      }
+    },
+    "methods": {
+      "search": {
+        "id": "drive.files.list",
+        "path": "me/drive/root/children",
+        "httpMethod": "GET",
+        "description": "List or search OneDrive items in a folder.",
+        "parameters": {
+          "q": {
+            "type": "string",
+            "description": "Search expression supported by the Microsoft adapter.",
+            "location": "query"
+          },
+          "orderBy": {
+            "description": "orderBy for the Microsoft operation.",
+            "location": "query",
+            "type": "string",
+            "enum": [
+              "name",
+              "name desc",
+              "modifiedTime",
+              "modifiedTime desc",
+              "createdTime",
+              "createdTime desc"
+            ]
+          },
+          "driveId": {
+            "location": "query",
+            "description": "driveId for the Microsoft operation.",
+            "type": "string"
+          },
+          "pageToken": {
+            "type": "string",
+            "description": "pageToken for the Microsoft operation.",
+            "location": "query"
+          },
+          "pageSize": {
+            "maximum": "1000",
+            "type": "integer",
+            "default": "100",
+            "location": "query",
+            "format": "int32",
+            "description": "pageSize for the Microsoft operation.",
+            "minimum": "1"
+          }
+        },
+        "response": {
+          "type": "object"
+        }
+      }
+    },
+    "schemas": {
+      "FileCreate": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "mimeType": {
+            "type": "string",
+            "enum": [
+              "inode/directory"
+            ]
+          },
+          "parents": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 1
+          }
+        },
+        "additionalProperties": false
+      },
+      "FileUpdate": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "parents": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 1
+          },
+          "trashed": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "FileCopy": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "parents": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 1
+          }
+        },
+        "additionalProperties": false
+      },
+      "PermissionCreateInput": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "user"
+            ]
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "reader",
+              "writer"
+            ]
+          },
+          "emailAddress": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "type",
+          "role",
+          "emailAddress"
+        ]
+      }
+    },
+    "x-expected-methods": {
+      "search": "files.list"
+    }
+  },
+  "calendar": {
+    "name": "calendar",
+    "version": "v1.0",
+    "rootUrl": "https://graph.microsoft.com/",
+    "servicePath": "v1.0/",
+    "parameters": {
+      "fields": {
+        "description": "Selector specifying which fields to include in a partial response.",
+        "location": "query",
+        "type": "string"
+      },
+      "alt": {
+        "type": "string",
+        "location": "query",
+        "default": "json",
+        "enum": [
+          "json"
+        ],
+        "description": "Data format for the response."
+      }
+    },
+    "methods": {
+      "events": {
+        "id": "calendar.events.list",
+        "path": "me/calendars/{calendarId}/events",
+        "httpMethod": "GET",
+        "description": "List Outlook events or a calendar view within a time window.",
+        "parameters": {
+          "timeMax": {
+            "type": "string",
+            "location": "query",
+            "format": "date-time",
+            "description": "timeMax for the Microsoft operation."
+          },
+          "calendarId": {
+            "location": "path",
+            "required": true,
+            "description": "Outlook calendar ID; primary selects the default calendar.",
+            "type": "string"
+          },
+          "q": {
+            "description": "Search expression supported by the Microsoft adapter.",
+            "type": "string",
+            "location": "query"
+          },
+          "orderBy": {
+            "enum": [
+              "startTime"
+            ],
+            "description": "orderBy for the Microsoft operation.",
+            "location": "query",
+            "type": "string"
+          },
+          "maxResults": {
+            "location": "query",
+            "type": "integer",
+            "default": "250",
+            "minimum": "1",
+            "description": "maxResults for the Microsoft operation.",
+            "format": "int32"
+          },
+          "pageToken": {
+            "location": "query",
+            "type": "string",
+            "description": "pageToken for the Microsoft operation."
+          },
+          "timeMin": {
+            "location": "query",
+            "type": "string",
+            "format": "date-time",
+            "description": "timeMin for the Microsoft operation."
+          }
+        },
+        "response": {
+          "type": "object"
+        }
+      }
+    },
+    "schemas": {
+      "Calendar": {
+        "type": "object",
+        "properties": {
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false
+      },
+      "Event": {
+        "type": "object",
+        "properties": {
+          "summary": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "start": {
+            "type": "object",
+            "properties": {
+              "date": {
+                "type": "string"
+              },
+              "dateTime": {
+                "type": "string"
+              },
+              "timeZone": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false,
+            "x-exclusive-fields": [
+              [
+                "date",
+                "dateTime"
+              ]
+            ],
+            "x-required-in-methods": [
+              "calendar.events.insert"
+            ],
+            "x-required-one-of": {
+              "calendar.events.insert": [
+                "date",
+                "dateTime"
+              ],
+              "calendar.events.patch": [
+                "date",
+                "dateTime"
+              ],
+              "calendar.events.update": [
+                "date",
+                "dateTime"
+              ]
+            }
+          },
+          "end": {
+            "type": "object",
+            "properties": {
+              "date": {
+                "type": "string"
+              },
+              "dateTime": {
+                "type": "string"
+              },
+              "timeZone": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false,
+            "x-exclusive-fields": [
+              [
+                "date",
+                "dateTime"
+              ]
+            ],
+            "x-required-in-methods": [
+              "calendar.events.insert"
+            ],
+            "x-required-one-of": {
+              "calendar.events.insert": [
+                "date",
+                "dateTime"
+              ],
+              "calendar.events.patch": [
+                "date",
+                "dateTime"
+              ],
+              "calendar.events.update": [
+                "date",
+                "dateTime"
+              ]
+            }
+          },
+          "attendees": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "displayName": {
+                  "type": "string"
+                },
+                "optional": {
+                  "type": "boolean"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "email"
+              ]
+            }
+          },
+          "transparency": {
+            "type": "string",
+            "enum": [
+              "opaque",
+              "transparent"
+            ]
+          },
+          "reminders": {
+            "type": "object",
+            "properties": {
+              "useDefault": {
+                "type": "boolean"
+              },
+              "overrides": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "minutes": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [
+                    "minutes"
+                  ]
+                },
+                "maxItems": 1
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "x-expected-methods": {
+      "events": "events.list"
+    }
+  },
+  "sheets": {
+    "name": "sheets",
+    "version": "v1.0",
+    "rootUrl": "https://graph.microsoft.com/",
+    "servicePath": "v1.0/",
+    "parameters": {
+      "fields": {
+        "type": "string",
+        "location": "query",
+        "description": "Selector specifying which fields to include in a partial response."
+      },
+      "alt": {
+        "enum": [
+          "json"
+        ],
+        "default": "json",
+        "description": "Data format for response.",
+        "location": "query",
+        "type": "string"
+      }
+    },
+    "methods": {},
+    "schemas": {},
+    "x-expected-methods": {}
+  },
+  "tasks": {
+    "name": "tasks",
+    "version": "v1.0",
+    "rootUrl": "https://graph.microsoft.com/",
+    "servicePath": "v1.0/",
+    "parameters": {
+      "alt": {
+        "description": "Data format for response.",
+        "enum": [
+          "json"
+        ],
+        "type": "string",
+        "default": "json",
+        "location": "query"
+      },
+      "fields": {
+        "type": "string",
+        "description": "Selector specifying which fields to include in a partial response.",
+        "location": "query"
+      }
+    },
+    "methods": {},
+    "schemas": {},
+    "x-expected-methods": {}
+  },
+  "contacts": {
+    "name": "contacts",
+    "version": "v1.0",
+    "rootUrl": "https://graph.microsoft.com/",
+    "servicePath": "v1.0/",
+    "parameters": {
+      "alt": {
+        "default": "json",
+        "location": "query",
+        "description": "Data format for response.",
+        "type": "string",
+        "enum": [
+          "json"
+        ]
+      },
+      "fields": {
+        "location": "query",
+        "description": "Selector specifying which fields to include in a partial response.",
+        "type": "string"
+      }
+    },
+    "methods": {},
+    "schemas": {},
+    "x-expected-methods": {}
+  }
+}

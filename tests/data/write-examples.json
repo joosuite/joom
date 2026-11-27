@@ -1,0 +1,8 @@
+{
+  "mail": "messages.modify",
+  "drive": "permissions.create",
+  "calendar": "events.insert",
+  "sheets": "values.update",
+  "tasks": "tasks.insert",
+  "contacts": "people.create-contact"
+}

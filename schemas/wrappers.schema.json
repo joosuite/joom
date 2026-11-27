@@ -1,0 +1,1774 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:joom:wrappers",
+  "title": "Short command parameters",
+  "description": "Select the command under $defs. Validate the combined JSON file and command-line parameters. Short commands belong to the wrappers; joom retains its existing syntax.",
+  "x-wrappers": {
+    "jmmail": {
+      "service": "mail",
+      "default": "inbox",
+      "description": "Read, compose, and organise mail."
+    },
+    "jmdrive": {
+      "service": "drive",
+      "default": "ls",
+      "description": "Find, transfer, and share files."
+    },
+    "jmcal": {
+      "service": "calendar",
+      "default": "today",
+      "description": "Manage calendar events."
+    },
+    "jmsheets": {
+      "service": "sheets",
+      "default": "ls",
+      "description": "Read and change spreadsheet cells."
+    },
+    "jmdocs": {
+      "service": "docs",
+      "default": "ls",
+      "description": "List, share, and export Word files."
+    },
+    "jmslides": {
+      "service": "slides",
+      "default": "ls",
+      "description": "List and export PowerPoint files."
+    },
+    "jmtasks": {
+      "service": "tasks",
+      "default": "ls",
+      "description": "Manage tasks and task lists."
+    },
+    "jmcontacts": {
+      "service": "contacts",
+      "default": "ls",
+      "description": "Find and maintain contacts."
+    }
+  },
+  "$defs": {
+    "common": {
+      "properties": {
+        "home": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Store credentials and cache in this directory.",
+          "x-advanced": true,
+          "x-label": "PATH"
+        },
+        "timeout": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 600,
+          "default": 30,
+          "description": "Request timeout in seconds.",
+          "x-advanced": true
+        },
+        "json": {
+          "type": "boolean",
+          "default": false,
+          "description": "Print the same result data as JSON."
+        }
+      }
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "body": {
+      "type": "string",
+      "x-text": true,
+      "description": "Inline text. Use \\n for a new line."
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "format": "local-file",
+      "description": "Existing local file, up to 1 GiB.",
+      "x-max-bytes": 1073741824
+    },
+    "out": {
+      "type": "string",
+      "minLength": 1,
+      "format": "new-file",
+      "description": "Save to this new file. Existing files are never overwritten."
+    },
+    "limit": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4294967295
+        },
+        {
+          "const": "all"
+        }
+      ],
+      "default": 20,
+      "description": "Maximum results, or all."
+    },
+    "strings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/text"
+      },
+      "x-repeat": true
+    },
+    "emails": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "format": "email"
+      },
+      "x-repeat": true,
+      "description": "Email addresses."
+    },
+    "date": {
+      "type": "string",
+      "format": "local-date",
+      "description": "YYYY-MM-DD, today, or tomorrow."
+    },
+    "time": {
+      "type": "string",
+      "format": "local-time",
+      "description": "RFC 3339, YYYY-MM-DD HH:MM, or tomorrow HH:MM."
+    },
+    "duration": {
+      "type": "string",
+      "format": "duration",
+      "description": "Positive duration, such as 30m or 1h, up to 366 days.",
+      "x-max-seconds": 31622400,
+      "x-label": "DURATION"
+    },
+    "zone": {
+      "type": "string",
+      "format": "iana-time-zone",
+      "description": "IANA timezone, such as Europe/Paris. Defaults to the mailbox timezone, or the computer timezone when the mailbox has none."
+    },
+    "calendar": {
+      "type": "string",
+      "minLength": 1,
+      "default": "primary",
+      "description": "Calendar ID."
+    },
+    "list": {
+      "type": "string",
+      "minLength": 1,
+      "default": "@default",
+      "description": "Task list ID."
+    },
+    "file": {
+      "type": "string",
+      "minLength": 1,
+      "x-resource": "drive",
+      "x-label": "FILE",
+      "description": "File ID or OneDrive URL."
+    },
+    "document": {
+      "type": "string",
+      "minLength": 1,
+      "x-resource": "docs",
+      "x-label": "DOCUMENT",
+      "description": "Document ID or Word URL."
+    },
+    "sheet": {
+      "type": "string",
+      "minLength": 1,
+      "x-resource": "sheets",
+      "x-label": "SHEET",
+      "description": "Spreadsheet ID or URL."
+    },
+    "deck": {
+      "type": "string",
+      "minLength": 1,
+      "x-resource": "slides",
+      "x-label": "PRESENTATION",
+      "description": "Presentation ID or URL."
+    },
+    "role": {
+      "type": "string",
+      "enum": [
+        "reader",
+        "writer",
+        "commenter"
+      ],
+      "default": "reader",
+      "description": "Access granted to the recipient."
+    },
+    "jmmail.inbox": {
+      "description": "Show recent inbox messages.",
+      "type": "object",
+      "properties": {
+        "unread": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show only unread messages."
+        },
+        "limit": {
+          "$ref": "#/$defs/limit"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmmail.find": {
+      "description": "Search messages.",
+      "type": "object",
+      "properties": {
+        "query": {
+          "$ref": "#/$defs/text",
+          "x-position": 1,
+          "x-label": "QUERY",
+          "description": "Outlook Mail search query."
+        },
+        "from": {
+          "type": "string",
+          "format": "email",
+          "description": "Sender email address."
+        },
+        "after": {
+          "$ref": "#/$defs/date"
+        },
+        "has": {
+          "const": "attachment",
+          "description": "Require an attachment."
+        },
+        "limit": {
+          "$ref": "#/$defs/limit"
+        }
+      },
+      "required": [
+        "query"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmmail.read": {
+      "description": "Read a message and list its attachments.",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/text",
+          "x-position": 1,
+          "x-label": "MESSAGE",
+          "description": "Message ID."
+        }
+      },
+      "required": [
+        "target"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmmail.send": {
+      "description": "Compose and send a message. You can omit send when supplying to:, cc:, or bcc:.",
+      "type": "object",
+      "properties": {
+        "to": {
+          "$ref": "#/$defs/emails"
+        },
+        "cc": {
+          "$ref": "#/$defs/emails"
+        },
+        "bcc": {
+          "$ref": "#/$defs/emails"
+        },
+        "subject": {
+          "type": "string",
+          "description": "Message subject.",
+          "format": "single-line"
+        },
+        "body": {
+          "$ref": "#/$defs/body"
+        },
+        "bodyFile": {
+          "$ref": "#/$defs/path",
+          "description": "Read the message body from a UTF-8 file."
+        },
+        "attachments": {
+          "x-key": "attach",
+          "description": "Local attachment paths.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/path"
+          },
+          "x-repeat": true,
+          "minItems": 1
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "to"
+              ]
+            },
+            {
+              "required": [
+                "cc"
+              ]
+            },
+            {
+              "required": [
+                "bcc"
+              ]
+            }
+          ],
+          "description": "Provide at least one recipient with to:, cc:, or bcc:."
+        },
+        {
+          "not": {
+            "required": [
+              "body",
+              "bodyFile"
+            ]
+          },
+          "description": "Use body: for inline text or body-file: to read a file."
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmmail.draft": {
+      "description": "Save a draft. Recipients may be omitted.",
+      "type": "object",
+      "properties": {
+        "to": {
+          "$ref": "#/$defs/emails"
+        },
+        "cc": {
+          "$ref": "#/$defs/emails"
+        },
+        "bcc": {
+          "$ref": "#/$defs/emails"
+        },
+        "subject": {
+          "type": "string",
+          "description": "Message subject.",
+          "format": "single-line"
+        },
+        "body": {
+          "$ref": "#/$defs/body"
+        },
+        "bodyFile": {
+          "$ref": "#/$defs/path"
+        },
+        "attachments": {
+          "x-key": "attach",
+          "description": "Local attachment files.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/path"
+          },
+          "x-repeat": true,
+          "minItems": 1
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        },
+        {
+          "not": {
+            "required": [
+              "body",
+              "bodyFile"
+            ]
+          },
+          "description": "Write text with body: or read it from body-file:."
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmmail.drafts": {
+      "description": "List saved drafts.",
+      "type": "object",
+      "properties": {
+        "limit": {
+          "$ref": "#/$defs/limit"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmmail.send-draft": {
+      "description": "Send an existing draft.",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/text",
+          "x-position": 1,
+          "x-label": "DRAFT",
+          "description": "Resource ID shown by its list command."
+        }
+      },
+      "required": [
+        "target"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmmail.trash": {
+      "description": "Move a message to Trash.",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/text",
+          "x-position": 1,
+          "x-label": "MESSAGE",
+          "description": "Resource ID shown by its list command."
+        }
+      },
+      "required": [
+        "target"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmmail.mark": {
+      "description": "Change a message's read or star state.",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/text",
+          "x-position": 1,
+          "x-label": "MESSAGE",
+          "description": "Resource ID shown by its list command."
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "read",
+            "unread",
+            "starred",
+            "unstarred"
+          ],
+          "x-position": 2,
+          "x-label": "STATE",
+          "description": "New message state."
+        }
+      },
+      "required": [
+        "target",
+        "state"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmdrive.ls": {
+      "description": "List files in a folder. Defaults to the root folder.",
+      "type": "object",
+      "properties": {
+        "folder": {
+          "$ref": "#/$defs/file",
+          "default": "root"
+        },
+        "type": {
+          "$ref": "#/$defs/text",
+          "description": "folder, document, spreadsheet, presentation, image, pdf, or a MIME type."
+        },
+        "limit": {
+          "$ref": "#/$defs/limit"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmdrive.find": {
+      "description": "Find files by name or content.",
+      "type": "object",
+      "properties": {
+        "query": {
+          "$ref": "#/$defs/text",
+          "x-position": 1,
+          "x-label": "TEXT",
+          "description": "Search text."
+        },
+        "folder": {
+          "$ref": "#/$defs/file"
+        },
+        "type": {
+          "$ref": "#/$defs/text",
+          "description": "Item type."
+        },
+        "limit": {
+          "$ref": "#/$defs/limit"
+        }
+      },
+      "required": [
+        "query"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmdrive.info": {
+      "description": "Show file metadata, owners, location, and sharing.",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/file",
+          "x-position": 1
+        }
+      },
+      "required": [
+        "target"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmdrive.get": {
+      "description": "Download an existing OneDrive file.",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/file",
+          "x-position": 1
+        },
+        "out": {
+          "$ref": "#/$defs/out"
+        }
+      },
+      "required": [
+        "target",
+        "out"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmdrive.put": {
+      "description": "Upload a local file.",
+      "type": "object",
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/path",
+          "x-position": 1,
+          "x-label": "PATH",
+          "x-max-bytes": 262144000,
+          "description": "Existing local file, up to 250 MiB."
+        },
+        "folder": {
+          "$ref": "#/$defs/file"
+        },
+        "name": {
+          "$ref": "#/$defs/text",
+          "description": "Name."
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmdrive.mkdir": {
+      "description": "Create a folder.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/text",
+          "x-position": 1,
+          "x-label": "NAME",
+          "description": "Name."
+        },
+        "folder": {
+          "$ref": "#/$defs/file"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmdrive.move": {
+      "description": "Move or rename a file, preserving its other metadata.",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/file",
+          "x-position": 1
+        },
+        "to": {
+          "$ref": "#/$defs/file",
+          "description": "Destination folder."
+        },
+        "name": {
+          "$ref": "#/$defs/text",
+          "description": "Name."
+        }
+      },
+      "required": [
+        "target"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "to"
+              ]
+            },
+            {
+              "required": [
+                "name"
+              ]
+            }
+          ],
+          "description": "Provide to: to move the file or name: to rename it."
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmdrive.copy": {
+      "description": "Copy a file.",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/file",
+          "x-position": 1
+        },
+        "to": {
+          "$ref": "#/$defs/file"
+        },
+        "name": {
+          "$ref": "#/$defs/text",
+          "description": "Name."
+        }
+      },
+      "required": [
+        "target"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmdrive.share": {
+      "description": "Grant someone access to a file.",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/file",
+          "x-position": 1
+        },
+        "to": {
+          "type": "string",
+          "format": "email",
+          "description": "Destination or recipient."
+        },
+        "role": {
+          "$ref": "#/$defs/role",
+          "enum": [
+            "reader",
+            "writer"
+          ]
+        },
+        "notify": {
+          "type": "boolean",
+          "default": true,
+          "description": "Send email notifications to affected people."
+        }
+      },
+      "required": [
+        "target",
+        "to"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmdrive.trash": {
+      "description": "Move a file to Trash.",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/file",
+          "x-position": 1
+        }
+      },
+      "required": [
+        "target"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmcal.today": {
+      "description": "Show today's events in calendar time.",
+      "type": "object",
+      "properties": {
+        "calendar": {
+          "$ref": "#/$defs/calendar"
+        },
+        "timezone": {
+          "$ref": "#/$defs/zone"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmcal.week": {
+      "description": "Show this week's events, Monday through Sunday.",
+      "type": "object",
+      "properties": {
+        "calendar": {
+          "$ref": "#/$defs/calendar"
+        },
+        "timezone": {
+          "$ref": "#/$defs/zone"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmcal.find": {
+      "description": "Find events. Date bounds use calendar time.",
+      "type": "object",
+      "properties": {
+        "query": {
+          "$ref": "#/$defs/text",
+          "x-position": 1,
+          "x-label": "TEXT",
+          "description": "Search text."
+        },
+        "from": {
+          "$ref": "#/$defs/date"
+        },
+        "until": {
+          "$ref": "#/$defs/date"
+        },
+        "calendar": {
+          "$ref": "#/$defs/calendar"
+        },
+        "timezone": {
+          "$ref": "#/$defs/zone"
+        },
+        "limit": {
+          "$ref": "#/$defs/limit"
+        }
+      },
+      "required": [
+        "query"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmcal.show": {
+      "description": "Show an event and attendee responses.",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/text",
+          "x-position": 1,
+          "x-label": "EVENT",
+          "description": "Resource ID shown by its list command."
+        },
+        "calendar": {
+          "$ref": "#/$defs/calendar"
+        }
+      },
+      "required": [
+        "target"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmcal.add": {
+      "description": "Create a timed or all-day event.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "$ref": "#/$defs/text",
+          "x-position": 1,
+          "x-label": "TITLE",
+          "description": "Title."
+        },
+        "at": {
+          "$ref": "#/$defs/time"
+        },
+        "on": {
+          "$ref": "#/$defs/date"
+        },
+        "for": {
+          "$ref": "#/$defs/duration",
+          "description": "Timed event duration, such as 30m or 1h. Maximum 366 days.",
+          "default": "30m",
+          "x-default-when": {
+            "required": [
+              "at"
+            ]
+          }
+        },
+        "with": {
+          "$ref": "#/$defs/emails"
+        },
+        "where": {
+          "$ref": "#/$defs/text",
+          "description": "Event location or meeting URL."
+        },
+        "calendar": {
+          "$ref": "#/$defs/calendar"
+        },
+        "timezone": {
+          "$ref": "#/$defs/zone"
+        }
+      },
+      "required": [
+        "title"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "at"
+              ]
+            },
+            {
+              "required": [
+                "on"
+              ]
+            }
+          ],
+          "description": "Set a time with at: or an all-day date with on:."
+        },
+        {
+          "not": {
+            "required": [
+              "at",
+              "on"
+            ]
+          },
+          "description": "Set a time with at: or an all-day date with on:."
+        },
+        {
+          "not": {
+            "required": [
+              "on",
+              "for"
+            ]
+          },
+          "description": "for: sets a timed event's duration; omit it for all-day events."
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmcal.move": {
+      "description": "Reschedule an event. Its duration is preserved unless for: is supplied.",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/text",
+          "x-position": 1,
+          "x-label": "EVENT",
+          "description": "Resource ID shown by its list command."
+        },
+        "at": {
+          "$ref": "#/$defs/time"
+        },
+        "for": {
+          "$ref": "#/$defs/duration"
+        },
+        "calendar": {
+          "$ref": "#/$defs/calendar"
+        },
+        "timezone": {
+          "$ref": "#/$defs/zone"
+        }
+      },
+      "required": [
+        "target",
+        "at"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmcal.cancel": {
+      "description": "Cancel an event.",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/text",
+          "x-position": 1,
+          "x-label": "EVENT",
+          "description": "Resource ID shown by its list command."
+        },
+        "calendar": {
+          "$ref": "#/$defs/calendar"
+        },
+        "notify": {
+          "type": "boolean",
+          "default": true,
+          "description": "Send email notifications to affected people.",
+          "enum": [
+            true
+          ]
+        }
+      },
+      "required": [
+        "target"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmcal.calendars": {
+      "description": "List available calendars.",
+      "type": "object",
+      "properties": {
+        "limit": {
+          "$ref": "#/$defs/limit"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmsheets.ls": {
+      "description": "Find spreadsheets. Requires Drive access.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/text",
+          "description": "Name."
+        },
+        "limit": {
+          "$ref": "#/$defs/limit"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmsheets.read": {
+      "description": "Display cells. Defaults to the first tab, A1:Z20.",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/sheet",
+          "x-position": 1
+        },
+        "tab": {
+          "$ref": "#/$defs/text",
+          "description": "Tab name."
+        },
+        "range": {
+          "$ref": "#/$defs/text",
+          "format": "cell-range",
+          "description": "A1 cell range, such as A1:D20."
+        }
+      },
+      "required": [
+        "target"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmsheets.set": {
+      "description": "Set one cell to a literal value.",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/sheet",
+          "x-position": 1
+        },
+        "tab": {
+          "$ref": "#/$defs/text",
+          "description": "Tab name."
+        },
+        "cell": {
+          "$ref": "#/$defs/text",
+          "format": "single-cell",
+          "description": "One A1 cell, such as B2."
+        },
+        "value": {
+          "type": "string",
+          "description": "Literal cell value; formulas are not evaluated."
+        }
+      },
+      "required": [
+        "target",
+        "cell",
+        "value"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmsheets.load": {
+      "description": "Write a CSV file starting at a cell. Values are literal.",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/sheet",
+          "x-position": 1
+        },
+        "tab": {
+          "$ref": "#/$defs/text",
+          "description": "Tab name."
+        },
+        "csv": {
+          "$ref": "#/$defs/path"
+        },
+        "at": {
+          "$ref": "#/$defs/text",
+          "format": "single-cell",
+          "default": "A1",
+          "description": "At."
+        }
+      },
+      "required": [
+        "target",
+        "csv"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmsheets.clear": {
+      "description": "Clear an explicit cell range.",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/sheet",
+          "x-position": 1
+        },
+        "tab": {
+          "$ref": "#/$defs/text",
+          "description": "Tab name."
+        },
+        "range": {
+          "$ref": "#/$defs/text",
+          "format": "cell-range",
+          "description": "A1 cell range, such as A1:D20."
+        }
+      },
+      "required": [
+        "target",
+        "range"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmsheets.export": {
+      "description": "Export one tab as CSV or the workbook in another format.",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/sheet",
+          "x-position": 1
+        },
+        "tab": {
+          "$ref": "#/$defs/text",
+          "description": "Tab name."
+        },
+        "format": {
+          "type": "string",
+          "enum": [
+            "csv",
+            "pdf"
+          ],
+          "default": "csv",
+          "description": "Format."
+        },
+        "out": {
+          "$ref": "#/$defs/out"
+        }
+      },
+      "required": [
+        "target",
+        "out"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        },
+        {
+          "if": {
+            "required": [
+              "tab"
+            ]
+          },
+          "then": {
+            "properties": {
+              "format": {
+                "const": "csv"
+              }
+            }
+          },
+          "description": "tab: selects a CSV export. Other formats export the workbook."
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmdocs.ls": {
+      "description": "Find documents. Requires Drive access.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/text",
+          "description": "Name."
+        },
+        "limit": {
+          "$ref": "#/$defs/limit"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmdocs.export": {
+      "description": "Export a document. Requires Drive access.",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/document",
+          "x-position": 1
+        },
+        "format": {
+          "type": "string",
+          "enum": [
+            "pdf"
+          ],
+          "default": "pdf",
+          "description": "Format."
+        },
+        "out": {
+          "$ref": "#/$defs/out"
+        }
+      },
+      "required": [
+        "target",
+        "out"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmdocs.share": {
+      "description": "Grant someone access to a document. Requires Drive access.",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/document",
+          "x-position": 1
+        },
+        "to": {
+          "type": "string",
+          "format": "email",
+          "description": "Destination or recipient."
+        },
+        "role": {
+          "$ref": "#/$defs/role",
+          "enum": [
+            "reader",
+            "writer"
+          ]
+        },
+        "notify": {
+          "type": "boolean",
+          "default": true,
+          "description": "Send email notifications to affected people."
+        }
+      },
+      "required": [
+        "target",
+        "to"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmslides.ls": {
+      "description": "Find presentations. Requires Drive access.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/text",
+          "description": "Name."
+        },
+        "limit": {
+          "$ref": "#/$defs/limit"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmslides.export": {
+      "description": "Export a presentation. Requires Drive access.",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/deck",
+          "x-position": 1
+        },
+        "format": {
+          "type": "string",
+          "enum": [
+            "pdf"
+          ],
+          "default": "pdf",
+          "description": "Format."
+        },
+        "out": {
+          "$ref": "#/$defs/out"
+        }
+      },
+      "required": [
+        "target",
+        "out"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmtasks.ls": {
+      "description": "Show incomplete tasks in a list.",
+      "type": "object",
+      "properties": {
+        "list": {
+          "$ref": "#/$defs/list"
+        },
+        "due": {
+          "$ref": "#/$defs/date"
+        },
+        "completed": {
+          "type": "boolean",
+          "default": false,
+          "description": "Include completed tasks."
+        },
+        "limit": {
+          "$ref": "#/$defs/limit"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmtasks.add": {
+      "description": "Create a task.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "$ref": "#/$defs/text",
+          "x-position": 1,
+          "x-label": "TITLE",
+          "description": "Title."
+        },
+        "due": {
+          "$ref": "#/$defs/date"
+        },
+        "notes": {
+          "$ref": "#/$defs/body"
+        },
+        "list": {
+          "$ref": "#/$defs/list"
+        }
+      },
+      "required": [
+        "title"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmtasks.show": {
+      "description": "Show task details.",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/text",
+          "x-position": 1,
+          "x-label": "TASK",
+          "description": "Resource ID shown by its list command."
+        },
+        "list": {
+          "$ref": "#/$defs/list"
+        }
+      },
+      "required": [
+        "target"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmtasks.done": {
+      "description": "Mark a task complete.",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/text",
+          "x-position": 1,
+          "x-label": "TASK",
+          "description": "Resource ID shown by its list command."
+        },
+        "list": {
+          "$ref": "#/$defs/list"
+        }
+      },
+      "required": [
+        "target"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmtasks.undo": {
+      "description": "Mark a task incomplete.",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/text",
+          "x-position": 1,
+          "x-label": "TASK",
+          "description": "Resource ID shown by its list command."
+        },
+        "list": {
+          "$ref": "#/$defs/list"
+        }
+      },
+      "required": [
+        "target"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmtasks.set": {
+      "description": "Change selected task fields.",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/text",
+          "x-position": 1,
+          "x-label": "TASK",
+          "description": "Resource ID shown by its list command."
+        },
+        "title": {
+          "$ref": "#/$defs/text",
+          "description": "Title."
+        },
+        "due": {
+          "$ref": "#/$defs/date"
+        },
+        "notes": {
+          "$ref": "#/$defs/body"
+        },
+        "list": {
+          "$ref": "#/$defs/list"
+        }
+      },
+      "required": [
+        "target"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "title"
+              ]
+            },
+            {
+              "required": [
+                "due"
+              ]
+            },
+            {
+              "required": [
+                "notes"
+              ]
+            }
+          ],
+          "description": "Provide title:, due:, or notes: to change the task."
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmtasks.delete": {
+      "description": "Delete a task.",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/text",
+          "x-position": 1,
+          "x-label": "TASK",
+          "description": "Resource ID shown by its list command."
+        },
+        "list": {
+          "$ref": "#/$defs/list"
+        }
+      },
+      "required": [
+        "target"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmtasks.lists": {
+      "description": "List task lists.",
+      "type": "object",
+      "properties": {
+        "limit": {
+          "$ref": "#/$defs/limit"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmtasks.new-list": {
+      "description": "Create a task list.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "$ref": "#/$defs/text",
+          "x-position": 1,
+          "x-label": "TITLE",
+          "description": "Title."
+        }
+      },
+      "required": [
+        "title"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmcontacts.ls": {
+      "description": "List contacts.",
+      "type": "object",
+      "properties": {
+        "limit": {
+          "$ref": "#/$defs/limit"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmcontacts.find": {
+      "description": "Find contacts by name, email, or phone.",
+      "type": "object",
+      "properties": {
+        "query": {
+          "$ref": "#/$defs/text",
+          "x-position": 1,
+          "x-label": "TEXT",
+          "description": "Search text."
+        },
+        "limit": {
+          "$ref": "#/$defs/limit"
+        }
+      },
+      "required": [
+        "query"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmcontacts.show": {
+      "description": "Show contact details.",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/text",
+          "x-position": 1,
+          "x-label": "CONTACT",
+          "x-resource": "contacts",
+          "description": "Resource ID shown by its list command."
+        }
+      },
+      "required": [
+        "target"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmcontacts.new": {
+      "description": "Create a contact.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/text",
+          "x-position": 1,
+          "x-label": "NAME",
+          "description": "Name."
+        },
+        "email": {
+          "$ref": "#/$defs/emails"
+        },
+        "phone": {
+          "$ref": "#/$defs/strings",
+          "description": "Phone numbers."
+        },
+        "company": {
+          "$ref": "#/$defs/text",
+          "description": "Company name."
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmcontacts.set": {
+      "description": "Change named fields and preserve all others. Repeated email: and phone: values replace those lists.",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/text",
+          "x-position": 1,
+          "x-label": "CONTACT",
+          "x-resource": "contacts",
+          "description": "Resource ID shown by its list command."
+        },
+        "name": {
+          "$ref": "#/$defs/text",
+          "description": "Name."
+        },
+        "email": {
+          "$ref": "#/$defs/emails"
+        },
+        "phone": {
+          "$ref": "#/$defs/strings",
+          "description": "Phone numbers."
+        },
+        "company": {
+          "$ref": "#/$defs/text",
+          "description": "Company name."
+        }
+      },
+      "required": [
+        "target"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "name"
+              ]
+            },
+            {
+              "required": [
+                "email"
+              ]
+            },
+            {
+              "required": [
+                "phone"
+              ]
+            },
+            {
+              "required": [
+                "company"
+              ]
+            }
+          ],
+          "description": "Provide name:, email:, phone:, or company: to change the contact."
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "jmcontacts.delete": {
+      "description": "Delete a contact.",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/text",
+          "x-position": 1,
+          "x-label": "CONTACT",
+          "x-resource": "contacts",
+          "description": "Resource ID shown by its list command."
+        }
+      },
+      "required": [
+        "target"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/$defs/common"
+        }
+      ],
+      "unevaluatedProperties": false
+    }
+  }
+}

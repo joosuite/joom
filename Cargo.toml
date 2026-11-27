@@ -1,0 +1,66 @@
+[package]
+name = "joom"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.88"
+description = "Microsoft services from the terminal"
+license = "Apache-2.0"
+
+[features]
+live-test-diagnostics = []
+
+[[bin]]
+name = "joom"
+path = "src/main.rs"
+
+[[example]]
+name = "install_wrappers"
+path = "tools/install_wrappers.rs"
+test = true
+
+[dependencies]
+aes-gcm = { version = "0.11", features = ["zeroize"] }
+argon2 = { version = "0.5.3", default-features = false, features = ["alloc", "zeroize"] }
+fs2 = "0.4"
+rpassword = "7.5.5"
+anyhow = "1.0"
+base64 = "0.23"
+clap = { version = "4.6", features = ["string"] }
+directories-next = "2.0"
+getrandom = "0.4"
+percent-encoding = "2.3"
+reqwest = { version = "0.13", default-features = false, features = ["blocking", "json", "form", "rustls", "gzip"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = { version = "1.0", features = ["arbitrary_precision"] }
+sha2 = "0.10"
+subtle = "2.6"
+tempfile = "3.27"
+url = "2.5"
+zeroize = { version = "1.9", features = ["derive"] }
+time = { version = "0.3.47", default-features = false, features = ["std", "parsing", "formatting"] }
+mail-builder = { version = "0.4.4", default-features = false }
+csv = "1.4.0"
+mail-parser = "0.11.9"
+jiff = "1.0.3"
+
+[target.'cfg(target_os = "windows")'.dependencies]
+windows-native-keyring-store = "1.0"
+
+[target.'cfg(not(target_os = "macos"))'.dependencies]
+keyring-core = "1.1"
+
+[target.'cfg(all(unix, not(target_os = "macos")))'.dependencies]
+dbus-secret-service-keyring-store = { version = "1.0", features = ["crypto-rust", "vendored"] }
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = true
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+dbg_macro = "deny"
+print_stdout = "deny"
+print_stderr = "deny"

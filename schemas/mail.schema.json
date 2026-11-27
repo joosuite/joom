@@ -1,0 +1,3787 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:joom:file:mail",
+  "title": "Joom mail command parameters",
+  "description": "Parameters accepted by Joom from --file. Each command definition describes CLI inputs. Explicit command-line values override file values. Select a command under $defs.",
+  "type": "object",
+  "anyOf": [
+    {
+      "$ref": "#/$defs/profile"
+    },
+    {
+      "$ref": "#/$defs/drafts.create"
+    },
+    {
+      "$ref": "#/$defs/drafts.delete"
+    },
+    {
+      "$ref": "#/$defs/drafts.get"
+    },
+    {
+      "$ref": "#/$defs/drafts.list"
+    },
+    {
+      "$ref": "#/$defs/drafts.send"
+    },
+    {
+      "$ref": "#/$defs/labels.create"
+    },
+    {
+      "$ref": "#/$defs/labels.delete"
+    },
+    {
+      "$ref": "#/$defs/labels.get"
+    },
+    {
+      "$ref": "#/$defs/labels.list"
+    },
+    {
+      "$ref": "#/$defs/labels.patch"
+    },
+    {
+      "$ref": "#/$defs/labels.update"
+    },
+    {
+      "$ref": "#/$defs/messages.delete"
+    },
+    {
+      "$ref": "#/$defs/messages.get"
+    },
+    {
+      "$ref": "#/$defs/messages.list"
+    },
+    {
+      "$ref": "#/$defs/messages.modify"
+    },
+    {
+      "$ref": "#/$defs/messages.send"
+    },
+    {
+      "$ref": "#/$defs/messages.trash"
+    },
+    {
+      "$ref": "#/$defs/messages.untrash"
+    },
+    {
+      "$ref": "#/$defs/messages.attachments.get"
+    },
+    {
+      "$ref": "#/$defs/read"
+    },
+    {
+      "$ref": "#/$defs/unread"
+    },
+    {
+      "$ref": "#/$defs/star"
+    },
+    {
+      "$ref": "#/$defs/unstar"
+    }
+  ],
+  "$defs": {
+    "profile": {
+      "type": "object",
+      "title": "joom mail ACCOUNT profile",
+      "description": "Get the signed-in Microsoft account email address.",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "ttl": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Cache freshness in minutes. Zero fetches fresh data.",
+          "x-cli-option": "ttl",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "ttl"
+          }
+        }
+      }
+    },
+    "drafts.create": {
+      "type": "object",
+      "title": "joom mail ACCOUNT drafts.create",
+      "description": "Create an Outlook draft from composed or raw MIME content.",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "body": {
+          "$ref": "#/x-input-types/DraftCreate",
+          "x-cli-option": "body",
+          "x-cli-binding": {
+            "source": "raw",
+            "property": "body"
+          }
+        },
+        "message": {
+          "$ref": "#/x-input-types/Message",
+          "x-cli-option": "message",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "message"
+          },
+          "x-cli-repeated": false
+        },
+        "messageRaw": {
+          "type": "string",
+          "minLength": 1,
+          "x-cli-option": "message-raw",
+          "x-cli-binding": {
+            "source": "nested",
+            "property": "messageRaw",
+            "path": [
+              "message",
+              "raw"
+            ]
+          },
+          "x-cli-repeated": false
+        },
+        "to": {
+          "type": "array",
+          "description": "Recipient email addresses. Repeat --to for multiple recipients.",
+          "x-cli-value-name": "EMAIL",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "x-cli-option": "to",
+          "x-cli-binding": {
+            "source": "compose",
+            "property": "to"
+          }
+        },
+        "cc": {
+          "type": "array",
+          "description": "Cc email addresses. Repeat --cc for multiple recipients.",
+          "x-cli-value-name": "EMAIL",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "x-cli-option": "cc",
+          "x-cli-binding": {
+            "source": "compose",
+            "property": "cc"
+          }
+        },
+        "bcc": {
+          "type": "array",
+          "description": "Bcc email addresses. Repeat --bcc for multiple recipients.",
+          "x-cli-value-name": "EMAIL",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "x-cli-option": "bcc",
+          "x-cli-binding": {
+            "source": "compose",
+            "property": "bcc"
+          }
+        },
+        "from": {
+          "type": "string",
+          "description": "Sender email address; defaults to ACCOUNT. Microsoft must allow this sender.",
+          "x-cli-value-name": "EMAIL",
+          "minLength": 1,
+          "x-cli-option": "from",
+          "x-cli-binding": {
+            "source": "compose",
+            "property": "from"
+          }
+        },
+        "replyTo": {
+          "type": "string",
+          "description": "Reply-To email address.",
+          "x-cli-value-name": "EMAIL",
+          "minLength": 1,
+          "x-cli-option": "reply-to",
+          "x-cli-binding": {
+            "source": "compose",
+            "property": "replyTo"
+          }
+        },
+        "subject": {
+          "type": "string",
+          "description": "Message subject.",
+          "x-cli-value-name": "TEXT",
+          "x-cli-option": "subject",
+          "x-cli-binding": {
+            "source": "compose",
+            "property": "subject"
+          }
+        },
+        "text": {
+          "type": "string",
+          "description": "Plain text message body.",
+          "x-cli-value-name": "TEXT",
+          "x-cli-option": "text",
+          "x-cli-binding": {
+            "source": "compose",
+            "property": "text"
+          }
+        },
+        "html": {
+          "type": "string",
+          "description": "HTML message body; combines with text as multipart/alternative.",
+          "x-cli-value-name": "HTML",
+          "x-cli-option": "html",
+          "x-cli-binding": {
+            "source": "compose",
+            "property": "html"
+          }
+        },
+        "textFile": {
+          "type": "string",
+          "description": "Read the plain text body from a UTF-8 file.",
+          "x-cli-value-name": "PATH",
+          "minLength": 1,
+          "x-cli-option": "text-file",
+          "x-cli-binding": {
+            "source": "compose",
+            "property": "textFile"
+          }
+        },
+        "htmlFile": {
+          "type": "string",
+          "description": "Read the HTML body from a UTF-8 file.",
+          "x-cli-value-name": "PATH",
+          "minLength": 1,
+          "x-cli-option": "html-file",
+          "x-cli-binding": {
+            "source": "compose",
+            "property": "htmlFile"
+          }
+        },
+        "attach": {
+          "type": "array",
+          "description": "Attach local files as application/octet-stream. Repeat --attach for multiple files.",
+          "x-cli-value-name": "PATH",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "x-cli-option": "attach",
+          "x-cli-binding": {
+            "source": "compose",
+            "property": "attachments"
+          }
+        },
+        "compose": {
+          "$ref": "#/x-input-types/MailComposition",
+          "description": "Composition object. The same parameters can be supplied at the top level."
+        }
+      },
+      "allOf": [
+        {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "required": [
+                    "body"
+                  ],
+                  "properties": {
+                    "body": {
+                      "required": [
+                        "message"
+                      ],
+                      "properties": {
+                        "message": {
+                          "not": {
+                            "type": "null"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "not": {
+                        "type": "null"
+                      }
+                    }
+                  }
+                },
+                {
+                  "required": [
+                    "messageRaw"
+                  ]
+                }
+              ]
+            },
+            {
+              "anyOf": [
+                {
+                  "required": [
+                    "to"
+                  ]
+                },
+                {
+                  "required": [
+                    "cc"
+                  ]
+                },
+                {
+                  "required": [
+                    "bcc"
+                  ]
+                },
+                {
+                  "required": [
+                    "from"
+                  ]
+                },
+                {
+                  "required": [
+                    "replyTo"
+                  ]
+                },
+                {
+                  "required": [
+                    "subject"
+                  ]
+                },
+                {
+                  "required": [
+                    "text"
+                  ]
+                },
+                {
+                  "required": [
+                    "html"
+                  ]
+                },
+                {
+                  "required": [
+                    "textFile"
+                  ]
+                },
+                {
+                  "required": [
+                    "htmlFile"
+                  ]
+                },
+                {
+                  "required": [
+                    "attach"
+                  ]
+                },
+                {
+                  "required": [
+                    "compose"
+                  ],
+                  "properties": {
+                    "compose": {
+                      "not": {
+                        "type": "null"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "description": "Provide --message-raw for message.",
+          "x-cli-kind": "choice",
+          "x-cli-parameters": [
+            "message",
+            "messageRaw"
+          ],
+          "x-cli-help": false
+        },
+        {
+          "if": {
+            "anyOf": [
+              {
+                "required": [
+                  "body"
+                ],
+                "properties": {
+                  "body": {
+                    "required": [
+                      "message"
+                    ],
+                    "properties": {
+                      "message": {
+                        "not": {
+                          "type": "null"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "required": [
+                  "message"
+                ],
+                "properties": {
+                  "message": {
+                    "not": {
+                      "type": "null"
+                    }
+                  }
+                }
+              },
+              {
+                "required": [
+                  "messageRaw"
+                ]
+              }
+            ]
+          },
+          "then": {
+            "anyOf": [
+              {
+                "anyOf": [
+                  {
+                    "required": [
+                      "body"
+                    ],
+                    "properties": {
+                      "body": {
+                        "required": [
+                          "message"
+                        ],
+                        "properties": {
+                          "message": {
+                            "required": [
+                              "raw"
+                            ],
+                            "properties": {
+                              "raw": {
+                                "not": {
+                                  "type": "null"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "required": [
+                      "message"
+                    ],
+                    "properties": {
+                      "message": {
+                        "required": [
+                          "raw"
+                        ],
+                        "properties": {
+                          "raw": {
+                            "not": {
+                              "type": "null"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "required": [
+                      "messageRaw"
+                    ],
+                    "properties": {
+                      "messageRaw": {
+                        "not": {
+                          "type": "null"
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "anyOf": [
+                  {
+                    "required": [
+                      "to"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "cc"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "bcc"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "from"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "replyTo"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "subject"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "text"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "html"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "textFile"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "htmlFile"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "attach"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "compose"
+                    ],
+                    "properties": {
+                      "compose": {
+                        "not": {
+                          "type": "null"
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "description": "Provide --message-raw.",
+          "x-cli-kind": "choice",
+          "x-cli-parameters": [
+            "messageRaw"
+          ],
+          "x-cli-help": false
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "message"
+              ]
+            },
+            {
+              "required": [
+                "messageRaw"
+              ]
+            },
+            {
+              "required": [
+                "to"
+              ]
+            },
+            {
+              "required": [
+                "cc"
+              ]
+            },
+            {
+              "required": [
+                "bcc"
+              ]
+            },
+            {
+              "required": [
+                "from"
+              ]
+            },
+            {
+              "required": [
+                "replyTo"
+              ]
+            },
+            {
+              "required": [
+                "subject"
+              ]
+            },
+            {
+              "required": [
+                "text"
+              ]
+            },
+            {
+              "required": [
+                "html"
+              ]
+            },
+            {
+              "required": [
+                "textFile"
+              ]
+            },
+            {
+              "required": [
+                "htmlFile"
+              ]
+            },
+            {
+              "required": [
+                "attach"
+              ]
+            },
+            {
+              "required": [
+                "body"
+              ],
+              "properties": {
+                "body": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              }
+            },
+            {
+              "required": [
+                "compose"
+              ],
+              "properties": {
+                "compose": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ],
+          "description": "Provide the content to write using named parameters, a JSON file, or --body.",
+          "x-cli-kind": "content",
+          "x-cli-parameters": [
+            "message",
+            "messageRaw",
+            "to",
+            "cc",
+            "bcc",
+            "from",
+            "replyTo",
+            "subject",
+            "text",
+            "html",
+            "textFile",
+            "htmlFile",
+            "attach",
+            "body",
+            "compose"
+          ]
+        },
+        {
+          "not": {
+            "allOf": [
+              {
+                "anyOf": [
+                  {
+                    "required": [
+                      "text"
+                    ],
+                    "properties": {
+                      "text": {
+                        "not": {
+                          "type": "null"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "required": [
+                      "compose"
+                    ],
+                    "properties": {
+                      "compose": {
+                        "required": [
+                          "text"
+                        ],
+                        "properties": {
+                          "text": {
+                            "not": {
+                              "type": "null"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "anyOf": [
+                  {
+                    "required": [
+                      "textFile"
+                    ],
+                    "properties": {
+                      "textFile": {
+                        "not": {
+                          "type": "null"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "required": [
+                      "compose"
+                    ],
+                    "properties": {
+                      "compose": {
+                        "required": [
+                          "textFile"
+                        ],
+                        "properties": {
+                          "textFile": {
+                            "not": {
+                              "type": "null"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "description": "Use --text for inline content or --text-file to read a file.",
+          "x-cli-kind": "conflict",
+          "x-cli-parameters": [
+            "text",
+            "textFile"
+          ],
+          "x-cli-groups": [
+            [
+              "text"
+            ],
+            [
+              "textFile"
+            ]
+          ]
+        },
+        {
+          "not": {
+            "allOf": [
+              {
+                "anyOf": [
+                  {
+                    "required": [
+                      "html"
+                    ],
+                    "properties": {
+                      "html": {
+                        "not": {
+                          "type": "null"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "required": [
+                      "compose"
+                    ],
+                    "properties": {
+                      "compose": {
+                        "required": [
+                          "html"
+                        ],
+                        "properties": {
+                          "html": {
+                            "not": {
+                              "type": "null"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "anyOf": [
+                  {
+                    "required": [
+                      "htmlFile"
+                    ],
+                    "properties": {
+                      "htmlFile": {
+                        "not": {
+                          "type": "null"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "required": [
+                      "compose"
+                    ],
+                    "properties": {
+                      "compose": {
+                        "required": [
+                          "htmlFile"
+                        ],
+                        "properties": {
+                          "htmlFile": {
+                            "not": {
+                              "type": "null"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "description": "Use --html for inline content or --html-file to read a file.",
+          "x-cli-kind": "conflict",
+          "x-cli-parameters": [
+            "html",
+            "htmlFile"
+          ],
+          "x-cli-groups": [
+            [
+              "html"
+            ],
+            [
+              "htmlFile"
+            ]
+          ]
+        },
+        {
+          "not": {
+            "allOf": [
+              {
+                "anyOf": [
+                  {
+                    "required": [
+                      "to"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "cc"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "bcc"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "from"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "replyTo"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "subject"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "text"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "html"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "textFile"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "htmlFile"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "attach"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "compose"
+                    ],
+                    "properties": {
+                      "compose": {
+                        "not": {
+                          "type": "null"
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "anyOf": [
+                  {
+                    "anyOf": [
+                      {
+                        "required": [
+                          "body"
+                        ],
+                        "properties": {
+                          "body": {
+                            "required": [
+                              "message"
+                            ],
+                            "properties": {
+                              "message": {
+                                "required": [
+                                  "raw"
+                                ],
+                                "properties": {
+                                  "raw": {
+                                    "not": {
+                                      "type": "null"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "required": [
+                          "message"
+                        ],
+                        "properties": {
+                          "message": {
+                            "required": [
+                              "raw"
+                            ],
+                            "properties": {
+                              "raw": {
+                                "not": {
+                                  "type": "null"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "required": [
+                          "messageRaw"
+                        ],
+                        "properties": {
+                          "messageRaw": {
+                            "not": {
+                              "type": "null"
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "anyOf": [
+                      {
+                        "required": [
+                          "body"
+                        ],
+                        "properties": {
+                          "body": {
+                            "required": [
+                              "message"
+                            ],
+                            "properties": {
+                              "message": {
+                                "required": [
+                                  "payload"
+                                ],
+                                "properties": {
+                                  "payload": {
+                                    "not": {
+                                      "type": "null"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "required": [
+                          "message"
+                        ],
+                        "properties": {
+                          "message": {
+                            "required": [
+                              "payload"
+                            ],
+                            "properties": {
+                              "payload": {
+                                "not": {
+                                  "type": "null"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "description": "Compose a message with recipients and content, or supply raw MIME. Composition cannot be combined with raw message content or --upload.",
+          "x-cli-kind": "conflict",
+          "x-cli-parameters": [
+            "to",
+            "cc",
+            "bcc",
+            "from",
+            "replyTo",
+            "subject",
+            "text",
+            "html",
+            "textFile",
+            "htmlFile",
+            "attach",
+            "messageRaw"
+          ],
+          "x-cli-groups": [
+            [
+              "to",
+              "cc",
+              "bcc",
+              "from",
+              "replyTo",
+              "subject",
+              "text",
+              "html",
+              "textFile",
+              "htmlFile",
+              "attach"
+            ],
+            [
+              "messageRaw"
+            ]
+          ]
+        }
+      ]
+    },
+    "drafts.delete": {
+      "type": "object",
+      "title": "joom mail ACCOUNT drafts.delete",
+      "description": "Delete an Outlook draft.",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "id for the Microsoft operation.",
+          "x-cli-option": "id",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "id"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --id.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "id"
+          ]
+        }
+      ]
+    },
+    "drafts.get": {
+      "type": "object",
+      "title": "joom mail ACCOUNT drafts.get",
+      "description": "Read an Outlook draft.",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "id for the Microsoft operation.",
+          "x-cli-option": "id",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "id"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "ttl": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Cache freshness in minutes. Zero fetches fresh data.",
+          "x-cli-option": "ttl",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "ttl"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --id.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "id"
+          ]
+        }
+      ]
+    },
+    "drafts.list": {
+      "type": "object",
+      "title": "joom mail ACCOUNT drafts.list",
+      "description": "List Outlook drafts.",
+      "additionalProperties": false,
+      "properties": {
+        "maxResults": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "string",
+              "pattern": "^[+-]?[0-9]+$"
+            }
+          ],
+          "x-location": "query",
+          "description": "maxResults for the Microsoft operation.",
+          "x-cli-option": "max-results",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "maxResults"
+          },
+          "x-cli-repeated": false
+        },
+        "pageToken": {
+          "type": "string",
+          "x-location": "query",
+          "description": "pageToken for the Microsoft operation.",
+          "x-cli-option": "page-token",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "pageToken"
+          },
+          "x-cli-repeated": false
+        },
+        "q": {
+          "type": "string",
+          "x-location": "query",
+          "description": "Search expression supported by the Microsoft adapter.",
+          "x-cli-option": "q",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "q"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "ttl": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Cache freshness in minutes. Zero fetches fresh data.",
+          "x-cli-option": "ttl",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "ttl"
+          }
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4294967295,
+          "description": "Maximum total results.",
+          "x-cli-option": "max",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "max"
+          }
+        },
+        "maxPages": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000,
+          "description": "Maximum pages to fetch.",
+          "x-cli-option": "max-pages",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "max-pages"
+          }
+        }
+      }
+    },
+    "drafts.send": {
+      "type": "object",
+      "title": "joom mail ACCOUNT drafts.send",
+      "description": "Send an existing Outlook draft.",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "body": {
+          "$ref": "#/x-input-types/DraftSend",
+          "x-cli-option": "body",
+          "x-cli-binding": {
+            "source": "raw",
+            "property": "body"
+          }
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "x-cli-option": "id",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "id"
+          },
+          "x-cli-repeated": false
+        }
+      },
+      "allOf": [
+        {
+          "anyOf": [
+            {
+              "required": [
+                "body"
+              ],
+              "properties": {
+                "body": {
+                  "required": [
+                    "id"
+                  ],
+                  "properties": {
+                    "id": {
+                      "not": {
+                        "type": "null"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "required": [
+                "id"
+              ],
+              "properties": {
+                "id": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ],
+          "description": "Provide --id.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "id"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "id"
+              ]
+            },
+            {
+              "required": [
+                "body"
+              ],
+              "properties": {
+                "body": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ],
+          "description": "Provide the content to write using named parameters, a JSON file, or --body.",
+          "x-cli-kind": "content",
+          "x-cli-parameters": [
+            "id",
+            "body"
+          ]
+        }
+      ]
+    },
+    "labels.create": {
+      "type": "object",
+      "title": "joom mail ACCOUNT labels.create",
+      "description": "Create a top-level Outlook mail folder.",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "body": {
+          "$ref": "#/x-input-types/Label",
+          "x-cli-option": "body",
+          "x-cli-binding": {
+            "source": "raw",
+            "property": "body"
+          }
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "x-cli-option": "name",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "name"
+          },
+          "x-cli-repeated": false
+        }
+      },
+      "allOf": [
+        {
+          "anyOf": [
+            {
+              "required": [
+                "body"
+              ],
+              "properties": {
+                "body": {
+                  "required": [
+                    "name"
+                  ],
+                  "properties": {
+                    "name": {
+                      "not": {
+                        "type": "null"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "required": [
+                "name"
+              ],
+              "properties": {
+                "name": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ],
+          "description": "Provide --name.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "name"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "name"
+              ]
+            },
+            {
+              "required": [
+                "body"
+              ],
+              "properties": {
+                "body": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ],
+          "description": "Provide the content to write using named parameters, a JSON file, or --body.",
+          "x-cli-kind": "content",
+          "x-cli-parameters": [
+            "name",
+            "body"
+          ]
+        }
+      ]
+    },
+    "labels.delete": {
+      "type": "object",
+      "title": "joom mail ACCOUNT labels.delete",
+      "description": "Delete an Outlook mail folder.",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "id for the Microsoft operation.",
+          "x-cli-option": "id",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "id"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --id.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "id"
+          ]
+        }
+      ]
+    },
+    "labels.get": {
+      "type": "object",
+      "title": "joom mail ACCOUNT labels.get",
+      "description": "Get an Outlook mail folder.",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "id for the Microsoft operation.",
+          "x-cli-option": "id",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "id"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "ttl": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Cache freshness in minutes. Zero fetches fresh data.",
+          "x-cli-option": "ttl",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "ttl"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --id.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "id"
+          ]
+        }
+      ]
+    },
+    "labels.list": {
+      "type": "object",
+      "title": "joom mail ACCOUNT labels.list",
+      "description": "List top-level Outlook mail folders.",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "ttl": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Cache freshness in minutes. Zero fetches fresh data.",
+          "x-cli-option": "ttl",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "ttl"
+          }
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4294967295,
+          "description": "Maximum total results.",
+          "x-cli-option": "max",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "max"
+          }
+        }
+      }
+    },
+    "labels.patch": {
+      "type": "object",
+      "title": "joom mail ACCOUNT labels.patch",
+      "description": "Rename an Outlook mail folder.",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "id for the Microsoft operation.",
+          "x-cli-option": "id",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "id"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "body": {
+          "$ref": "#/x-input-types/Label",
+          "x-cli-option": "body",
+          "x-cli-binding": {
+            "source": "raw",
+            "property": "body"
+          }
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "x-cli-option": "name",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "name"
+          },
+          "x-cli-repeated": false
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --id.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "id"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "body"
+              ],
+              "properties": {
+                "body": {
+                  "required": [
+                    "name"
+                  ],
+                  "properties": {
+                    "name": {
+                      "not": {
+                        "type": "null"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "required": [
+                "name"
+              ],
+              "properties": {
+                "name": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ],
+          "description": "Provide --name.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "name"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "name"
+              ]
+            },
+            {
+              "required": [
+                "body"
+              ],
+              "properties": {
+                "body": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ],
+          "description": "Provide the content to write using named parameters, a JSON file, or --body.",
+          "x-cli-kind": "content",
+          "x-cli-parameters": [
+            "name",
+            "body"
+          ]
+        }
+      ]
+    },
+    "labels.update": {
+      "type": "object",
+      "title": "joom mail ACCOUNT labels.update",
+      "description": "Rename an Outlook mail folder.",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "id for the Microsoft operation.",
+          "x-cli-option": "id",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "id"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "body": {
+          "$ref": "#/x-input-types/Label",
+          "x-cli-option": "body",
+          "x-cli-binding": {
+            "source": "raw",
+            "property": "body"
+          }
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "x-cli-option": "name",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "name"
+          },
+          "x-cli-repeated": false
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --id.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "id"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "body"
+              ],
+              "properties": {
+                "body": {
+                  "required": [
+                    "name"
+                  ],
+                  "properties": {
+                    "name": {
+                      "not": {
+                        "type": "null"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "required": [
+                "name"
+              ],
+              "properties": {
+                "name": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ],
+          "description": "Provide --name.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "name"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "name"
+              ]
+            },
+            {
+              "required": [
+                "body"
+              ],
+              "properties": {
+                "body": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ],
+          "description": "Provide the content to write using named parameters, a JSON file, or --body.",
+          "x-cli-kind": "content",
+          "x-cli-parameters": [
+            "name",
+            "body"
+          ]
+        }
+      ]
+    },
+    "messages.delete": {
+      "type": "object",
+      "title": "joom mail ACCOUNT messages.delete",
+      "description": "Permanently delete an Outlook message.",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "id for the Microsoft operation.",
+          "x-cli-option": "id",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "id"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --id.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "id"
+          ]
+        }
+      ]
+    },
+    "messages.get": {
+      "type": "object",
+      "title": "joom mail ACCOUNT messages.get",
+      "description": "Read an Outlook message and its attachment metadata.",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "id for the Microsoft operation.",
+          "x-cli-option": "id",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "id"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "ttl": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Cache freshness in minutes. Zero fetches fresh data.",
+          "x-cli-option": "ttl",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "ttl"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --id.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "id"
+          ]
+        }
+      ]
+    },
+    "messages.list": {
+      "type": "object",
+      "title": "joom mail ACCOUNT messages.list",
+      "description": "List or search Outlook messages.",
+      "additionalProperties": false,
+      "properties": {
+        "labelIds": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "INBOX",
+                "UNREAD"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "INBOX",
+                  "UNREAD"
+                ]
+              }
+            }
+          ],
+          "x-location": "query",
+          "description": "labelIds for the Microsoft operation.",
+          "x-cli-option": "label-ids",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "labelIds"
+          },
+          "x-cli-repeated": true
+        },
+        "maxResults": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "string",
+              "pattern": "^[+-]?[0-9]+$"
+            }
+          ],
+          "x-location": "query",
+          "description": "maxResults for the Microsoft operation.",
+          "x-cli-option": "max-results",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "maxResults"
+          },
+          "x-cli-repeated": false
+        },
+        "pageToken": {
+          "type": "string",
+          "x-location": "query",
+          "description": "pageToken for the Microsoft operation.",
+          "x-cli-option": "page-token",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "pageToken"
+          },
+          "x-cli-repeated": false
+        },
+        "q": {
+          "type": "string",
+          "x-location": "query",
+          "description": "Search expression supported by the Microsoft adapter.",
+          "x-cli-option": "q",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "q"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "ttl": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Cache freshness in minutes. Zero fetches fresh data.",
+          "x-cli-option": "ttl",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "ttl"
+          }
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4294967295,
+          "description": "Maximum total results.",
+          "x-cli-option": "max",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "max"
+          }
+        },
+        "maxPages": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000,
+          "description": "Maximum pages to fetch.",
+          "x-cli-option": "max-pages",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "max-pages"
+          }
+        }
+      }
+    },
+    "messages.modify": {
+      "type": "object",
+      "title": "joom mail ACCOUNT messages.modify",
+      "description": "Change the read or flagged state of an Outlook message.",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "id for the Microsoft operation.",
+          "x-cli-option": "id",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "id"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "body": {
+          "$ref": "#/x-input-types/ModifyMessageRequest",
+          "x-cli-option": "body",
+          "x-cli-binding": {
+            "source": "raw",
+            "property": "body"
+          }
+        },
+        "addLabelIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "UNREAD",
+              "STARRED"
+            ]
+          },
+          "x-cli-option": "add-label-ids",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "addLabelIds"
+          },
+          "x-cli-repeated": true
+        },
+        "removeLabelIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "UNREAD",
+              "STARRED"
+            ]
+          },
+          "x-cli-option": "remove-label-ids",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "removeLabelIds"
+          },
+          "x-cli-repeated": true
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --id.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "id"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "addLabelIds"
+              ]
+            },
+            {
+              "required": [
+                "removeLabelIds"
+              ]
+            },
+            {
+              "required": [
+                "body"
+              ],
+              "properties": {
+                "body": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ],
+          "description": "Provide the content to write using named parameters, a JSON file, or --body.",
+          "x-cli-kind": "content",
+          "x-cli-parameters": [
+            "addLabelIds",
+            "removeLabelIds",
+            "body"
+          ]
+        }
+      ]
+    },
+    "messages.send": {
+      "type": "object",
+      "title": "joom mail ACCOUNT messages.send",
+      "description": "Send composed or raw MIME content through Outlook.",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "body": {
+          "$ref": "#/x-input-types/Message",
+          "x-cli-option": "body",
+          "x-cli-binding": {
+            "source": "raw",
+            "property": "body"
+          }
+        },
+        "raw": {
+          "type": "string",
+          "minLength": 1,
+          "x-cli-option": "raw",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "raw"
+          },
+          "x-cli-repeated": false
+        },
+        "to": {
+          "type": "array",
+          "description": "Recipient email addresses. Repeat --to for multiple recipients.",
+          "x-cli-value-name": "EMAIL",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "x-cli-option": "to",
+          "x-cli-binding": {
+            "source": "compose",
+            "property": "to"
+          }
+        },
+        "cc": {
+          "type": "array",
+          "description": "Cc email addresses. Repeat --cc for multiple recipients.",
+          "x-cli-value-name": "EMAIL",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "x-cli-option": "cc",
+          "x-cli-binding": {
+            "source": "compose",
+            "property": "cc"
+          }
+        },
+        "bcc": {
+          "type": "array",
+          "description": "Bcc email addresses. Repeat --bcc for multiple recipients.",
+          "x-cli-value-name": "EMAIL",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "x-cli-option": "bcc",
+          "x-cli-binding": {
+            "source": "compose",
+            "property": "bcc"
+          }
+        },
+        "from": {
+          "type": "string",
+          "description": "Sender email address; defaults to ACCOUNT. Microsoft must allow this sender.",
+          "x-cli-value-name": "EMAIL",
+          "minLength": 1,
+          "x-cli-option": "from",
+          "x-cli-binding": {
+            "source": "compose",
+            "property": "from"
+          }
+        },
+        "replyTo": {
+          "type": "string",
+          "description": "Reply-To email address.",
+          "x-cli-value-name": "EMAIL",
+          "minLength": 1,
+          "x-cli-option": "reply-to",
+          "x-cli-binding": {
+            "source": "compose",
+            "property": "replyTo"
+          }
+        },
+        "subject": {
+          "type": "string",
+          "description": "Message subject.",
+          "x-cli-value-name": "TEXT",
+          "x-cli-option": "subject",
+          "x-cli-binding": {
+            "source": "compose",
+            "property": "subject"
+          }
+        },
+        "text": {
+          "type": "string",
+          "description": "Plain text message body.",
+          "x-cli-value-name": "TEXT",
+          "x-cli-option": "text",
+          "x-cli-binding": {
+            "source": "compose",
+            "property": "text"
+          }
+        },
+        "html": {
+          "type": "string",
+          "description": "HTML message body; combines with text as multipart/alternative.",
+          "x-cli-value-name": "HTML",
+          "x-cli-option": "html",
+          "x-cli-binding": {
+            "source": "compose",
+            "property": "html"
+          }
+        },
+        "textFile": {
+          "type": "string",
+          "description": "Read the plain text body from a UTF-8 file.",
+          "x-cli-value-name": "PATH",
+          "minLength": 1,
+          "x-cli-option": "text-file",
+          "x-cli-binding": {
+            "source": "compose",
+            "property": "textFile"
+          }
+        },
+        "htmlFile": {
+          "type": "string",
+          "description": "Read the HTML body from a UTF-8 file.",
+          "x-cli-value-name": "PATH",
+          "minLength": 1,
+          "x-cli-option": "html-file",
+          "x-cli-binding": {
+            "source": "compose",
+            "property": "htmlFile"
+          }
+        },
+        "attach": {
+          "type": "array",
+          "description": "Attach local files as application/octet-stream. Repeat --attach for multiple files.",
+          "x-cli-value-name": "PATH",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "x-cli-option": "attach",
+          "x-cli-binding": {
+            "source": "compose",
+            "property": "attachments"
+          }
+        },
+        "compose": {
+          "$ref": "#/x-input-types/MailComposition",
+          "description": "Composition object. The same parameters can be supplied at the top level."
+        }
+      },
+      "allOf": [
+        {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "required": [
+                    "body"
+                  ],
+                  "properties": {
+                    "body": {
+                      "required": [
+                        "raw"
+                      ],
+                      "properties": {
+                        "raw": {
+                          "not": {
+                            "type": "null"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "required": [
+                    "raw"
+                  ],
+                  "properties": {
+                    "raw": {
+                      "not": {
+                        "type": "null"
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "anyOf": [
+                {
+                  "required": [
+                    "to"
+                  ]
+                },
+                {
+                  "required": [
+                    "cc"
+                  ]
+                },
+                {
+                  "required": [
+                    "bcc"
+                  ]
+                },
+                {
+                  "required": [
+                    "from"
+                  ]
+                },
+                {
+                  "required": [
+                    "replyTo"
+                  ]
+                },
+                {
+                  "required": [
+                    "subject"
+                  ]
+                },
+                {
+                  "required": [
+                    "text"
+                  ]
+                },
+                {
+                  "required": [
+                    "html"
+                  ]
+                },
+                {
+                  "required": [
+                    "textFile"
+                  ]
+                },
+                {
+                  "required": [
+                    "htmlFile"
+                  ]
+                },
+                {
+                  "required": [
+                    "attach"
+                  ]
+                },
+                {
+                  "required": [
+                    "compose"
+                  ],
+                  "properties": {
+                    "compose": {
+                      "not": {
+                        "type": "null"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "description": "Provide --raw.",
+          "x-cli-kind": "choice",
+          "x-cli-parameters": [
+            "raw"
+          ],
+          "x-cli-help": false
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "raw"
+              ]
+            },
+            {
+              "required": [
+                "to"
+              ]
+            },
+            {
+              "required": [
+                "cc"
+              ]
+            },
+            {
+              "required": [
+                "bcc"
+              ]
+            },
+            {
+              "required": [
+                "from"
+              ]
+            },
+            {
+              "required": [
+                "replyTo"
+              ]
+            },
+            {
+              "required": [
+                "subject"
+              ]
+            },
+            {
+              "required": [
+                "text"
+              ]
+            },
+            {
+              "required": [
+                "html"
+              ]
+            },
+            {
+              "required": [
+                "textFile"
+              ]
+            },
+            {
+              "required": [
+                "htmlFile"
+              ]
+            },
+            {
+              "required": [
+                "attach"
+              ]
+            },
+            {
+              "required": [
+                "body"
+              ],
+              "properties": {
+                "body": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              }
+            },
+            {
+              "required": [
+                "compose"
+              ],
+              "properties": {
+                "compose": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ],
+          "description": "Provide the content to write using named parameters, a JSON file, or --body.",
+          "x-cli-kind": "content",
+          "x-cli-parameters": [
+            "raw",
+            "to",
+            "cc",
+            "bcc",
+            "from",
+            "replyTo",
+            "subject",
+            "text",
+            "html",
+            "textFile",
+            "htmlFile",
+            "attach",
+            "body",
+            "compose"
+          ]
+        },
+        {
+          "not": {
+            "allOf": [
+              {
+                "anyOf": [
+                  {
+                    "required": [
+                      "text"
+                    ],
+                    "properties": {
+                      "text": {
+                        "not": {
+                          "type": "null"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "required": [
+                      "compose"
+                    ],
+                    "properties": {
+                      "compose": {
+                        "required": [
+                          "text"
+                        ],
+                        "properties": {
+                          "text": {
+                            "not": {
+                              "type": "null"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "anyOf": [
+                  {
+                    "required": [
+                      "textFile"
+                    ],
+                    "properties": {
+                      "textFile": {
+                        "not": {
+                          "type": "null"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "required": [
+                      "compose"
+                    ],
+                    "properties": {
+                      "compose": {
+                        "required": [
+                          "textFile"
+                        ],
+                        "properties": {
+                          "textFile": {
+                            "not": {
+                              "type": "null"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "description": "Use --text for inline content or --text-file to read a file.",
+          "x-cli-kind": "conflict",
+          "x-cli-parameters": [
+            "text",
+            "textFile"
+          ],
+          "x-cli-groups": [
+            [
+              "text"
+            ],
+            [
+              "textFile"
+            ]
+          ]
+        },
+        {
+          "not": {
+            "allOf": [
+              {
+                "anyOf": [
+                  {
+                    "required": [
+                      "html"
+                    ],
+                    "properties": {
+                      "html": {
+                        "not": {
+                          "type": "null"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "required": [
+                      "compose"
+                    ],
+                    "properties": {
+                      "compose": {
+                        "required": [
+                          "html"
+                        ],
+                        "properties": {
+                          "html": {
+                            "not": {
+                              "type": "null"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "anyOf": [
+                  {
+                    "required": [
+                      "htmlFile"
+                    ],
+                    "properties": {
+                      "htmlFile": {
+                        "not": {
+                          "type": "null"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "required": [
+                      "compose"
+                    ],
+                    "properties": {
+                      "compose": {
+                        "required": [
+                          "htmlFile"
+                        ],
+                        "properties": {
+                          "htmlFile": {
+                            "not": {
+                              "type": "null"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "description": "Use --html for inline content or --html-file to read a file.",
+          "x-cli-kind": "conflict",
+          "x-cli-parameters": [
+            "html",
+            "htmlFile"
+          ],
+          "x-cli-groups": [
+            [
+              "html"
+            ],
+            [
+              "htmlFile"
+            ]
+          ]
+        },
+        {
+          "not": {
+            "allOf": [
+              {
+                "anyOf": [
+                  {
+                    "required": [
+                      "to"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "cc"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "bcc"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "from"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "replyTo"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "subject"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "text"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "html"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "textFile"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "htmlFile"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "attach"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "compose"
+                    ],
+                    "properties": {
+                      "compose": {
+                        "not": {
+                          "type": "null"
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "anyOf": [
+                  {
+                    "anyOf": [
+                      {
+                        "required": [
+                          "body"
+                        ],
+                        "properties": {
+                          "body": {
+                            "required": [
+                              "raw"
+                            ],
+                            "properties": {
+                              "raw": {
+                                "not": {
+                                  "type": "null"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "required": [
+                          "raw"
+                        ],
+                        "properties": {
+                          "raw": {
+                            "not": {
+                              "type": "null"
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "anyOf": [
+                      {
+                        "required": [
+                          "body"
+                        ],
+                        "properties": {
+                          "body": {
+                            "required": [
+                              "payload"
+                            ],
+                            "properties": {
+                              "payload": {
+                                "not": {
+                                  "type": "null"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "description": "Compose a message with recipients and content, or supply raw MIME. Composition cannot be combined with raw message content or --upload.",
+          "x-cli-kind": "conflict",
+          "x-cli-parameters": [
+            "to",
+            "cc",
+            "bcc",
+            "from",
+            "replyTo",
+            "subject",
+            "text",
+            "html",
+            "textFile",
+            "htmlFile",
+            "attach",
+            "raw"
+          ],
+          "x-cli-groups": [
+            [
+              "to",
+              "cc",
+              "bcc",
+              "from",
+              "replyTo",
+              "subject",
+              "text",
+              "html",
+              "textFile",
+              "htmlFile",
+              "attach"
+            ],
+            [
+              "raw"
+            ]
+          ]
+        },
+        {
+          "if": {
+            "anyOf": [
+              {
+                "required": [
+                  "to"
+                ]
+              },
+              {
+                "required": [
+                  "cc"
+                ]
+              },
+              {
+                "required": [
+                  "bcc"
+                ]
+              },
+              {
+                "required": [
+                  "from"
+                ]
+              },
+              {
+                "required": [
+                  "replyTo"
+                ]
+              },
+              {
+                "required": [
+                  "subject"
+                ]
+              },
+              {
+                "required": [
+                  "text"
+                ]
+              },
+              {
+                "required": [
+                  "html"
+                ]
+              },
+              {
+                "required": [
+                  "textFile"
+                ]
+              },
+              {
+                "required": [
+                  "htmlFile"
+                ]
+              },
+              {
+                "required": [
+                  "attach"
+                ]
+              },
+              {
+                "required": [
+                  "compose"
+                ],
+                "properties": {
+                  "compose": {
+                    "not": {
+                      "type": "null"
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "then": {
+            "anyOf": [
+              {
+                "required": [
+                  "to"
+                ],
+                "properties": {
+                  "to": {
+                    "not": {
+                      "type": "null"
+                    },
+                    "type": "array",
+                    "minItems": 1
+                  }
+                }
+              },
+              {
+                "required": [
+                  "compose"
+                ],
+                "properties": {
+                  "compose": {
+                    "required": [
+                      "to"
+                    ],
+                    "properties": {
+                      "to": {
+                        "not": {
+                          "type": "null"
+                        },
+                        "type": "array",
+                        "minItems": 1
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "required": [
+                  "cc"
+                ],
+                "properties": {
+                  "cc": {
+                    "not": {
+                      "type": "null"
+                    },
+                    "type": "array",
+                    "minItems": 1
+                  }
+                }
+              },
+              {
+                "required": [
+                  "compose"
+                ],
+                "properties": {
+                  "compose": {
+                    "required": [
+                      "cc"
+                    ],
+                    "properties": {
+                      "cc": {
+                        "not": {
+                          "type": "null"
+                        },
+                        "type": "array",
+                        "minItems": 1
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "required": [
+                  "bcc"
+                ],
+                "properties": {
+                  "bcc": {
+                    "not": {
+                      "type": "null"
+                    },
+                    "type": "array",
+                    "minItems": 1
+                  }
+                }
+              },
+              {
+                "required": [
+                  "compose"
+                ],
+                "properties": {
+                  "compose": {
+                    "required": [
+                      "bcc"
+                    ],
+                    "properties": {
+                      "bcc": {
+                        "not": {
+                          "type": "null"
+                        },
+                        "type": "array",
+                        "minItems": 1
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "description": "When composing a message to send, provide at least one recipient with --to, --cc, or --bcc.",
+          "x-cli-kind": "choice",
+          "x-cli-parameters": [
+            "to",
+            "cc",
+            "bcc"
+          ]
+        }
+      ]
+    },
+    "messages.trash": {
+      "type": "object",
+      "title": "joom mail ACCOUNT messages.trash",
+      "description": "Move an Outlook message to Deleted Items.",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "id for the Microsoft operation.",
+          "x-cli-option": "id",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "id"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --id.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "id"
+          ]
+        }
+      ]
+    },
+    "messages.untrash": {
+      "type": "object",
+      "title": "joom mail ACCOUNT messages.untrash",
+      "description": "Move an Outlook message to the inbox.",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "id for the Microsoft operation.",
+          "x-cli-option": "id",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "id"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --id.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "id"
+          ]
+        }
+      ]
+    },
+    "messages.attachments.get": {
+      "type": "object",
+      "title": "joom mail ACCOUNT messages.attachments.get",
+      "description": "Get the content of an Outlook file attachment.",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "id for the Microsoft operation.",
+          "x-cli-option": "id",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "id"
+          },
+          "x-cli-repeated": false
+        },
+        "messageId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "messageId for the Microsoft operation.",
+          "x-cli-option": "message-id",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "messageId"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "ttl": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Cache freshness in minutes. Zero fetches fresh data.",
+          "x-cli-option": "ttl",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "ttl"
+          }
+        },
+        "output": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Write downloaded content to this new file.",
+          "x-cli-option": "output",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "output"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --id.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "id"
+          ]
+        },
+        {
+          "required": [
+            "messageId"
+          ],
+          "properties": {
+            "messageId": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --message-id.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "messageId"
+          ]
+        }
+      ]
+    },
+    "read": {
+      "type": "object",
+      "title": "joom mail ACCOUNT read",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Message id.",
+          "x-cli-option": "id",
+          "x-cli-binding": {
+            "source": "native",
+            "property": "id",
+            "positional": true
+          },
+          "x-cli-value-name": "MESSAGE_ID"
+        },
+        "fields": {
+          "type": "string",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide MESSAGE_ID.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "id"
+          ]
+        }
+      ]
+    },
+    "unread": {
+      "type": "object",
+      "title": "joom mail ACCOUNT unread",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Message id.",
+          "x-cli-option": "id",
+          "x-cli-binding": {
+            "source": "native",
+            "property": "id",
+            "positional": true
+          },
+          "x-cli-value-name": "MESSAGE_ID"
+        },
+        "fields": {
+          "type": "string",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide MESSAGE_ID.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "id"
+          ]
+        }
+      ]
+    },
+    "star": {
+      "type": "object",
+      "title": "joom mail ACCOUNT star",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Message id.",
+          "x-cli-option": "id",
+          "x-cli-binding": {
+            "source": "native",
+            "property": "id",
+            "positional": true
+          },
+          "x-cli-value-name": "MESSAGE_ID"
+        },
+        "fields": {
+          "type": "string",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide MESSAGE_ID.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "id"
+          ]
+        }
+      ]
+    },
+    "unstar": {
+      "type": "object",
+      "title": "joom mail ACCOUNT unstar",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Message id.",
+          "x-cli-option": "id",
+          "x-cli-binding": {
+            "source": "native",
+            "property": "id",
+            "positional": true
+          },
+          "x-cli-value-name": "MESSAGE_ID"
+        },
+        "fields": {
+          "type": "string",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide MESSAGE_ID.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "id"
+          ]
+        }
+      ]
+    }
+  },
+  "x-input-types": {
+    "DraftCreate": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "$ref": "#/x-input-types/Message"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "message"
+      ]
+    },
+    "DraftSend": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id"
+      ]
+    },
+    "Label": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name"
+      ]
+    },
+    "MailComposition": {
+      "type": "object",
+      "description": "CLI-only mail composition inputs. Named composition flags override these values after loading --file. Addresses are bare ASCII mailboxes. Arrays are replaced by explicit options. File paths resolve from the working directory. Sending requires at least one to, cc, or bcc recipient after merging; drafts may be incomplete. An omitted body becomes empty plain text.",
+      "additionalProperties": false,
+      "properties": {
+        "to": {
+          "type": "array",
+          "description": "Recipient email addresses. Repeat --to for multiple recipients.",
+          "x-cli-value-name": "EMAIL",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "cc": {
+          "type": "array",
+          "description": "Cc email addresses. Repeat --cc for multiple recipients.",
+          "x-cli-value-name": "EMAIL",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "bcc": {
+          "type": "array",
+          "description": "Bcc email addresses. Repeat --bcc for multiple recipients.",
+          "x-cli-value-name": "EMAIL",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "from": {
+          "type": "string",
+          "description": "Sender email address; defaults to ACCOUNT. Microsoft must allow this sender.",
+          "x-cli-value-name": "EMAIL",
+          "minLength": 1
+        },
+        "replyTo": {
+          "type": "string",
+          "description": "Reply-To email address.",
+          "x-cli-value-name": "EMAIL",
+          "minLength": 1
+        },
+        "subject": {
+          "type": "string",
+          "description": "Message subject.",
+          "x-cli-value-name": "TEXT"
+        },
+        "text": {
+          "type": "string",
+          "description": "Plain text message body.",
+          "x-cli-value-name": "TEXT"
+        },
+        "html": {
+          "type": "string",
+          "description": "HTML message body; combines with text as multipart/alternative.",
+          "x-cli-value-name": "HTML"
+        },
+        "textFile": {
+          "type": "string",
+          "description": "Read the plain text body from a UTF-8 file.",
+          "x-cli-value-name": "PATH",
+          "minLength": 1
+        },
+        "htmlFile": {
+          "type": "string",
+          "description": "Read the HTML body from a UTF-8 file.",
+          "x-cli-value-name": "PATH",
+          "minLength": 1
+        },
+        "attachments": {
+          "type": "array",
+          "description": "Attach local files as application/octet-stream. Repeat --attach for multiple files.",
+          "x-cli-value-name": "PATH",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "x-cli-option": "attach"
+        }
+      },
+      "allOf": [
+        {
+          "not": {
+            "required": [
+              "text",
+              "textFile"
+            ]
+          }
+        },
+        {
+          "not": {
+            "required": [
+              "html",
+              "htmlFile"
+            ]
+          }
+        }
+      ],
+      "x-exclusive-fields": [
+        [
+          "text",
+          "textFile"
+        ],
+        [
+          "html",
+          "htmlFile"
+        ]
+      ]
+    },
+    "Message": {
+      "type": "object",
+      "properties": {
+        "raw": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "raw"
+      ]
+    },
+    "ModifyMessageRequest": {
+      "type": "object",
+      "properties": {
+        "addLabelIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "UNREAD",
+              "STARRED"
+            ]
+          }
+        },
+        "removeLabelIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "UNREAD",
+              "STARRED"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

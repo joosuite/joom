@@ -1,0 +1,9 @@
+{
+  "id": "MESSAGE_ID",
+  "addLabelIds": [
+    "STARRED"
+  ],
+  "removeLabelIds": [
+    "UNREAD"
+  ]
+}

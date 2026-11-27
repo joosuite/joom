@@ -1,0 +1,528 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:joom:file:contacts",
+  "title": "Outlook Contacts command contracts",
+  "description": "Joom command contracts for Microsoft Graph. The adapter resolves dynamic routes and CLI parameter names.",
+  "type": "object",
+  "x-api-service": "contacts",
+  "x-api-version": "v1.0",
+  "anyOf": [
+    {
+      "$ref": "#/$defs/people.create-contact"
+    },
+    {
+      "$ref": "#/$defs/people.delete-contact"
+    },
+    {
+      "$ref": "#/$defs/people.get"
+    },
+    {
+      "$ref": "#/$defs/people.search-contacts"
+    },
+    {
+      "$ref": "#/$defs/people.update-contact"
+    },
+    {
+      "$ref": "#/$defs/people.connections.list"
+    }
+  ],
+  "$defs": {
+    "people.create-contact": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "body": {
+          "$ref": "#/x-body-types/Person"
+        }
+      },
+      "x-api-method-id": "contacts.people.create-contact",
+      "x-required-request-parameters": [],
+      "title": "people.create-contact",
+      "description": "Create an Outlook contact."
+    },
+    "people.delete-contact": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "resourceName": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "Outlook contact resource ID."
+        }
+      },
+      "x-api-method-id": "contacts.people.delete-contact",
+      "x-required-request-parameters": [
+        "resourceName"
+      ],
+      "title": "people.delete-contact",
+      "description": "Delete an Outlook contact."
+    },
+    "people.get": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "resourceName": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "Outlook contact resource ID."
+        }
+      },
+      "x-api-method-id": "contacts.people.get",
+      "x-required-request-parameters": [
+        "resourceName"
+      ],
+      "title": "people.get",
+      "description": "Get an Outlook contact."
+    },
+    "people.search-contacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "pageSize": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "string",
+              "pattern": "^[+-]?[0-9]+$"
+            }
+          ],
+          "x-location": "query",
+          "description": "pageSize for the Microsoft operation."
+        },
+        "query": {
+          "type": "string",
+          "x-location": "query",
+          "description": "query for the Microsoft operation."
+        }
+      },
+      "x-api-method-id": "contacts.people.search-contacts",
+      "x-required-request-parameters": [],
+      "title": "people.search-contacts",
+      "description": "Find Outlook contacts by name prefix."
+    },
+    "people.update-contact": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "resourceName": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "Outlook contact resource ID."
+        },
+        "body": {
+          "$ref": "#/x-body-types/ContactUpdateInput"
+        }
+      },
+      "x-api-method-id": "contacts.people.update-contact",
+      "x-required-request-parameters": [
+        "resourceName"
+      ],
+      "title": "people.update-contact",
+      "description": "Update supported fields of an Outlook contact."
+    },
+    "people.connections.list": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "pageSize": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "string",
+              "pattern": "^[+-]?[0-9]+$"
+            }
+          ],
+          "x-location": "query",
+          "description": "pageSize for the Microsoft operation."
+        },
+        "pageToken": {
+          "type": "string",
+          "x-location": "query",
+          "description": "pageToken for the Microsoft operation."
+        },
+        "resourceName": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "Outlook contact resource ID.",
+          "enum": [
+            "people/me"
+          ]
+        }
+      },
+      "x-api-method-id": "contacts.people.connections.list",
+      "x-required-request-parameters": [
+        "resourceName"
+      ],
+      "title": "people.connections.list",
+      "description": "List the signed-in account Outlook contacts."
+    }
+  },
+  "x-api-root": "https://graph.microsoft.com/",
+  "x-api-service-path": "v1.0/",
+  "x-api-parameters": {
+    "alt": {
+      "default": "json",
+      "location": "query",
+      "description": "Data format for response.",
+      "type": "string",
+      "enum": [
+        "json"
+      ]
+    },
+    "fields": {
+      "location": "query",
+      "description": "Selector specifying which fields to include in a partial response.",
+      "type": "string"
+    }
+  },
+  "x-body-types": {
+    "Person": {
+      "type": "object",
+      "properties": {
+        "names": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "givenName": {
+                "type": "string"
+              },
+              "familyName": {
+                "type": "string"
+              },
+              "displayName": {
+                "type": "string"
+              },
+              "unstructuredName": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "maxItems": 1
+        },
+        "emailAddresses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ]
+          }
+        },
+        "phoneNumbers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ]
+          }
+        },
+        "organizations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "department": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "maxItems": 1
+        },
+        "biographies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ]
+          },
+          "maxItems": 1
+        },
+        "etag": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ContactUpdateInput": {
+      "type": "object",
+      "properties": {
+        "names": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "givenName": {
+                "type": "string"
+              },
+              "familyName": {
+                "type": "string"
+              },
+              "displayName": {
+                "type": "string"
+              },
+              "unstructuredName": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "maxItems": 1
+        },
+        "emailAddresses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ]
+          }
+        },
+        "phoneNumbers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ]
+          }
+        },
+        "organizations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "department": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "maxItems": 1
+        },
+        "biographies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "value"
+            ]
+          },
+          "maxItems": 1
+        },
+        "etag": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-api-methods": {
+    "contacts.people.connections.list": {
+      "id": "contacts.people.connections.list",
+      "path": "me/contacts",
+      "httpMethod": "GET",
+      "description": "List the signed-in account Outlook contacts.",
+      "parameters": {
+        "resourceName": {
+          "pattern": "^people/[^/]+$",
+          "location": "path",
+          "required": true,
+          "description": "Signed-in Outlook contacts; use people/me.",
+          "type": "string"
+        },
+        "pageToken": {
+          "description": "pageToken for the Microsoft operation.",
+          "type": "string",
+          "location": "query"
+        },
+        "pageSize": {
+          "format": "int32",
+          "description": "pageSize for the Microsoft operation.",
+          "location": "query",
+          "type": "integer"
+        }
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "contacts.people.create-contact": {
+      "id": "contacts.people.create-contact",
+      "path": "me/contacts",
+      "httpMethod": "POST",
+      "description": "Create an Outlook contact.",
+      "parameters": {},
+      "request": {
+        "$ref": "Person"
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "contacts.people.delete-contact": {
+      "id": "contacts.people.delete-contact",
+      "path": "me/contacts/{+resourceName}",
+      "httpMethod": "DELETE",
+      "description": "Delete an Outlook contact.",
+      "parameters": {
+        "resourceName": {
+          "required": true,
+          "location": "path",
+          "pattern": "^people/[^/]+$",
+          "type": "string",
+          "description": "Outlook contact resource ID."
+        }
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "contacts.people.get": {
+      "id": "contacts.people.get",
+      "path": "me/contacts/{+resourceName}",
+      "httpMethod": "GET",
+      "description": "Get an Outlook contact.",
+      "parameters": {
+        "resourceName": {
+          "type": "string",
+          "description": "Outlook contact resource ID.",
+          "pattern": "^people/[^/]+$",
+          "location": "path",
+          "required": true
+        }
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "contacts.people.search-contacts": {
+      "id": "contacts.people.search-contacts",
+      "path": "me/contacts",
+      "httpMethod": "GET",
+      "description": "Find Outlook contacts by name prefix.",
+      "parameters": {
+        "query": {
+          "description": "query for the Microsoft operation.",
+          "type": "string",
+          "location": "query"
+        },
+        "pageSize": {
+          "type": "integer",
+          "description": "pageSize for the Microsoft operation.",
+          "location": "query",
+          "format": "int32"
+        }
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "contacts.people.update-contact": {
+      "id": "contacts.people.update-contact",
+      "path": "me/contacts/{+resourceName}",
+      "httpMethod": "PATCH",
+      "description": "Update supported fields of an Outlook contact.",
+      "parameters": {
+        "resourceName": {
+          "required": true,
+          "type": "string",
+          "location": "path",
+          "pattern": "^people/[^/]+$",
+          "description": "Outlook contact resource ID."
+        }
+      },
+      "request": {
+        "$ref": "ContactUpdateInput"
+      },
+      "response": {
+        "type": "object"
+      }
+    }
+  },
+  "x-api-reference": "https://learn.microsoft.com/en-us/graph/api/user-list-contacts?view=graph-rest-1.0"
+}

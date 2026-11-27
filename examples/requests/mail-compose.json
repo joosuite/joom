@@ -1,0 +1,14 @@
+{
+  "to": [
+    "alice@example.com"
+  ],
+  "cc": [
+    "bob@example.com"
+  ],
+  "bcc": [
+    "archive@example.com"
+  ],
+  "subject": "Quarterly report",
+  "text": "The quarterly report is ready.",
+  "html": "<p>The quarterly report is ready.</p>"
+}

@@ -1,0 +1,1219 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:joom:file:tasks",
+  "title": "Joom tasks command parameters",
+  "description": "Parameters accepted by Joom from --file. Each command definition describes CLI inputs. Explicit command-line values override file values. Select a command under $defs.",
+  "type": "object",
+  "anyOf": [
+    {
+      "$ref": "#/$defs/tasklists.delete"
+    },
+    {
+      "$ref": "#/$defs/tasklists.get"
+    },
+    {
+      "$ref": "#/$defs/tasklists.insert"
+    },
+    {
+      "$ref": "#/$defs/tasklists.list"
+    },
+    {
+      "$ref": "#/$defs/tasklists.patch"
+    },
+    {
+      "$ref": "#/$defs/tasklists.update"
+    },
+    {
+      "$ref": "#/$defs/tasks.delete"
+    },
+    {
+      "$ref": "#/$defs/tasks.get"
+    },
+    {
+      "$ref": "#/$defs/tasks.insert"
+    },
+    {
+      "$ref": "#/$defs/tasks.list"
+    },
+    {
+      "$ref": "#/$defs/tasks.patch"
+    },
+    {
+      "$ref": "#/$defs/tasks.update"
+    }
+  ],
+  "$defs": {
+    "tasklists.delete": {
+      "type": "object",
+      "title": "joom tasks ACCOUNT tasklists.delete",
+      "description": "Delete a Microsoft To Do list.",
+      "additionalProperties": false,
+      "properties": {
+        "tasklist": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "tasklist for the Microsoft operation.",
+          "x-cli-option": "tasklist",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "tasklist"
+          },
+          "x-cli-repeated": false,
+          "default": "@default"
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        }
+      }
+    },
+    "tasklists.get": {
+      "type": "object",
+      "title": "joom tasks ACCOUNT tasklists.get",
+      "description": "Get a Microsoft To Do list.",
+      "additionalProperties": false,
+      "properties": {
+        "tasklist": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "tasklist for the Microsoft operation.",
+          "x-cli-option": "tasklist",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "tasklist"
+          },
+          "x-cli-repeated": false,
+          "default": "@default"
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "ttl": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Cache freshness in minutes. Zero fetches fresh data.",
+          "x-cli-option": "ttl",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "ttl"
+          }
+        }
+      }
+    },
+    "tasklists.insert": {
+      "type": "object",
+      "title": "joom tasks ACCOUNT tasklists.insert",
+      "description": "Create a Microsoft To Do list.",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "body": {
+          "$ref": "#/x-input-types/TaskList",
+          "x-cli-option": "body",
+          "x-cli-binding": {
+            "source": "raw",
+            "property": "body"
+          }
+        },
+        "title": {
+          "type": "string",
+          "x-cli-option": "title",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "title"
+          },
+          "x-cli-repeated": false
+        }
+      },
+      "allOf": [
+        {
+          "anyOf": [
+            {
+              "required": [
+                "title"
+              ]
+            },
+            {
+              "required": [
+                "body"
+              ],
+              "properties": {
+                "body": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ],
+          "description": "Provide the content to write using named parameters, a JSON file, or --body.",
+          "x-cli-kind": "content",
+          "x-cli-parameters": [
+            "title",
+            "body"
+          ]
+        }
+      ]
+    },
+    "tasklists.list": {
+      "type": "object",
+      "title": "joom tasks ACCOUNT tasklists.list",
+      "description": "List Microsoft To Do lists.",
+      "additionalProperties": false,
+      "properties": {
+        "maxResults": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "string",
+              "pattern": "^[+-]?[0-9]+$"
+            }
+          ],
+          "x-location": "query",
+          "description": "maxResults for the Microsoft operation.",
+          "x-cli-option": "max-results",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "maxResults"
+          },
+          "x-cli-repeated": false
+        },
+        "pageToken": {
+          "type": "string",
+          "x-location": "query",
+          "description": "pageToken for the Microsoft operation.",
+          "x-cli-option": "page-token",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "pageToken"
+          },
+          "x-cli-repeated": false
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "ttl": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Cache freshness in minutes. Zero fetches fresh data.",
+          "x-cli-option": "ttl",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "ttl"
+          }
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4294967295,
+          "description": "Maximum total results.",
+          "x-cli-option": "max",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "max"
+          }
+        },
+        "maxPages": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000,
+          "description": "Maximum pages to fetch.",
+          "x-cli-option": "max-pages",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "max-pages"
+          }
+        }
+      }
+    },
+    "tasklists.patch": {
+      "type": "object",
+      "title": "joom tasks ACCOUNT tasklists.patch",
+      "description": "Update a Microsoft To Do list.",
+      "additionalProperties": false,
+      "properties": {
+        "tasklist": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "tasklist for the Microsoft operation.",
+          "x-cli-option": "tasklist",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "tasklist"
+          },
+          "x-cli-repeated": false,
+          "default": "@default"
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "body": {
+          "$ref": "#/x-input-types/TaskList",
+          "x-cli-option": "body",
+          "x-cli-binding": {
+            "source": "raw",
+            "property": "body"
+          }
+        },
+        "title": {
+          "type": "string",
+          "x-cli-option": "title",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "title"
+          },
+          "x-cli-repeated": false
+        }
+      },
+      "allOf": [
+        {
+          "anyOf": [
+            {
+              "required": [
+                "title"
+              ]
+            },
+            {
+              "required": [
+                "body"
+              ],
+              "properties": {
+                "body": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ],
+          "description": "Provide the content to write using named parameters, a JSON file, or --body.",
+          "x-cli-kind": "content",
+          "x-cli-parameters": [
+            "title",
+            "body"
+          ]
+        }
+      ]
+    },
+    "tasklists.update": {
+      "type": "object",
+      "title": "joom tasks ACCOUNT tasklists.update",
+      "description": "Update a Microsoft To Do list.",
+      "additionalProperties": false,
+      "properties": {
+        "tasklist": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "tasklist for the Microsoft operation.",
+          "x-cli-option": "tasklist",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "tasklist"
+          },
+          "x-cli-repeated": false,
+          "default": "@default"
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "body": {
+          "$ref": "#/x-input-types/TaskList",
+          "x-cli-option": "body",
+          "x-cli-binding": {
+            "source": "raw",
+            "property": "body"
+          }
+        },
+        "title": {
+          "type": "string",
+          "x-cli-option": "title",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "title"
+          },
+          "x-cli-repeated": false
+        }
+      },
+      "allOf": [
+        {
+          "anyOf": [
+            {
+              "required": [
+                "title"
+              ]
+            },
+            {
+              "required": [
+                "body"
+              ],
+              "properties": {
+                "body": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ],
+          "description": "Provide the content to write using named parameters, a JSON file, or --body.",
+          "x-cli-kind": "content",
+          "x-cli-parameters": [
+            "title",
+            "body"
+          ]
+        }
+      ]
+    },
+    "tasks.delete": {
+      "type": "object",
+      "title": "joom tasks ACCOUNT tasks.delete",
+      "description": "Delete a Microsoft To Do task.",
+      "additionalProperties": false,
+      "properties": {
+        "task": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "task for the Microsoft operation.",
+          "x-cli-option": "task",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "task"
+          },
+          "x-cli-repeated": false
+        },
+        "tasklist": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "tasklist for the Microsoft operation.",
+          "x-cli-option": "tasklist",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "tasklist"
+          },
+          "x-cli-repeated": false,
+          "default": "@default"
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "task"
+          ],
+          "properties": {
+            "task": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --task.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "task"
+          ]
+        }
+      ]
+    },
+    "tasks.get": {
+      "type": "object",
+      "title": "joom tasks ACCOUNT tasks.get",
+      "description": "Get a Microsoft To Do task.",
+      "additionalProperties": false,
+      "properties": {
+        "task": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "task for the Microsoft operation.",
+          "x-cli-option": "task",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "task"
+          },
+          "x-cli-repeated": false
+        },
+        "tasklist": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "tasklist for the Microsoft operation.",
+          "x-cli-option": "tasklist",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "tasklist"
+          },
+          "x-cli-repeated": false,
+          "default": "@default"
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "ttl": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Cache freshness in minutes. Zero fetches fresh data.",
+          "x-cli-option": "ttl",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "ttl"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "task"
+          ],
+          "properties": {
+            "task": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --task.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "task"
+          ]
+        }
+      ]
+    },
+    "tasks.insert": {
+      "type": "object",
+      "title": "joom tasks ACCOUNT tasks.insert",
+      "description": "Create a Microsoft To Do task.",
+      "additionalProperties": false,
+      "properties": {
+        "tasklist": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "tasklist for the Microsoft operation.",
+          "x-cli-option": "tasklist",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "tasklist"
+          },
+          "x-cli-repeated": false,
+          "default": "@default"
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "body": {
+          "$ref": "#/x-input-types/Task",
+          "x-cli-option": "body",
+          "x-cli-binding": {
+            "source": "raw",
+            "property": "body"
+          }
+        },
+        "completed": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "x-cli-option": "completed",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "completed"
+          },
+          "x-cli-repeated": false
+        },
+        "due": {
+          "type": "string",
+          "x-cli-option": "due",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "due"
+          },
+          "x-cli-repeated": false
+        },
+        "notes": {
+          "type": "string",
+          "x-cli-option": "notes",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "notes"
+          },
+          "x-cli-repeated": false
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "needsAction",
+            "completed"
+          ],
+          "x-cli-option": "status",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "status"
+          },
+          "x-cli-repeated": false
+        },
+        "title": {
+          "type": "string",
+          "x-cli-option": "title",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "title"
+          },
+          "x-cli-repeated": false
+        }
+      },
+      "allOf": [
+        {
+          "anyOf": [
+            {
+              "required": [
+                "completed"
+              ]
+            },
+            {
+              "required": [
+                "due"
+              ]
+            },
+            {
+              "required": [
+                "notes"
+              ]
+            },
+            {
+              "required": [
+                "status"
+              ]
+            },
+            {
+              "required": [
+                "title"
+              ]
+            },
+            {
+              "required": [
+                "body"
+              ],
+              "properties": {
+                "body": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ],
+          "description": "Provide the content to write using named parameters, a JSON file, or --body.",
+          "x-cli-kind": "content",
+          "x-cli-parameters": [
+            "completed",
+            "due",
+            "notes",
+            "status",
+            "title",
+            "body"
+          ]
+        }
+      ]
+    },
+    "tasks.list": {
+      "type": "object",
+      "title": "joom tasks ACCOUNT tasks.list",
+      "description": "List Microsoft To Do tasks.",
+      "additionalProperties": false,
+      "properties": {
+        "dueMax": {
+          "type": "string",
+          "x-location": "query",
+          "description": "dueMax for the Microsoft operation.",
+          "x-cli-option": "due-max",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "dueMax"
+          },
+          "x-cli-repeated": false
+        },
+        "dueMin": {
+          "type": "string",
+          "x-location": "query",
+          "description": "dueMin for the Microsoft operation.",
+          "x-cli-option": "due-min",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "dueMin"
+          },
+          "x-cli-repeated": false
+        },
+        "maxResults": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "string",
+              "pattern": "^[+-]?[0-9]+$"
+            }
+          ],
+          "x-location": "query",
+          "description": "maxResults for the Microsoft operation.",
+          "x-cli-option": "max-results",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "maxResults"
+          },
+          "x-cli-repeated": false
+        },
+        "pageToken": {
+          "type": "string",
+          "x-location": "query",
+          "description": "pageToken for the Microsoft operation.",
+          "x-cli-option": "page-token",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "pageToken"
+          },
+          "x-cli-repeated": false
+        },
+        "showCompleted": {
+          "enum": [
+            true,
+            false,
+            "true",
+            "false"
+          ],
+          "x-location": "query",
+          "description": "showCompleted for the Microsoft operation.",
+          "x-cli-option": "show-completed",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "showCompleted"
+          },
+          "x-cli-repeated": false
+        },
+        "tasklist": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "tasklist for the Microsoft operation.",
+          "x-cli-option": "tasklist",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "tasklist"
+          },
+          "x-cli-repeated": false,
+          "default": "@default"
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "ttl": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Cache freshness in minutes. Zero fetches fresh data.",
+          "x-cli-option": "ttl",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "ttl"
+          }
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4294967295,
+          "description": "Maximum total results.",
+          "x-cli-option": "max",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "max"
+          }
+        },
+        "maxPages": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000,
+          "description": "Maximum pages to fetch.",
+          "x-cli-option": "max-pages",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "max-pages"
+          }
+        }
+      }
+    },
+    "tasks.patch": {
+      "type": "object",
+      "title": "joom tasks ACCOUNT tasks.patch",
+      "description": "Update a Microsoft To Do task.",
+      "additionalProperties": false,
+      "properties": {
+        "task": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "task for the Microsoft operation.",
+          "x-cli-option": "task",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "task"
+          },
+          "x-cli-repeated": false
+        },
+        "tasklist": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "tasklist for the Microsoft operation.",
+          "x-cli-option": "tasklist",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "tasklist"
+          },
+          "x-cli-repeated": false,
+          "default": "@default"
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "body": {
+          "$ref": "#/x-input-types/Task",
+          "x-cli-option": "body",
+          "x-cli-binding": {
+            "source": "raw",
+            "property": "body"
+          }
+        },
+        "completed": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "x-cli-option": "completed",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "completed"
+          },
+          "x-cli-repeated": false
+        },
+        "due": {
+          "type": "string",
+          "x-cli-option": "due",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "due"
+          },
+          "x-cli-repeated": false
+        },
+        "notes": {
+          "type": "string",
+          "x-cli-option": "notes",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "notes"
+          },
+          "x-cli-repeated": false
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "needsAction",
+            "completed"
+          ],
+          "x-cli-option": "status",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "status"
+          },
+          "x-cli-repeated": false
+        },
+        "title": {
+          "type": "string",
+          "x-cli-option": "title",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "title"
+          },
+          "x-cli-repeated": false
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "task"
+          ],
+          "properties": {
+            "task": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --task.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "task"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "completed"
+              ]
+            },
+            {
+              "required": [
+                "due"
+              ]
+            },
+            {
+              "required": [
+                "notes"
+              ]
+            },
+            {
+              "required": [
+                "status"
+              ]
+            },
+            {
+              "required": [
+                "title"
+              ]
+            },
+            {
+              "required": [
+                "body"
+              ],
+              "properties": {
+                "body": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ],
+          "description": "Provide the content to write using named parameters, a JSON file, or --body.",
+          "x-cli-kind": "content",
+          "x-cli-parameters": [
+            "completed",
+            "due",
+            "notes",
+            "status",
+            "title",
+            "body"
+          ]
+        }
+      ]
+    },
+    "tasks.update": {
+      "type": "object",
+      "title": "joom tasks ACCOUNT tasks.update",
+      "description": "Update a Microsoft To Do task.",
+      "additionalProperties": false,
+      "properties": {
+        "task": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "task for the Microsoft operation.",
+          "x-cli-option": "task",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "task"
+          },
+          "x-cli-repeated": false
+        },
+        "tasklist": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "tasklist for the Microsoft operation.",
+          "x-cli-option": "tasklist",
+          "x-cli-binding": {
+            "source": "query",
+            "property": "tasklist"
+          },
+          "x-cli-repeated": false,
+          "default": "@default"
+        },
+        "fields": {
+          "type": "string",
+          "description": "Select response fields.",
+          "x-cli-option": "fields",
+          "x-cli-binding": {
+            "source": "control",
+            "property": "fields"
+          }
+        },
+        "body": {
+          "$ref": "#/x-input-types/Task",
+          "x-cli-option": "body",
+          "x-cli-binding": {
+            "source": "raw",
+            "property": "body"
+          }
+        },
+        "completed": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "x-cli-option": "completed",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "completed"
+          },
+          "x-cli-repeated": false
+        },
+        "due": {
+          "type": "string",
+          "x-cli-option": "due",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "due"
+          },
+          "x-cli-repeated": false
+        },
+        "notes": {
+          "type": "string",
+          "x-cli-option": "notes",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "notes"
+          },
+          "x-cli-repeated": false
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "needsAction",
+            "completed"
+          ],
+          "x-cli-option": "status",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "status"
+          },
+          "x-cli-repeated": false
+        },
+        "title": {
+          "type": "string",
+          "x-cli-option": "title",
+          "x-cli-binding": {
+            "source": "body",
+            "property": "title"
+          },
+          "x-cli-repeated": false
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "task"
+          ],
+          "properties": {
+            "task": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "description": "Provide --task.",
+          "x-cli-kind": "required",
+          "x-cli-parameters": [
+            "task"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "completed"
+              ]
+            },
+            {
+              "required": [
+                "due"
+              ]
+            },
+            {
+              "required": [
+                "notes"
+              ]
+            },
+            {
+              "required": [
+                "status"
+              ]
+            },
+            {
+              "required": [
+                "title"
+              ]
+            },
+            {
+              "required": [
+                "body"
+              ],
+              "properties": {
+                "body": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ],
+          "description": "Provide the content to write using named parameters, a JSON file, or --body.",
+          "x-cli-kind": "content",
+          "x-cli-parameters": [
+            "completed",
+            "due",
+            "notes",
+            "status",
+            "title",
+            "body"
+          ]
+        }
+      ]
+    }
+  },
+  "x-input-types": {
+    "Task": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "needsAction",
+            "completed"
+          ]
+        },
+        "due": {
+          "type": "string"
+        },
+        "completed": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "TaskList": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

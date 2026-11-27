@@ -1,0 +1,317 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:joom:file:sheets",
+  "title": "Excel command contracts",
+  "description": "Joom command contracts for Microsoft Graph. The adapter resolves dynamic routes and CLI parameter names.",
+  "type": "object",
+  "x-api-service": "sheets",
+  "x-api-version": "v1.0",
+  "anyOf": [
+    {
+      "$ref": "#/$defs/get"
+    },
+    {
+      "$ref": "#/$defs/values.clear"
+    },
+    {
+      "$ref": "#/$defs/values.get"
+    },
+    {
+      "$ref": "#/$defs/values.update"
+    }
+  ],
+  "$defs": {
+    "get": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "spreadsheetId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "spreadsheetId for the Microsoft operation."
+        }
+      },
+      "x-api-method-id": "sheets.get",
+      "x-required-request-parameters": [
+        "spreadsheetId"
+      ],
+      "title": "get",
+      "description": "Get Excel workbook title and worksheet metadata."
+    },
+    "values.clear": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "range": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "range for the Microsoft operation."
+        },
+        "spreadsheetId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "spreadsheetId for the Microsoft operation."
+        },
+        "body": {
+          "$ref": "#/x-body-types/ClearValuesRequest"
+        }
+      },
+      "x-api-method-id": "sheets.values.clear",
+      "x-required-request-parameters": [
+        "range",
+        "spreadsheetId"
+      ],
+      "title": "values.clear",
+      "description": "Clear the contents of an Excel worksheet range."
+    },
+    "values.get": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "range": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "range for the Microsoft operation."
+        },
+        "spreadsheetId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "spreadsheetId for the Microsoft operation."
+        },
+        "valueRenderOption": {
+          "type": "string",
+          "enum": [
+            "FORMATTED_VALUE",
+            "UNFORMATTED_VALUE",
+            "FORMULA"
+          ],
+          "x-location": "query",
+          "description": "valueRenderOption for the Microsoft operation."
+        }
+      },
+      "x-api-method-id": "sheets.values.get",
+      "x-required-request-parameters": [
+        "range",
+        "spreadsheetId"
+      ],
+      "title": "values.get",
+      "description": "Read values, formatted text, or formulas from an Excel worksheet range."
+    },
+    "values.update": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "range": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "range for the Microsoft operation."
+        },
+        "spreadsheetId": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "spreadsheetId for the Microsoft operation."
+        },
+        "body": {
+          "$ref": "#/x-body-types/ValueRange"
+        }
+      },
+      "x-api-method-id": "sheets.values.update",
+      "x-required-request-parameters": [
+        "range",
+        "spreadsheetId"
+      ],
+      "title": "values.update",
+      "description": "Write rows of values to an Excel worksheet range."
+    }
+  },
+  "x-api-root": "https://graph.microsoft.com/",
+  "x-api-service-path": "v1.0/",
+  "x-api-parameters": {
+    "fields": {
+      "type": "string",
+      "location": "query",
+      "description": "Selector specifying which fields to include in a partial response."
+    },
+    "alt": {
+      "enum": [
+        "json"
+      ],
+      "default": "json",
+      "description": "Data format for response.",
+      "location": "query",
+      "type": "string"
+    }
+  },
+  "x-body-types": {
+    "ValueRange": {
+      "type": "object",
+      "properties": {
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "majorDimension": {
+          "type": "string",
+          "enum": [
+            "ROWS"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "values"
+      ]
+    },
+    "ClearValuesRequest": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false
+    }
+  },
+  "x-api-methods": {
+    "sheets.get": {
+      "id": "sheets.get",
+      "path": "me/drive/items/{spreadsheetId}/workbook/worksheets",
+      "httpMethod": "GET",
+      "description": "Get Excel workbook title and worksheet metadata.",
+      "parameters": {
+        "spreadsheetId": {
+          "type": "string",
+          "description": "spreadsheetId for the Microsoft operation.",
+          "location": "path",
+          "required": true
+        }
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "sheets.values.clear": {
+      "id": "sheets.values.clear",
+      "path": "me/drive/items/{spreadsheetId}/workbook/worksheets/range(address='{range}')/clear",
+      "httpMethod": "POST",
+      "description": "Clear the contents of an Excel worksheet range.",
+      "parameters": {
+        "spreadsheetId": {
+          "required": true,
+          "description": "spreadsheetId for the Microsoft operation.",
+          "location": "path",
+          "type": "string"
+        },
+        "range": {
+          "type": "string",
+          "required": true,
+          "description": "range for the Microsoft operation.",
+          "location": "path"
+        }
+      },
+      "request": {
+        "$ref": "ClearValuesRequest"
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "sheets.values.get": {
+      "id": "sheets.values.get",
+      "path": "me/drive/items/{spreadsheetId}/workbook/worksheets/range(address='{range}')",
+      "httpMethod": "GET",
+      "description": "Read values, formatted text, or formulas from an Excel worksheet range.",
+      "parameters": {
+        "range": {
+          "type": "string",
+          "description": "range for the Microsoft operation.",
+          "required": true,
+          "location": "path"
+        },
+        "valueRenderOption": {
+          "type": "string",
+          "description": "valueRenderOption for the Microsoft operation.",
+          "enum": [
+            "FORMATTED_VALUE",
+            "UNFORMATTED_VALUE",
+            "FORMULA"
+          ],
+          "location": "query"
+        },
+        "spreadsheetId": {
+          "description": "spreadsheetId for the Microsoft operation.",
+          "required": true,
+          "type": "string",
+          "location": "path"
+        }
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "sheets.values.update": {
+      "id": "sheets.values.update",
+      "path": "me/drive/items/{spreadsheetId}/workbook/worksheets/range(address='{range}')",
+      "httpMethod": "PATCH",
+      "description": "Write rows of values to an Excel worksheet range.",
+      "parameters": {
+        "range": {
+          "description": "range for the Microsoft operation.",
+          "location": "path",
+          "type": "string",
+          "required": true
+        },
+        "spreadsheetId": {
+          "type": "string",
+          "description": "spreadsheetId for the Microsoft operation.",
+          "location": "path",
+          "required": true
+        }
+      },
+      "request": {
+        "$ref": "ValueRange"
+      },
+      "response": {
+        "type": "object"
+      }
+    }
+  },
+  "x-api-reference": "https://learn.microsoft.com/en-us/graph/api/resources/excel?view=graph-rest-1.0"
+}

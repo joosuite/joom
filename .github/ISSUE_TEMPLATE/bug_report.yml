@@ -1,0 +1,44 @@
+name: Bug report
+description: Report a reproducible problem with Joom.
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For vulnerabilities, follow SECURITY.md instead of posting details here.
+        Replace account names, resource IDs, and private content with examples.
+        Never include client secrets or tokens.
+  - type: input
+    id: version
+    attributes:
+      label: Joom version or commit
+      description: Run joom --version, or provide the source commit.
+    validations:
+      required: true
+  - type: input
+    id: platform
+    attributes:
+      label: Operating system and shell
+      placeholder: macOS 15, zsh
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Include a minimal command and sanitized parameter-file content, if relevant.
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: Include the error or output, with private data removed.
+    validations:
+      required: true

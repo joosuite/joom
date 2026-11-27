@@ -1,0 +1,727 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:joom:file:tasks",
+  "title": "Microsoft To Do command contracts",
+  "description": "Joom command contracts for Microsoft Graph. The adapter resolves dynamic routes and CLI parameter names.",
+  "type": "object",
+  "x-api-service": "tasks",
+  "x-api-version": "v1.0",
+  "anyOf": [
+    {
+      "$ref": "#/$defs/tasklists.delete"
+    },
+    {
+      "$ref": "#/$defs/tasklists.get"
+    },
+    {
+      "$ref": "#/$defs/tasklists.insert"
+    },
+    {
+      "$ref": "#/$defs/tasklists.list"
+    },
+    {
+      "$ref": "#/$defs/tasklists.patch"
+    },
+    {
+      "$ref": "#/$defs/tasklists.update"
+    },
+    {
+      "$ref": "#/$defs/tasks.delete"
+    },
+    {
+      "$ref": "#/$defs/tasks.get"
+    },
+    {
+      "$ref": "#/$defs/tasks.insert"
+    },
+    {
+      "$ref": "#/$defs/tasks.list"
+    },
+    {
+      "$ref": "#/$defs/tasks.patch"
+    },
+    {
+      "$ref": "#/$defs/tasks.update"
+    }
+  ],
+  "$defs": {
+    "tasklists.delete": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "tasklist": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "tasklist for the Microsoft operation."
+        }
+      },
+      "x-api-method-id": "tasks.tasklists.delete",
+      "x-required-request-parameters": [
+        "tasklist"
+      ],
+      "title": "tasklists.delete",
+      "description": "Delete a Microsoft To Do list."
+    },
+    "tasklists.get": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "tasklist": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "tasklist for the Microsoft operation."
+        }
+      },
+      "x-api-method-id": "tasks.tasklists.get",
+      "x-required-request-parameters": [
+        "tasklist"
+      ],
+      "title": "tasklists.get",
+      "description": "Get a Microsoft To Do list."
+    },
+    "tasklists.insert": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "body": {
+          "$ref": "#/x-body-types/TaskList"
+        }
+      },
+      "x-api-method-id": "tasks.tasklists.insert",
+      "x-required-request-parameters": [],
+      "title": "tasklists.insert",
+      "description": "Create a Microsoft To Do list."
+    },
+    "tasklists.list": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "maxResults": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "string",
+              "pattern": "^[+-]?[0-9]+$"
+            }
+          ],
+          "x-location": "query",
+          "description": "maxResults for the Microsoft operation."
+        },
+        "pageToken": {
+          "type": "string",
+          "x-location": "query",
+          "description": "pageToken for the Microsoft operation."
+        }
+      },
+      "x-api-method-id": "tasks.tasklists.list",
+      "x-required-request-parameters": [],
+      "title": "tasklists.list",
+      "description": "List Microsoft To Do lists."
+    },
+    "tasklists.patch": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "tasklist": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "tasklist for the Microsoft operation."
+        },
+        "body": {
+          "$ref": "#/x-body-types/TaskList"
+        }
+      },
+      "x-api-method-id": "tasks.tasklists.patch",
+      "x-required-request-parameters": [
+        "tasklist"
+      ],
+      "title": "tasklists.patch",
+      "description": "Update a Microsoft To Do list."
+    },
+    "tasklists.update": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "tasklist": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "tasklist for the Microsoft operation."
+        },
+        "body": {
+          "$ref": "#/x-body-types/TaskList"
+        }
+      },
+      "x-api-method-id": "tasks.tasklists.update",
+      "x-required-request-parameters": [
+        "tasklist"
+      ],
+      "title": "tasklists.update",
+      "description": "Update a Microsoft To Do list."
+    },
+    "tasks.delete": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "task": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "task for the Microsoft operation."
+        },
+        "tasklist": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "tasklist for the Microsoft operation."
+        }
+      },
+      "x-api-method-id": "tasks.tasks.delete",
+      "x-required-request-parameters": [
+        "task",
+        "tasklist"
+      ],
+      "title": "tasks.delete",
+      "description": "Delete a Microsoft To Do task."
+    },
+    "tasks.get": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "task": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "task for the Microsoft operation."
+        },
+        "tasklist": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "tasklist for the Microsoft operation."
+        }
+      },
+      "x-api-method-id": "tasks.tasks.get",
+      "x-required-request-parameters": [
+        "task",
+        "tasklist"
+      ],
+      "title": "tasks.get",
+      "description": "Get a Microsoft To Do task."
+    },
+    "tasks.insert": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "tasklist": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "tasklist for the Microsoft operation."
+        },
+        "body": {
+          "$ref": "#/x-body-types/Task"
+        }
+      },
+      "x-api-method-id": "tasks.tasks.insert",
+      "x-required-request-parameters": [
+        "tasklist"
+      ],
+      "title": "tasks.insert",
+      "description": "Create a Microsoft To Do task."
+    },
+    "tasks.list": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "dueMax": {
+          "type": "string",
+          "x-location": "query",
+          "description": "dueMax for the Microsoft operation."
+        },
+        "dueMin": {
+          "type": "string",
+          "x-location": "query",
+          "description": "dueMin for the Microsoft operation."
+        },
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "maxResults": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "string",
+              "pattern": "^[+-]?[0-9]+$"
+            }
+          ],
+          "x-location": "query",
+          "description": "maxResults for the Microsoft operation."
+        },
+        "pageToken": {
+          "type": "string",
+          "x-location": "query",
+          "description": "pageToken for the Microsoft operation."
+        },
+        "showCompleted": {
+          "enum": [
+            true,
+            false,
+            "true",
+            "false"
+          ],
+          "x-location": "query",
+          "description": "showCompleted for the Microsoft operation."
+        },
+        "tasklist": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "tasklist for the Microsoft operation."
+        }
+      },
+      "x-api-method-id": "tasks.tasks.list",
+      "x-required-request-parameters": [
+        "tasklist"
+      ],
+      "title": "tasks.list",
+      "description": "List Microsoft To Do tasks."
+    },
+    "tasks.patch": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "task": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "task for the Microsoft operation."
+        },
+        "tasklist": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "tasklist for the Microsoft operation."
+        },
+        "body": {
+          "$ref": "#/x-body-types/Task"
+        }
+      },
+      "x-api-method-id": "tasks.tasks.patch",
+      "x-required-request-parameters": [
+        "task",
+        "tasklist"
+      ],
+      "title": "tasks.patch",
+      "description": "Update a Microsoft To Do task."
+    },
+    "tasks.update": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "type": "string",
+          "x-location": "query"
+        },
+        "task": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "task for the Microsoft operation."
+        },
+        "tasklist": {
+          "type": "string",
+          "minLength": 1,
+          "x-location": "path",
+          "description": "tasklist for the Microsoft operation."
+        },
+        "body": {
+          "$ref": "#/x-body-types/Task"
+        }
+      },
+      "x-api-method-id": "tasks.tasks.update",
+      "x-required-request-parameters": [
+        "task",
+        "tasklist"
+      ],
+      "title": "tasks.update",
+      "description": "Update a Microsoft To Do task."
+    }
+  },
+  "x-api-root": "https://graph.microsoft.com/",
+  "x-api-service-path": "v1.0/",
+  "x-api-parameters": {
+    "alt": {
+      "description": "Data format for response.",
+      "enum": [
+        "json"
+      ],
+      "type": "string",
+      "default": "json",
+      "location": "query"
+    },
+    "fields": {
+      "type": "string",
+      "description": "Selector specifying which fields to include in a partial response.",
+      "location": "query"
+    }
+  },
+  "x-body-types": {
+    "TaskList": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Task": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "needsAction",
+            "completed"
+          ]
+        },
+        "due": {
+          "type": "string"
+        },
+        "completed": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-api-methods": {
+    "tasks.tasklists.delete": {
+      "id": "tasks.tasklists.delete",
+      "path": "me/todo/lists/{tasklist}",
+      "httpMethod": "DELETE",
+      "description": "Delete a Microsoft To Do list.",
+      "parameters": {
+        "tasklist": {
+          "type": "string",
+          "required": true,
+          "location": "path",
+          "description": "tasklist for the Microsoft operation."
+        }
+      }
+    },
+    "tasks.tasklists.get": {
+      "id": "tasks.tasklists.get",
+      "path": "me/todo/lists/{tasklist}",
+      "httpMethod": "GET",
+      "description": "Get a Microsoft To Do list.",
+      "parameters": {
+        "tasklist": {
+          "description": "tasklist for the Microsoft operation.",
+          "location": "path",
+          "type": "string",
+          "required": true
+        }
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "tasks.tasklists.insert": {
+      "id": "tasks.tasklists.insert",
+      "path": "me/todo/lists",
+      "httpMethod": "POST",
+      "description": "Create a Microsoft To Do list.",
+      "parameters": {},
+      "request": {
+        "$ref": "TaskList"
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "tasks.tasklists.list": {
+      "id": "tasks.tasklists.list",
+      "path": "me/todo/lists",
+      "httpMethod": "GET",
+      "description": "List Microsoft To Do lists.",
+      "parameters": {
+        "pageToken": {
+          "type": "string",
+          "location": "query",
+          "description": "pageToken for the Microsoft operation."
+        },
+        "maxResults": {
+          "location": "query",
+          "type": "integer",
+          "format": "int32",
+          "description": "maxResults for the Microsoft operation."
+        }
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "tasks.tasklists.patch": {
+      "id": "tasks.tasklists.patch",
+      "path": "me/todo/lists/{tasklist}",
+      "httpMethod": "PATCH",
+      "description": "Update a Microsoft To Do list.",
+      "parameters": {
+        "tasklist": {
+          "type": "string",
+          "location": "path",
+          "required": true,
+          "description": "tasklist for the Microsoft operation."
+        }
+      },
+      "request": {
+        "$ref": "TaskList"
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "tasks.tasklists.update": {
+      "id": "tasks.tasklists.update",
+      "path": "me/todo/lists/{tasklist}",
+      "httpMethod": "PATCH",
+      "description": "Update a Microsoft To Do list.",
+      "parameters": {
+        "tasklist": {
+          "location": "path",
+          "description": "tasklist for the Microsoft operation.",
+          "type": "string",
+          "required": true
+        }
+      },
+      "request": {
+        "$ref": "TaskList"
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "tasks.tasks.delete": {
+      "id": "tasks.tasks.delete",
+      "path": "me/todo/lists/{tasklist}/tasks/{task}",
+      "httpMethod": "DELETE",
+      "description": "Delete a Microsoft To Do task.",
+      "parameters": {
+        "task": {
+          "location": "path",
+          "type": "string",
+          "description": "task for the Microsoft operation.",
+          "required": true
+        },
+        "tasklist": {
+          "required": true,
+          "description": "tasklist for the Microsoft operation.",
+          "type": "string",
+          "location": "path"
+        }
+      }
+    },
+    "tasks.tasks.get": {
+      "id": "tasks.tasks.get",
+      "path": "me/todo/lists/{tasklist}/tasks/{task}",
+      "httpMethod": "GET",
+      "description": "Get a Microsoft To Do task.",
+      "parameters": {
+        "tasklist": {
+          "location": "path",
+          "type": "string",
+          "description": "tasklist for the Microsoft operation.",
+          "required": true
+        },
+        "task": {
+          "required": true,
+          "type": "string",
+          "description": "task for the Microsoft operation.",
+          "location": "path"
+        }
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "tasks.tasks.insert": {
+      "id": "tasks.tasks.insert",
+      "path": "me/todo/lists/{tasklist}/tasks",
+      "httpMethod": "POST",
+      "description": "Create a Microsoft To Do task.",
+      "parameters": {
+        "tasklist": {
+          "type": "string",
+          "description": "tasklist for the Microsoft operation.",
+          "location": "path",
+          "required": true
+        }
+      },
+      "request": {
+        "$ref": "Task"
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "tasks.tasks.list": {
+      "id": "tasks.tasks.list",
+      "path": "me/todo/lists/{tasklist}/tasks",
+      "httpMethod": "GET",
+      "description": "List Microsoft To Do tasks.",
+      "parameters": {
+        "maxResults": {
+          "description": "maxResults for the Microsoft operation.",
+          "format": "int32",
+          "location": "query",
+          "type": "integer"
+        },
+        "tasklist": {
+          "location": "path",
+          "type": "string",
+          "description": "tasklist for the Microsoft operation.",
+          "required": true
+        },
+        "dueMax": {
+          "location": "query",
+          "description": "dueMax for the Microsoft operation.",
+          "type": "string"
+        },
+        "pageToken": {
+          "description": "pageToken for the Microsoft operation.",
+          "location": "query",
+          "type": "string"
+        },
+        "showCompleted": {
+          "type": "boolean",
+          "description": "showCompleted for the Microsoft operation.",
+          "location": "query"
+        },
+        "dueMin": {
+          "description": "dueMin for the Microsoft operation.",
+          "location": "query",
+          "type": "string"
+        }
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "tasks.tasks.patch": {
+      "id": "tasks.tasks.patch",
+      "path": "me/todo/lists/{tasklist}/tasks/{task}",
+      "httpMethod": "PATCH",
+      "description": "Update a Microsoft To Do task.",
+      "parameters": {
+        "task": {
+          "description": "task for the Microsoft operation.",
+          "required": true,
+          "location": "path",
+          "type": "string"
+        },
+        "tasklist": {
+          "location": "path",
+          "required": true,
+          "type": "string",
+          "description": "tasklist for the Microsoft operation."
+        }
+      },
+      "request": {
+        "$ref": "Task"
+      },
+      "response": {
+        "type": "object"
+      }
+    },
+    "tasks.tasks.update": {
+      "id": "tasks.tasks.update",
+      "path": "me/todo/lists/{tasklist}/tasks/{task}",
+      "httpMethod": "PATCH",
+      "description": "Update a Microsoft To Do task.",
+      "parameters": {
+        "task": {
+          "type": "string",
+          "description": "task for the Microsoft operation.",
+          "location": "path",
+          "required": true
+        },
+        "tasklist": {
+          "description": "tasklist for the Microsoft operation.",
+          "required": true,
+          "type": "string",
+          "location": "path"
+        }
+      },
+      "request": {
+        "$ref": "Task"
+      },
+      "response": {
+        "type": "object"
+      }
+    }
+  },
+  "x-api-reference": "https://learn.microsoft.com/en-us/graph/api/todotasklist-list-tasks?view=graph-rest-1.0"
+}
