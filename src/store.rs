@@ -292,7 +292,9 @@ impl Store {
             match FileExt::try_lock_exclusive(&file) {
                 Ok(()) => return Ok(file),
                 Err(e)
-                    if e.kind() == std::io::ErrorKind::WouldBlock
+                    // Windows reports ERROR_LOCK_VIOLATION for a contended lock.
+                    if (e.kind() == std::io::ErrorKind::WouldBlock
+                        || e.raw_os_error() == fs2::lock_contended_error().raw_os_error())
                         && std::time::Instant::now() < deadline =>
                 {
                     std::thread::sleep(std::time::Duration::from_millis(25));

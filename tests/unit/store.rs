@@ -279,10 +279,15 @@ fn missing_or_locked_keys_never_regenerate_or_overwrite_secrets() {
 fn concurrent_initialization_creates_exactly_one_key() {
     let (_dir, store, keys) = vault();
     let store = Arc::new(store);
+    let start = Arc::new(std::sync::Barrier::new(8));
     let threads = (0..8)
         .map(|_| {
             let store = store.clone();
-            std::thread::spawn(move || store.initialize().unwrap())
+            let start = start.clone();
+            std::thread::spawn(move || {
+                start.wait();
+                store.initialize().unwrap();
+            })
         })
         .collect::<Vec<_>>();
     for thread in threads {
